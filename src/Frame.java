@@ -3,7 +3,7 @@ import java.awt.*;
 
 class Frame extends JFrame {
 
-    JMenuBar menuBar = new JMenuBar();
+    private JMenuBar menuBar;
 
     Frame(Panel panel) {
         super("Warehouse Management Software");
@@ -11,10 +11,18 @@ class Frame extends JFrame {
         setLayout(new BorderLayout());
         add(panel, BorderLayout.CENTER);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        initMenuBar();
+        setJMenuBar(menuBar);
         setVisible(true);
     }
 
-    void initMenuBar() {
+    private void initMenuBar() {
+        menuBar = new JMenuBar();
 
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+
+        JMenuItem exportItem = new JMenuItem("Export data");
+        fileMenu.add(exportItem);
     }
 }
