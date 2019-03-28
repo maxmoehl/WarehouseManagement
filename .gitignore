@@ -8,6 +8,9 @@
 *.xml
 *.iml
 
+# eclipse
+.project
+
 # BlueJ files
 *.ctxt
 
