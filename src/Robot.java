@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class Robot {
+class Robot extends Thread {
 
     private int id;
 
@@ -31,5 +31,10 @@ class Robot {
 
     void removeFirstNode() {
         graph.remove(0);
+    }
+
+    @Override
+    public void run() {
+        
     }
 }
