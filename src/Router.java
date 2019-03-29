@@ -1,9 +1,18 @@
 import java.util.ArrayList;
 
+/**
+ * Enthält die gesamte Routing-Logik sowie alle Nodes die verfügbar sind
+ */
 class Router {
 
+    /**
+     * Nodes die von Robotern angesteuert werden können (werden demnächst in die Map umgezogen)
+     */
     private ArrayList<Node> nodes;
 
+    /**
+     * Initialisiert die Nodes (in Zukunft sollen die Nodes aus der Map geladen werden)
+     */
     Router() {
         nodes = new ArrayList<>();
 
@@ -30,6 +39,12 @@ class Router {
         n2.addNeighbour(n1);
     }
 
+    /**
+     * Eine Methode die die optimale Route zwischen zwei Wegpunkten sucht
+     * @param start Wegpunkt von dem aus gestartet wird
+     * @param destination Wegpunkt zu dem die Route gehen soll
+     * @return Eine Liste mit Nodes die den Weg zum Ziel beschreibt
+     */
     ArrayList<Node> getRoute(Node start, Node destination) {
         return null;
     }
