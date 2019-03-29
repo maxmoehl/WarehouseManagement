@@ -11,7 +11,7 @@
 # eclipse
 .project
 .classpath
-.prefs
+*.prefs
 
 # BlueJ files
 *.ctxt
