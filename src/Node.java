@@ -73,7 +73,7 @@ class Node {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj.getClass() != Node.class) return false;
+        if (!Node.class.isAssignableFrom(obj.getClass())) return false;
         Node n = (Node) obj;
         return n.getId() == this.getId();
     }
