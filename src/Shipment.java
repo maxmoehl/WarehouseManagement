@@ -28,12 +28,15 @@ public class Shipment {
      */
     private int materialType;
 
+    private boolean arrived;
+
     Shipment(int id, int eta, int loadingTime, int amount, int materialType) {
         this.id = id;
         this.eta = eta;
         this.loadingTime = loadingTime;
         this.amount = amount;
         this.materialType = materialType;
+        arrived = false;
     }
 
     public int getId() {
@@ -54,5 +57,13 @@ public class Shipment {
 
     public int getMaterialType() {
         return materialType;
+    }
+
+    public boolean isArrived() {
+        return arrived;
+    }
+
+    public void arrive() {
+        arrived = true;
     }
 }
