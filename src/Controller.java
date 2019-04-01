@@ -29,7 +29,7 @@ class Controller {
     /**
      * Initialisiert eine neue Instanz des gesamten Programms
      */
-    Controller() {
+    private Controller() {
         Timer clock = new Timer(true);
         clock.schedule(new TimerTask() {
             @Override
