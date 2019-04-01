@@ -6,12 +6,7 @@ import java.util.TimerTask;
  */
 class Controller {
 
-    private static class ControllerHolder {
-        private static final Controller INSTANCE = new Controller();
-    }
-
-    public static int time = 0;
-
+    private int time = 0;
     /**
      * Das Hauptpanel auf dem alles gezeichnet und angezeigt wird
      */
@@ -20,7 +15,6 @@ class Controller {
      * Hauptframe mit der JMenuBar
      */
     private Frame frame;
-
     /**
      * Übernimmt alle routing Aufgaben und kommuniziert mit den Robotern
      */
@@ -30,21 +24,34 @@ class Controller {
      * Initialisiert eine neue Instanz des gesamten Programms
      */
     private Controller() {
-        Timer clock = new Timer(true);
-        clock.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                time++;
-            }
-        },0,1000);
-
+        initClock();
         panel = new Panel();
         frame = new Frame(panel);
+
+        DataConnection.initData();
 
         router = Router.getRouter();
     }
 
     static Controller getController() {
         return ControllerHolder.INSTANCE;
+    }
+
+    private void initClock() {
+        Timer clock = new Timer(true);
+        clock.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                time++;
+            }
+        }, 0, 1000);
+    }
+
+    int getTime() {
+        return time;
+    }
+
+    private static class ControllerHolder {
+        private static final Controller INSTANCE = new Controller();
     }
 }
