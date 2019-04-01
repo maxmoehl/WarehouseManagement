@@ -8,7 +8,7 @@ class Node {
     /**
      * Eindeutige ID zum Vergleichen
      */
-    private int id;
+    private final int id;
 
     /**
      * x-Koordinate auf der Karte
@@ -26,10 +26,12 @@ class Node {
 
     /**
      * erzeugt eine neue Alleinstehende Node
+     *
      * @param id eindeutige ID
      */
     Node(int id) {
         this.id = id;
+        //nodeType = 0;
         neighbourNodes = new ArrayList<>();
     }
 
@@ -37,18 +39,20 @@ class Node {
      * Erzeugt einen neue Node mit einer Position
      *
      * @param id eindeutige id
-     * @param x x Position auf der Karte
-     * @param y y Position auf der Karte
+     * @param x  x Position auf der Karte
+     * @param y  y Position auf der Karte
      */
     Node(int id, int x, int y) {
         this.id = id;
         this.x = x;
         this.y = y;
+        //nodeType = 0;
         neighbourNodes = new ArrayList<>();
     }
 
     /**
      * Fügt eine Node zu den Nachbarnodes dieser Node hinzu
+     *
      * @param n die Node die als Nachbar hinzugefügt werden soll
      */
     void addNeighbour(Node n) {
@@ -69,8 +73,18 @@ class Node {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj.getClass() != Node.class) return false;
+        if (obj.getClass() != Node.class) return false;
         Node n = (Node) obj;
         return n.getId() == this.getId();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder neighbours = new StringBuilder();
+        for (Node n : neighbourNodes) {
+            neighbours.append(n.getId());
+            neighbours.append(", ");
+        }
+        return "Node " + getId() + ", connected to: " + neighbours.toString();
     }
 }
