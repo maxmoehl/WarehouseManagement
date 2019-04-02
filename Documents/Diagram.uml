@@ -3,122 +3,32 @@
   <ID>JAVA</ID>
   <OriginalElement>Router</OriginalElement>
   <nodes>
-    <node x="357.31235632183916" y="828.5">Panel</node>
-    <node x="473.7076149425287" y="1180.0">Frame</node>
-    <node x="668.7076149425287" y="298.0">DataConnection</node>
-    <node x="7.3785919540230225" y="0.0">Node</node>
-    <node x="149.99985632183916" y="530.0">DeliveryNode</node>
-    <node x="698.2076149425287" y="0.0">Shipment</node>
-    <node x="23.120114942528716" y="1136.0">Router</node>
-    <node x="375.625" y="1356.0">Controller</node>
-    <node x="36.5" y="674.0">Robot</node>
-    <node x="136.80876436781614" y="298.0">StorageNode</node>
+    <node x="483.0" y="823.0">Panel</node>
+    <node x="736.0" y="823.0">Frame</node>
+    <node x="210.0" y="823.0">DataConnection</node>
+    <node x="0.0" y="0.0">Node</node>
+    <node x="17.5" y="574.0">DeliveryNode</node>
+    <node x="479.0" y="0.0">Shipment</node>
+    <node x="667.0" y="0.0">Router</node>
+    <node x="0.0" y="823.0">Controller</node>
+    <node x="259.0" y="0.0">Robot</node>
+    <node x="15.5" y="298.0">StorageNode</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="Robot" target="Node">
-      <point x="-69.19999999999999" y="-201.0" />
-      <point x="53.80000000000001" y="644.0" />
-      <point x="93.6242816091954" y="644.0" />
-      <point x="93.6242816091954" y="278.0" />
-      <point x="79.25359195402302" y="278.0" />
-      <point x="-43.125" y="124.0" />
-    </edge>
-    <edge source="Controller" target="Panel">
-      <point x="-9.75" y="-57.5" />
-      <point x="424.375" y="1336.0" />
-      <point x="428.625" y="1336.0" />
-      <point x="428.625" y="1116.0" />
-      <point x="394.6456896551725" y="1116.0" />
-      <point x="-74.66666666666669" y="46.5" />
-    </edge>
-    <edge source="Router" target="Robot">
-      <point x="-54.5625" y="-80.0" />
-      <point x="114.05761494252872" y="1096.0" />
-      <point x="65.33333333333331" y="1096.0" />
-      <point x="-57.666666666666686" y="201.0" />
-    </edge>
-    <edge source="Robot" target="Router">
-      <point x="57.66666666666663" y="201.0" />
-      <point x="180.66666666666663" y="1116.0" />
-      <point x="186.80761494252872" y="1116.0" />
-      <point x="18.1875" y="-80.0" />
-    </edge>
-    <edge source="Robot" target="DeliveryNode">
-      <point x="69.19999999999999" y="-201.0" />
-      <point x="192.2" y="654.0" />
-      <point x="190.99985632183916" y="654.0" />
-      <point x="-41.0" y="47.0" />
-    </edge>
-    <edge source="Frame" target="Panel">
-      <point x="0.0" y="-36.0" />
-      <point x="548.7076149425287" y="1116.0" />
-      <point x="543.9790229885059" y="1116.0" />
-      <point x="74.66666666666669" y="46.5" />
-    </edge>
-    <edge source="Router" target="Node">
-      <point x="-90.9375" y="-80.0" />
-      <point x="77.68261494252872" y="1106.0" />
-      <point x="26.0" y="1106.0" />
-      <point x="26.0" y="278.0" />
-      <point x="50.50359195402302" y="278.0" />
-      <point x="-71.875" y="124.0" />
-    </edge>
-    <edge source="Router" target="DeliveryNode">
-      <point x="54.5625" y="-80.0" />
-      <point x="223.18261494252872" y="1096.0" />
-      <point x="272.99985632183916" y="1096.0" />
-      <point x="41.0" y="47.0" />
-    </edge>
     <edge source="DeliveryNode" target="StorageNode">
-      <point x="41.0" y="-47.0" />
-      <point x="272.99985632183916" y="505.0" />
-      <point x="261.18376436781614" y="505.0" />
-      <point x="24.875" y="91.0" />
-    </edge>
-    <edge source="Controller" target="Router">
-      <point x="-48.75" y="-57.5" />
-      <point x="385.375" y="1336.0" />
-      <point x="95.87011494252872" y="1336.0" />
-      <point x="-72.75" y="80.0" />
-    </edge>
-    <edge source="Controller" target="Frame">
-      <point x="29.25" y="-57.5" />
-      <point x="463.375" y="1326.0" />
-      <point x="511.2076149425287" y="1326.0" />
-      <point x="-37.5" y="36.0" />
-    </edge>
-    <edge source="Router" target="StorageNode">
-      <point x="90.9375" y="-80.0" />
-      <point x="259.55761494252874" y="1106.0" />
-      <point x="335.81235632183916" y="1106.0" />
-      <point x="335.81235632183916" y="505.0" />
-      <point x="310.93376436781614" y="505.0" />
-      <point x="74.625" y="91.0" />
-    </edge>
-    <edge source="Robot" target="StorageNode">
-      <point x="34.60000000000002" y="-201.0" />
-      <point x="157.60000000000002" y="654.0" />
-      <point x="128.18735632183916" y="654.0" />
-      <point x="128.18735632183916" y="505.0" />
-      <point x="161.68376436781614" y="505.0" />
-      <point x="-74.625" y="91.0" />
+      <point x="0.0" y="-102.0" />
+      <point x="0.0" y="113.0" />
     </edge>
     <edge source="StorageNode" target="Node">
-      <point x="49.75" y="-91.0" />
-      <point x="286.05876436781614" y="278.0" />
-      <point x="194.25359195402302" y="278.0" />
-      <point x="71.875" y="124.0" />
-    </edge>
-    <edge source="DataConnection" target="Shipment">
-      <point x="54.5" y="-24.5" />
-      <point x="832.2076149425287" y="273.0" />
-      <point x="817.4576149425287" y="273.0" />
-      <point x="39.75" y="124.0" />
+      <point x="0.0" y="-113.0" />
+      <point x="0.0" y="124.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.5848423876592891" x="443.5" y="735.5" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="1.0" x="277.0000000000001" y="843.545706371191" />
+  <SelectedNodes>
+    <node>Router</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
     <Category>Methods</Category>
