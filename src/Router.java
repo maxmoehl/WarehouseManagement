@@ -6,18 +6,17 @@ import java.util.ArrayList;
 class Router {
 
     /**
-     * Nodes die von Robotern angesteuert werden können (werden demnächst in die Map umgezogen)
+     * Nodes die von Robotern angesteuert werden können (werden demnaechst in die Map umgezogen)
      */
     ArrayList<Node> nodes;
-    private boolean alive;
 
     /**
      * Initialisiert die Nodes (in Zukunft sollen die Nodes aus der Map geladen werden)
      */
     private Router() {
-        alive = true;
-
         nodes = new ArrayList<>();
+
+        //TODO read Nodes from a DataSource and remove dummy data
 
         nodes.add(new StorageNode(0));
         nodes.add(new Node(1));
@@ -45,15 +44,11 @@ class Router {
         dN.loadItems(1, 100);
         dN.setLoading(false);
 
-        new Robot(0, nodes.get(7), this);
+        new Robot(0, nodes.get(7));
     }
 
     static Router getRouter() {
         return RouterHolder.ROUTER;
-    }
-
-    boolean isAlive() {
-        return alive;
     }
 
     private void connectNodes(Node n1, Node n2) {
@@ -62,13 +57,14 @@ class Router {
     }
 
     /**
-     * Eine Methode die die optimale Route zwischen zwei Wegpunkten sucht
+     * Eine Methode die die optimale Route zwischen zwei Nodes sucht
      *
-     * @param start       Wegpunkt von dem aus gestartet wird
-     * @param destination Wegpunkt zu dem die Route gehen soll
+     * @param start       Node von dem aus gestartet wird
+     * @param destination Node zu dem die Route gehen soll
      * @return Eine Liste mit Nodes die den Weg zum Ziel beschreibt
      */
     ArrayList<Node> calculateRoute(Node start, Node destination) {
+        //TODO Implement logic and delete dummy data
         ArrayList<Node> route = new ArrayList<>();
         if (start.equals(nodes.get(0))) {
             route.add(nodes.get(1));
@@ -84,9 +80,16 @@ class Router {
         return route;
     }
 
+    /**
+     * Sucht nach neuen Aufgaben und gibt die Zielnode zurück an der die Aufgabe startet.
+     *
+     * @return Node mit der hoechsten Prioritaet
+     */
     Node getNextDestination() {
+        //TODO Implementation
 
-        /* Alle verladeentscheidungen hängen von den Lieferungen ab die an den LKW-Verladepunkten ankommen
+        /*
+         * Alle verladeentscheidungen hängen von den Lieferungen ab die an den LKW-Verladepunkten ankommen
          * Es muss also bekannt sein an welchen Nodes eine Lieferung steht/ankommt
          *
          * TODO: Ist das Aufgabe des Routers oder des Controllers?
