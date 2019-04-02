@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Diese Klasse simuliert die Verbindung zu einer Datenbank mit einfachen Listen und entsrprechenden Gettern und Settern
+ * Diese Klasse simuliert die Verbindung zu einer Datenbank mit einfachen Listen und entsprechenden Gettern und Settern
  */
 class DataConnection {
 
