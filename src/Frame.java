@@ -10,7 +10,7 @@ class Frame extends JFrame {
         setSize(500, 500);
         setLayout(new BorderLayout());
         add(panel, BorderLayout.CENTER);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         initMenuBar();
         setJMenuBar(menuBar);
         setVisible(true);
