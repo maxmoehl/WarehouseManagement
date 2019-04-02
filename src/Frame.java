@@ -7,12 +7,12 @@ class Frame extends JFrame {
 
     Frame(Panel panel) {
         super("Warehouse Management Software");
-        setSize(500, 500);
         setLayout(new BorderLayout());
         add(panel, BorderLayout.CENTER);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         initMenuBar();
         setJMenuBar(menuBar);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
     }
 
