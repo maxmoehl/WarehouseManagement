@@ -25,7 +25,7 @@ class StorageNode extends Node {
 
     public boolean setMaterialType(int materialType) {
         if (DataConnection.isValidMaterialType(materialType)) {
-            if(amount == 0) {
+            if (amount == 0) {
                 this.materialType = materialType;
                 return true;
             } else {
@@ -40,7 +40,7 @@ class StorageNode extends Node {
         if (materialType != getMaterialType()) {
             throw new RuntimeException("Wrong ItemType");
         }
-        if(this.amount + amount <= size) {
+        if (this.amount + amount <= size) {
             this.amount += amount;
         }
     }
