@@ -18,7 +18,7 @@ class Robot implements Runnable {
     private Node currentNode;
 
     /**
-     * Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, > 0 = irgendeine ware
+     * Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, größer 0 = irgendeine ware
      */
     private int inventoryMaterialType;
     private int inventoryAmount;
