@@ -1,18 +1,18 @@
 class StorageNode extends Node {
 
-    protected int itemType;
+    protected int materialType;
     protected int amount;
     private int size;
 
-    public StorageNode(int id) {
+    StorageNode(int id) {
         super(id);
-        itemType = 0;
+        materialType = 0;
         size = 100;
         amount = 0;
     }
 
-    int getItemType() {
-        return itemType;
+    int getMaterialType() {
+        return materialType;
     }
 
     int getAmount() {
@@ -23,25 +23,21 @@ class StorageNode extends Node {
         return size;
     }
 
-    public boolean setItemType(int itemType) {
-        if(isValidItemType(itemType)) {
+    public boolean setMaterialType(int materialType) {
+        if (DataConnection.isValidMaterialType(materialType)) {
             if(amount == 0) {
-                this.itemType = itemType;
+                this.materialType = materialType;
                 return true;
             } else {
                 return false;
             }
         } else {
-            throw new RuntimeException("Kann Storage Einheit nicht auf ungültigen itemType setzen");
+            throw new RuntimeException("Kann Storage Einheit nicht auf ungültigen materialType setzen");
         }
     }
 
-    boolean isValidItemType(int itemType) {
-        return true;
-    }
-
-    void loadItems(int itemType, int amount) {
-        if(itemType != getItemType()) {
+    void loadItems(int materialType, int amount) {
+        if (materialType != getMaterialType()) {
             throw new RuntimeException("Wrong ItemType");
         }
         if(this.amount + amount <= size) {

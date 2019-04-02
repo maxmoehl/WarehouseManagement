@@ -20,7 +20,7 @@ class Robot implements Runnable {
     /**
      * Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, > 0 = irgendeine ware
      */
-    private int inventoryItemType;
+    private int inventoryMaterialType;
     private int inventoryAmount;
 
     private Router router;
@@ -37,23 +37,12 @@ class Robot implements Runnable {
         this.id = id;
         currentNode = start;
         this.router = router;
-        inventoryItemType = 0;
+        inventoryMaterialType = 0;
         inventoryAmount = 0;
         graph = new ArrayList<>();
         thread = new Thread(this);
         thread.start();
     }
-
-    /* --- Nicht benötigt da Roboter Weg aktiv anfragt ---
-     * Überschreibt den aktuellen path und setzt einen neuen
-     *
-     * @param path path mit Nodes die abgegangen werden sollen
-     *
-     *
-    void setPath(ArrayList<Node> path) {
-        this.graph = path;
-    }
-     */
 
     /**
      * zum überprüfen ob der Roboter noch Nodes hat die er abarbeiten muss
@@ -81,14 +70,16 @@ class Robot implements Runnable {
     private void load() {
         //Lock access to this node and lock it for one second then unload/load items
         synchronized (getCurrentNode()) {
+            StorageNode current = (StorageNode) getCurrentNode();
             lock(1000);
             // wenn die node delivery oder storage ist muss geprüft werden ob im inventar waren sind
-            if (inventoryItemType == 0) {
-
+            if (inventoryMaterialType == 0) {
+                inventoryMaterialType = current.getMaterialType();
+                current.unloadItems(1);
+                inventoryAmount += 1;
             } else {
-                StorageNode current = (StorageNode) getCurrentNode();
-                current.loadItems(inventoryItemType, inventoryAmount);
-                inventoryItemType = 0;
+                current.loadItems(inventoryMaterialType, inventoryAmount);
+                inventoryMaterialType = 0;
                 inventoryAmount = 0;
             }
         }
@@ -119,29 +110,37 @@ class Robot implements Runnable {
     }
 
     private void work() {
-        printGraph();
+        //TODO remove
+        printStatus();
         // Is eine weitere Node vorhanden?
         if (hasNextNode()) {
             move();
+            //TODO remove
             System.out.println("moved");
         } else {
-            //wenn nicht muss wahrscheinlich verladen werden
-            // TODO: Nach dem verladen muss unbedingt ein neuer Weg beantragt werden sonst lädt der Roboter ewig ein und aus
-            if (getCurrentNode().getClass() == StorageNode.class || getCurrentNode().getClass() == DeliveryNode.class) {
+            // Prüfen ob es eine StorageNode ist oder ein Objekt das von StorageNode erbt (DeliveryNode)
+            if (StorageNode.class.isAssignableFrom(getCurrentNode().getClass())) {
+                // umladen (wie auch immer)
                 load();
+                //TODO remove
                 System.out.println("loaded");
+                // einen neuen Graphen vom Router beziehen
                 updateGraph();
             } else {
-                // Andernfalls gibt es einen Fehler weil eine Endnode keine WAYPOINT Node sein soll
+                // Andernfalls gibt es einen Fehler weil eine Endnode eine StorageNode sein muss
                 throw new RuntimeException("Roboter hat keine weiteren Nodes, steht aber an einer Node an der er nicht verladen kann");
             }
         }
     }
 
-    private void printGraph() {
-        System.out.println("Current Graph (" + getCurrentNode().getId() + "):");
-        for (Node n : graph) {
-            System.out.println(n.toString());
-        }
+    //TODO remove
+    private void printStatus() {
+        //System.out.println("From Current Node " + getCurrentNode().getId() + " to " + (graph.size() == 0 ? "-" : graph.get(graph.size() - 1).getId()) + " with inventory: " + inventoryMaterialType + ", " + inventoryAmount);
+        System.out.println("+--------+--------+--------+-----+-----+");
+        System.out.println("|akt.Node|zielNode|R-Invent|Node0|Node7|");
+        System.out.println("+--------+--------+--------+-----+-----+");
+        System.out.println("|" + getCurrentNode().getId() + "       |" + (graph.size() == 0 ? "-" : graph.get(graph.size() - 1).getId()) + "       |" + inventoryMaterialType + ", " + inventoryAmount + "    |" +
+                ((StorageNode) Router.getRouter().nodes.get(0)).materialType + ", " + ((StorageNode) Router.getRouter().nodes.get(0)).amount + " |" + ((StorageNode) Router.getRouter().nodes.get(7)).materialType + ", " + ((StorageNode) Router.getRouter().nodes.get(7)).amount + "|");
+        System.out.println("+--------+--------+--------+-----+-----+");
     }
 }

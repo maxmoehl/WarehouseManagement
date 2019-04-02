@@ -4,6 +4,7 @@ class DeliveryNode extends StorageNode {
 
     DeliveryNode(int id) {
         super(id);
+        loading = true;
     }
 
     boolean isLoading() {
@@ -14,10 +15,14 @@ class DeliveryNode extends StorageNode {
         return !loading;
     }
 
+    void setLoading(boolean loading) {
+        this.loading = loading;
+    }
+
     @Override
-    void loadItems(int itemType, int amount) {
+    void loadItems(int materialType, int amount) {
         if(isLoading()) {
-            super.loadItems(itemType, amount);
+            super.loadItems(materialType, amount);
             if (getAmount() == getSize()) {
                 requestNextShipment();
             }

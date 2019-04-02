@@ -5,16 +5,11 @@ import java.util.ArrayList;
  */
 class Router {
 
-    private static class RouterHolder {
-        private static final Router ROUTER = new Router();
-    }
-
-    boolean alive;
-
     /**
      * Nodes die von Robotern angesteuert werden können (werden demnächst in die Map umgezogen)
      */
-    private ArrayList<Node> nodes;
+    ArrayList<Node> nodes;
+    private boolean alive;
 
     /**
      * Initialisiert die Nodes (in Zukunft sollen die Nodes aus der Map geladen werden)
@@ -41,7 +36,16 @@ class Router {
         connectNodes(nodes.get(5), nodes.get(6));
         connectNodes(nodes.get(7), nodes.get(6));
 
-        new Robot(0, nodes.get(0), this);
+        StorageNode sN = (StorageNode) nodes.get(0);
+        DeliveryNode dN = (DeliveryNode) nodes.get(7);
+        sN.setMaterialType(1);
+        dN.setMaterialType(1);
+
+        dN.setLoading(true);
+        dN.loadItems(1, 100);
+        dN.setLoading(false);
+
+        new Robot(0, nodes.get(7), this);
     }
 
     static Router getRouter() {
@@ -66,12 +70,12 @@ class Router {
      */
     ArrayList<Node> calculateRoute(Node start, Node destination) {
         ArrayList<Node> route = new ArrayList<>();
-        if(start.equals(nodes.get(0))) {
+        if (start.equals(nodes.get(0))) {
             route.add(nodes.get(1));
             route.add(nodes.get(3));
             route.add(nodes.get(6));
             route.add(nodes.get(7));
-        } else if(start.equals(nodes.get(7))) {
+        } else if (start.equals(nodes.get(7))) {
             route.add(nodes.get(6));
             route.add(nodes.get(3));
             route.add(nodes.get(1));
@@ -86,8 +90,14 @@ class Router {
          * Es muss also bekannt sein an welchen Nodes eine Lieferung steht/ankommt
          *
          * TODO: Ist das Aufgabe des Routers oder des Controllers?
+         *
+         * Delivery Nodes melden sich beim Router (oder beim Controller?) wenn sie frei werden
          */
 
         return null;
+    }
+
+    private static class RouterHolder {
+        private static final Router ROUTER = new Router();
     }
 }
