@@ -11,17 +11,17 @@ class DeliveryNode extends StorageNode {
         return loading;
     }
 
-    boolean isUnloading() {
-        return !loading;
-    }
-
     void setLoading(boolean loading) {
         this.loading = loading;
     }
 
+    boolean isUnloading() {
+        return !loading;
+    }
+
     @Override
     void loadItems(int materialType, int amount) {
-        if(isLoading()) {
+        if (isLoading()) {
             super.loadItems(materialType, amount);
             if (getAmount() == getSize()) {
                 requestNextShipment();
@@ -33,7 +33,7 @@ class DeliveryNode extends StorageNode {
 
     @Override
     void unloadItems(int amount) {
-        if(isUnloading()) {
+        if (isUnloading()) {
             super.unloadItems(amount);
         } else {
 
