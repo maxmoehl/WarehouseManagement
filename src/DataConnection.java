@@ -29,8 +29,8 @@ class DataConnection {
     }
 
     static Shipment getNextShipment() {
-        for(Shipment s : shipments) {
-            if(s.getEta() >= Controller.getController().getTime() && !s.isArrived()) return s;
+        for (Shipment s : shipments) {
+            if (s.getEta() >= Controller.getController().getTime() && !s.isArrived()) return s;
         }
         return null;
     }
