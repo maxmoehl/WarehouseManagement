@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 class Map extends JComponent {
 
-    private ArrayList<StorageNode> storageNodes;
+    ArrayList<StorageNode> storageNodes;
 
-    private ArrayList<DeliveryNode> deliveryNodes;
+    ArrayList<DeliveryNode> deliveryNodes;
 
-    private ArrayList<Node> wayPointNodes;
+    ArrayList<Node> wayPointNodes;
 
     private Map() {
         super();
@@ -17,15 +17,23 @@ class Map extends JComponent {
         wayPointNodes = new ArrayList<>();
 
         storageNodes.add(new StorageNode(0));
+        storageNodes.add(new StorageNode(1));
         storageNodes.add(new StorageNode(2));
-        storageNodes.add(new StorageNode(5));
 
-        deliveryNodes.add(new DeliveryNode(4));
-        deliveryNodes.add(new DeliveryNode(7));
+        deliveryNodes.add(new DeliveryNode(0));
+        deliveryNodes.add(new DeliveryNode(1));
 
+        wayPointNodes.add(new Node(0));
         wayPointNodes.add(new Node(1));
-        wayPointNodes.add(new Node(3));
-        wayPointNodes.add(new Node(6));
+        wayPointNodes.add(new Node(2));
+
+        connectNodes(wayPointNodes.get(0), storageNodes.get(0));
+        connectNodes(wayPointNodes.get(0), wayPointNodes.get(1));
+        connectNodes(wayPointNodes.get(1), storageNodes.get(1));
+        connectNodes(wayPointNodes.get(1), wayPointNodes.get(2));
+        connectNodes(wayPointNodes.get(1), deliveryNodes.get(0));
+        connectNodes(wayPointNodes.get(2), storageNodes.get(2));
+        connectNodes(wayPointNodes.get(2), storageNodes.get(1));
 
         StorageNode sN = storageNodes.get(0);
         DeliveryNode dN = deliveryNodes.get(1);
@@ -37,12 +45,13 @@ class Map extends JComponent {
         dN.setLoading(false);
     }
 
-    public static Map getMap() {
+    static Map getMap() {
         return MapHolder.INSTANCE;
     }
 
-    ArrayList<Node> getWayPointNodes() {
-        return wayPointNodes;
+    private void connectNodes(Node n1, Node n2) {
+        n1.addNeighbour(n2);
+        n2.addNeighbour(n1);
     }
 
     StorageNode getStorageNode(int materialType) {
