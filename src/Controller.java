@@ -15,10 +15,6 @@ class Controller {
      * Hauptframe mit der JMenuBar
      */
     private Frame frame;
-    /**
-     * Übernimmt alle routing Aufgaben und kommuniziert mit den Robotern
-     */
-    private Router router;
 
     /**
      * Initialisiert eine neue Instanz des gesamten Programms
@@ -29,8 +25,6 @@ class Controller {
         frame = new Frame(panel);
 
         DataConnection.initData();
-
-        router = Router.getRouter();
     }
 
     static Controller getController() {
