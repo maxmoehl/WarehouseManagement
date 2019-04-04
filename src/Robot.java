@@ -13,6 +13,11 @@ class Robot implements Runnable {
     private ArrayList<Node> graph;
 
     /**
+     * Die DeliveryNode and der der Roboter arbeitet
+     */
+    private DeliveryNode home;
+
+    /**
      * Die aktuelle Node auf der der Roboter sich befindet
      */
     private Node currentNode;
@@ -30,14 +35,14 @@ class Robot implements Runnable {
      * @param id    eindeutige id
      * @param start Node an der der Roboter initalisiert wird
      */
-    Robot(int id, Node start) {
+    Robot(int id, Node start, DeliveryNode home) {
         this.id = id;
         currentNode = start;
         inventoryMaterialType = 0;
         inventoryAmount = 0;
         graph = new ArrayList<>();
         Thread thread = new Thread(this);
-        thread.setDaemon(true);
+        //thread.setDaemon(true);
         thread.start();
     }
 
@@ -46,15 +51,19 @@ class Robot implements Runnable {
      *
      * @return sind im graph mehr als 0 Nodes?
      */
-    boolean hasNextNode() {
+    private boolean hasNextNode() {
         return graph.size() != 0;
     }
 
-    Node getCurrentNode() {
+    private DeliveryNode getHomeNode() {
+        return home;
+    }
+
+    private Node getCurrentNode() {
         return currentNode;
     }
 
-    Node getNextNode() {
+    private Node getNextNode() {
         return graph.get(0);
     }
 
@@ -90,7 +99,7 @@ class Robot implements Runnable {
             if (inventoryMaterialType == 0) {
                 inventoryMaterialType = current.getMaterialType();
                 current.unloadItems(1);
-                inventoryAmount += 1;
+                inventoryAmount = 1;
             } else {
                 current.loadItems(inventoryMaterialType, inventoryAmount);
                 inventoryMaterialType = 0;
@@ -103,11 +112,103 @@ class Robot implements Runnable {
      * Ueberprueft ob der Graph erneuert werden soll und erneuert diesen wenn noetig
      */
     private void updateGraph() {
+        /* Ist der Roboter an einer DeliveryNode?
+         * Ja  : Hat er Items im Inventar?
+         *       Ja  : Suche eine StorageNode an der abladen kann
+         *       Nein: Suche eine StorageNode an der er die Waren bekommt die die Lieferung braucht
+         * Nein: Fahre zur zugeordneten DeliveryNode
+         */
         if (graph.size() == 0) {
-            graph = Router.getRouter().calculateRoute(getCurrentNode(), Router.getRouter().getNextDestination());
+            if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
+                if (inventoryMaterialType == 0) {
+                    StorageNode destinationNode = Map.getMap().getStorageNode(inventoryMaterialType);
+                    calculateAndSetRoute(getCurrentNode(), destinationNode);
+                } else {
+                    //TODO bei DeliveryNode aktuell benötigte Materialen prüfen und zu entsprechender StorageNode fahren
+                }
+            } else {
+                calculateAndSetRoute(getCurrentNode(), getHomeNode());
+            }
         } else {
             throw new RuntimeException("Graph hat noch Elemente und kann nicht geupdated werden");
         }
+    }
+
+    private void calculateAndSetRoute(Node start, Node destination) {
+        ArrayList<Node> wayPointNodes = Map.getMap().wayPointNodes;
+
+        //Wir ermittlen zuerst die WayPointNodes die direkt an der Start und Zielnode liegen
+        Node startWayPointNode = null;
+        Node destinationWayPointNode = null;
+        for (Node n : start.getNeighbourNodes()) {
+            if (n.getClass() == Node.class) {
+                startWayPointNode = n;
+            }
+        }
+
+        for (Node n : destination.getNeighbourNodes()) {
+            if (n.getClass() == Node.class) {
+                destinationWayPointNode = n;
+            }
+        }
+        //Wenn eine der Nodes nicht entsprechend angeschlossen ist, wirft er einen Fehler
+        if (destinationWayPointNode == null || startWayPointNode == null)
+            throw new RuntimeException("StorageNode not connected to a waypoint node");
+
+
+        ArrayList<Node> result = new ArrayList<>();
+        result.add(startWayPointNode);
+        result.add(destination);
+        //Zuerst prüfen ob die WayPointNodes identisch sind, wenn ja lösung gefunden, return
+        if (destinationWayPointNode.equals(startWayPointNode)) {
+            graph = result;
+            return;
+        }
+        //Oder vielleicht sind die beiden WayPointNodes benachbart, dann fügen wir beide hinzu, return
+        result.add(1, destinationWayPointNode);
+        if (startWayPointNode.isNeighbourNode(destinationWayPointNode)) {
+            graph = result;
+            return;
+        }
+        //andernfalls zurücksetzen
+        result = new ArrayList<>();
+
+        //Jetzt gehen wir von der startWayPointNode aus solange in beide richtungen bis wir auf die startWayPointNode treffen
+        ArrayList<Node> wayPointStartNeighbours = new ArrayList<>();
+        for (Node n : startWayPointNode.getNeighbourNodes()) {
+            if (n.getClass() == Node.class) {
+                wayPointStartNeighbours.add(n);
+            }
+        }
+
+        ArrayList<Node> solutionOne = new ArrayList<>();
+
+        Node next = wayPointStartNeighbours.get(0);
+        solutionOne.add(wayPointStartNeighbours.get(0));
+        while (next == null || !next.isNeighbourNode(destinationWayPointNode)) {
+            ArrayList<Node> nextNeighbourNodes = next.getNeighbourNodes();
+
+            ArrayList<Node> nextNeighbourNodesWay = new ArrayList<>();
+            for (Node n : nextNeighbourNodes) {
+                if (n.getClass() == Node.class) {
+                    nextNeighbourNodes.add(n);
+                }
+            }
+        }
+
+        ArrayList<Node> solutionTwo = new ArrayList<>();
+
+        next = wayPointStartNeighbours.get(1);
+        solutionTwo.add(wayPointStartNeighbours.get(1));
+        while (next == null || !next.isNeighbourNode(destinationWayPointNode)) {
+
+        }
+
+
+        result.add(startWayPointNode);
+        result.addAll(solutionOne);
+        result.add(destinationWayPointNode);
+        result.add(destination);
     }
 
     /**
@@ -148,8 +249,6 @@ class Robot implements Runnable {
      * @throws RuntimeException
      */
     private void work() {
-        //TODO remove
-        printStatus();
         // Is eine weitere Node vorhanden?
         if (hasNextNode()) {
             move();
@@ -162,23 +261,11 @@ class Robot implements Runnable {
                 load();
                 //TODO remove
                 System.out.println("loaded");
-                // einen neuen Graphen vom Router beziehen
                 updateGraph();
             } else {
                 // Andernfalls gibt es einen Fehler weil eine Endnode eine StorageNode sein muss
                 throw new RuntimeException("Roboter hat keine weiteren Nodes, steht aber an einer Node an der er nicht verladen kann");
             }
         }
-    }
-
-    private void printStatus() {
-        //TODO remove
-        //System.out.println("From Current Node " + getCurrentNode().getId() + " to " + (graph.size() == 0 ? "-" : graph.get(graph.size() - 1).getId()) + " with inventory: " + inventoryMaterialType + ", " + inventoryAmount);
-        System.out.println("+--------+--------+--------+-----+-----+");
-        System.out.println("|akt.Node|zielNode|R-Invent|Node0|Node7|");
-        System.out.println("+--------+--------+--------+-----+-----+");
-        System.out.println("|" + getCurrentNode().getId() + "       |" + (graph.size() == 0 ? "-" : graph.get(graph.size() - 1).getId()) + "       |" + inventoryMaterialType + ", " + inventoryAmount + "    |" +
-                ((StorageNode) Router.getRouter().nodes.get(0)).materialType + ", " + ((StorageNode) Router.getRouter().nodes.get(0)).amount + " |" + ((StorageNode) Router.getRouter().nodes.get(7)).materialType + ", " + ((StorageNode) Router.getRouter().nodes.get(7)).amount + "|");
-        System.out.println("+--------+--------+--------+-----+-----+");
     }
 }
