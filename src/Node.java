@@ -59,6 +59,10 @@ class Node {
         neighbourNodes.add(n);
     }
 
+    ArrayList<Node> getNeighbourNodes() {
+        return neighbourNodes;
+    }
+
     int getX() {
         return x;
     }
@@ -71,11 +75,20 @@ class Node {
         return id;
     }
 
+    boolean isNeighbourNode(Node n) {
+        for (Node neighbour : neighbourNodes) {
+            if (neighbour.equals(n)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (!Node.class.isAssignableFrom(obj.getClass())) return false;
+        if (this.getClass() != obj.getClass()) return false;
         Node n = (Node) obj;
-        return n.getId() == this.getId();
+        return this.getId() == n.getId();
     }
 
     @Override
