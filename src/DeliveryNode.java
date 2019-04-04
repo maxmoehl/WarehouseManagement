@@ -13,6 +13,12 @@ class DeliveryNode extends StorageNode {
         loading = true;
     }
 
+    DeliveryNode(int id, int x, int y) {
+        super(id, x, y);
+
+        //TODO remove
+        loading = true;
+    }
     boolean isLoading() {
         return loading;
     }
