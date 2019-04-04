@@ -15,6 +15,12 @@ class StorageNode extends Node {
         amount = 0;
     }
 
+    StorageNode(int id, int x, int y) {
+        super(id, x, y);
+        materialType = 0;
+        size = 100;
+        amount = 0;
+    }
     int getMaterialType() {
         return materialType;
     }

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 class Map extends JComponent {
@@ -12,20 +13,22 @@ class Map extends JComponent {
     private Map() {
         super();
 
+        setSize(1000, 1000);
+
         storageNodes = new ArrayList<>();
         deliveryNodes = new ArrayList<>();
         wayPointNodes = new ArrayList<>();
 
-        storageNodes.add(new StorageNode(0));
-        storageNodes.add(new StorageNode(1));
-        storageNodes.add(new StorageNode(2));
+        storageNodes.add(new StorageNode(0, 200, 800));
+        storageNodes.add(new StorageNode(1, 200, 500));
+        storageNodes.add(new StorageNode(2, 200, 200));
 
-        deliveryNodes.add(new DeliveryNode(0));
-        deliveryNodes.add(new DeliveryNode(1));
+        deliveryNodes.add(new DeliveryNode(0, 800, 500));
+        deliveryNodes.add(new DeliveryNode(1, 800, 200));
 
-        wayPointNodes.add(new Node(0));
-        wayPointNodes.add(new Node(1));
-        wayPointNodes.add(new Node(2));
+        wayPointNodes.add(new Node(0, 500 ,800));
+        wayPointNodes.add(new Node(1, 500, 500));
+        wayPointNodes.add(new Node(2, 500, 200));
 
         connectNodes(wayPointNodes.get(0), storageNodes.get(0));
         connectNodes(wayPointNodes.get(0), wayPointNodes.get(1));
@@ -63,6 +66,12 @@ class Map extends JComponent {
         throw new RuntimeException("Keine Lagereinheit mit benötitem Material-Typ gefunden");
     }
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.setColor(Color.BLACK);
+        g.fillRect(50, 950, 1000,1000 );
+    }
     private static class MapHolder {
         private static Map INSTANCE = new Map();
     }
