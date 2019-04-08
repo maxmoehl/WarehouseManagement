@@ -42,7 +42,7 @@ class DeliveryNode extends StorageNode {
     void loadItems(int materialType, int amount) {
         if (isLoading()) {
             super.loadItems(materialType, amount);
-            if (getAmount() == getSize()) {
+            if (getAmount() == getStorageSize()) {
                 requestNextShipment();
             }
         } else {

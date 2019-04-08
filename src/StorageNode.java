@@ -6,19 +6,19 @@ class StorageNode extends Node {
 
     protected int materialType;
     protected int amount;
-    private int size;
+    private int storageSize;
 
     StorageNode(int id) {
         super(id);
         materialType = 0;
-        size = 100;
+        storageSize = 100;
         amount = 0;
     }
 
     StorageNode(int id, int x, int y) {
         super(id, x, y);
         materialType = 0;
-        size = 100;
+        storageSize = 100;
         amount = 0;
     }
     int getMaterialType() {
@@ -29,8 +29,8 @@ class StorageNode extends Node {
         return amount;
     }
 
-    int getSize() {
-        return size;
+    int getStorageSize() {
+        return storageSize;
     }
 
     /**
@@ -42,7 +42,7 @@ class StorageNode extends Node {
      * @throws RuntimeException
      */
     public boolean setMaterialType(int materialType) {
-        if (DataConnection.isValidMaterialType(materialType)) {
+        if (DataConnection.getDataConnection().isValidMaterialType(materialType)) {
             if (amount == 0) {
                 this.materialType = materialType;
                 return true;
@@ -65,7 +65,7 @@ class StorageNode extends Node {
         if (materialType != getMaterialType()) {
             throw new RuntimeException("Falscher Materialtyp");
         }
-        if (this.amount + amount <= size) {
+        if (this.amount + amount <= storageSize) {
             this.amount += amount;
         }
     }
