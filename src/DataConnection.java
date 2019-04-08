@@ -43,6 +43,10 @@ class DataConnection {
         return (materialType > 0 && materialType < materialTypes.size());
     }
 
+    String getMaterialType(int materialType) {
+        return materialTypes.get(materialType);
+    }
+
     private static class DataConnectionHolder {
         private static DataConnection INSTANCE = new DataConnection();
     }
