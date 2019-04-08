@@ -11,6 +11,7 @@ class Map extends JComponent {
     ArrayList<Node> wayPointNodes;
 
     private Map() {
+   // public Map() {
         super();
 
         setSize(1000, 1000);
@@ -19,16 +20,17 @@ class Map extends JComponent {
         deliveryNodes = new ArrayList<>();
         wayPointNodes = new ArrayList<>();
 
-        storageNodes.add(new StorageNode(0, 200, 800));
-        storageNodes.add(new StorageNode(1, 200, 500));
-        storageNodes.add(new StorageNode(2, 200, 200));
+        storageNodes.add(new StorageNode(0, 200, 100, 200, 100));
+        storageNodes.add(new StorageNode(1, 200, 400, 200, 100 ));
+        storageNodes.add(new StorageNode(2, 200, 700, 200, 100));
 
-        deliveryNodes.add(new DeliveryNode(0, 800, 500));
-        deliveryNodes.add(new DeliveryNode(1, 800, 200));
+        deliveryNodes.add(new DeliveryNode(0, 800, 100, 75, 150));
+        deliveryNodes.add(new DeliveryNode(1, 800, 400, 75, 150));
+        deliveryNodes.add(new DeliveryNode(2, 800, 700, 75, 150));
 
-        wayPointNodes.add(new Node(0, 500 ,800));
-        wayPointNodes.add(new Node(1, 500, 500));
-        wayPointNodes.add(new Node(2, 500, 200));
+        wayPointNodes.add(new Node(0));
+        wayPointNodes.add(new Node(1));
+        wayPointNodes.add(new Node(2));
 
         connectNodes(wayPointNodes.get(0), storageNodes.get(0));
         connectNodes(wayPointNodes.get(0), wayPointNodes.get(1));

@@ -24,8 +24,8 @@ class StorageNode extends Node {
         robotQueue = new ArrayList<>();
     }
 
-    StorageNode(int id, int x, int y) {
-        super(id, x, y);
+    StorageNode(int id, int x, int y, int width, int height) {
+        super(id, x, y, width, height);
         materialType = 0;
         storageSize = 100;
         amount = 0;

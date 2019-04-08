@@ -32,7 +32,6 @@ class Node extends JComponent {
      */
     Node(int id) {
         this.id = id;
-        //nodeType = 0;
         neighbourNodes = new ArrayList<>();
     }
 
@@ -43,11 +42,14 @@ class Node extends JComponent {
      * @param x  x Position auf der Karte
      * @param y  y Position auf der Karte
      */
-    Node(int id, int x, int y) {
+    //müssen width und height haben
+    Node(int id, int x, int y, int width, int height) {
+        super();
+        setSize(width, height);
+        setLocation(x, y);
         this.id = id;
-        this.x = x;
-        this.y = y;
-        //nodeType = 0;
+       // this.x = x;
+        //this.y = y;
         neighbourNodes = new ArrayList<>();
     }
 

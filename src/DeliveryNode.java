@@ -13,8 +13,8 @@ class DeliveryNode extends StorageNode {
         loading = true;
     }
 
-    DeliveryNode(int id, int x, int y) {
-        super(id, x, y);
+    DeliveryNode(int id, int x, int y,int width, int height) {
+        super(id, x, y, width, height);
 
         //TODO remove
         loading = true;
