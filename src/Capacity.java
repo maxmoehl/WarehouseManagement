@@ -1,33 +1,26 @@
 import javax.swing.*;
-import java.awt.*;
+import java.util.ArrayList;
 
-public class Capacity extends JPanel {
+class Capacity extends JFrame {
 
-    public Capacity() {
-
-        super(null);
-        JFrame capacity = new JFrame("Gesamtkapazit�t");
-        capacity.setSize(1500, 1000);
-        capacity.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        capacity.add(this);
-
+    Capacity() {
+        super("Gesamtkapazität");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         String[] columnNames = {"Regalnummer", "Materialtyp", "Auslastung",};
-        Object[][] data = {{"Snowboarding", new Integer(5), new Boolean(false)},
-                {"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
-                {"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
-                {"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
-                {"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)}};
 
-        final JTable table = new JTable(data, columnNames);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-        table.setFillsViewportHeight(true);
+        ArrayList<StorageNode> storageNodes = Map.getMap().storageNodes;
 
-        capacity.setVisible(true);
-    }
+        String[][] data = new String[storageNodes.size()][3];
 
-    public static void main(String[] args) {
-
-        new Capacity();
-
+        for (int i = 0; i < storageNodes.size(); i++) {
+            data[i][0] = "Storage " + storageNodes.get(i).getId();
+            data[i][1] = DataConnection.getDataConnection().getMaterialType(storageNodes.get(i).getMaterialType());
+            data[i][2] = storageNodes.get(i).getAmount() + " / " + storageNodes.get(i).getStorageSize();
+        }
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        getContentPane().add(scrollPane);
+        pack();
+        setVisible(true);
     }
 }
