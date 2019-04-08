@@ -1,9 +1,10 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
  * Represäntiert einen Wegpunkt auf der Karte zu dem die Roboter fahren können und der mit anderen Wegpunkten verbunden ist
  */
-class Node {
+class Node extends JComponent {
 
     /**
      * Eindeutige ID zum Vergleichen
@@ -63,13 +64,9 @@ class Node {
         return neighbourNodes;
     }
 
-    int getX() {
-        return x;
-    }
-
-    int getY() {
-        return y;
-    }
+    /**
+     * Beide Methoden wurden bereits mit der gleichen Funktion in JComponent implementiert
+     */
 
     int getId() {
         return id;
