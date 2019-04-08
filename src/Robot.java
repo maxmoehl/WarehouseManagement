@@ -130,7 +130,7 @@ class Robot implements Runnable {
          */
         if (graph.size() == 0) {
             if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
-                if (inventoryMaterialType == 0) {
+                if (inventoryMaterialType != 0) {
                     StorageNode destinationNode = Map.getMap().getStorageNode(inventoryMaterialType);
                     calculateAndSetRoute(getCurrentNode(), destinationNode);
                 } else {
@@ -206,12 +206,14 @@ class Robot implements Runnable {
             }
         }
 
-        ArrayList<Node> solutionTwo = new ArrayList<>();
+        if (wayPointStartNeighbours.size() > 1) {
+            ArrayList<Node> solutionTwo = new ArrayList<>();
 
-        next = wayPointStartNeighbours.get(1);
-        solutionTwo.add(wayPointStartNeighbours.get(1));
-        while (next == null || !next.isNeighbourNode(destinationWayPointNode)) {
+            next = wayPointStartNeighbours.get(1);
+            solutionTwo.add(wayPointStartNeighbours.get(1));
+            while (next == null || !next.isNeighbourNode(destinationWayPointNode)) {
 
+            }
         }
 
 
@@ -219,6 +221,8 @@ class Robot implements Runnable {
         result.addAll(solutionOne);
         result.add(destinationWayPointNode);
         result.add(destination);
+
+        graph = result;
     }
 
     /**
