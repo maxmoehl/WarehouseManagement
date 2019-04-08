@@ -23,8 +23,6 @@ class Controller {
         initClock();
         panel = new Panel();
         frame = new Frame(panel);
-
-        DataConnection.initData();
     }
 
     static Controller getController() {
