@@ -67,9 +67,6 @@ class Node extends JComponent {
     /**
      * Beide Methoden wurden bereits mit der gleichen Funktion in JComponent implementiert
      */
-   // int getX() { return x; }
-
-    //int getY() { return y; }
 
     int getId() {
         return id;
