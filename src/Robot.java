@@ -37,10 +37,11 @@ class Robot implements Runnable {
      */
     Robot(int id, Node start, DeliveryNode home) {
         this.id = id;
+        graph = new ArrayList<>();
+        this.home = home;
         currentNode = start;
         inventoryMaterialType = 0;
         inventoryAmount = 0;
-        graph = new ArrayList<>();
         Thread thread = new Thread(this);
         //thread.setDaemon(true);
         thread.start();
@@ -92,20 +93,29 @@ class Robot implements Runnable {
      */
     private void load() {
         //Lock access to this node and lock it for one second then unload/load items
-        synchronized (getCurrentNode()) {
-            StorageNode current = (StorageNode) getCurrentNode();
-            lock(1000);
-            // wenn die node delivery oder storage ist muss geprüft werden ob im inventar waren sind
-            if (inventoryMaterialType == 0) {
-                inventoryMaterialType = current.getMaterialType();
-                current.unloadItems(1);
-                inventoryAmount = 1;
-            } else {
-                current.loadItems(inventoryMaterialType, inventoryAmount);
-                inventoryMaterialType = 0;
-                inventoryAmount = 0;
+        StorageNode current = (StorageNode) getCurrentNode();
+
+
+        while (!current.accessNode(this)) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                assert true;
             }
         }
+
+        lock(1000);
+        // wenn die node delivery oder storage ist muss geprüft werden ob im inventar waren sind
+        if (inventoryMaterialType == 0) {
+            inventoryMaterialType = current.getMaterialType();
+            current.unloadItems(1);
+            inventoryAmount = 1;
+        } else {
+            current.loadItems(inventoryMaterialType, inventoryAmount);
+            inventoryMaterialType = 0;
+            inventoryAmount = 0;
+        }
+        current.leaveNode();
     }
 
     /**

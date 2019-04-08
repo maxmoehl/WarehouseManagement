@@ -1,3 +1,6 @@
+import java.awt.*;
+import java.util.ArrayList;
+
 /**
  * Erweitert die {@link Node} um die Moeglichkeit Waren zu lagern. Roboter können an diesen Nodes Waren
  * abholen oder abgeben
@@ -8,11 +11,17 @@ class StorageNode extends Node {
     protected int amount;
     private int storageSize;
 
+    private ArrayList<Robot> robotQueue;
+
+    private boolean blocked;
+
     StorageNode(int id) {
         super(id);
         materialType = 0;
         storageSize = 100;
         amount = 0;
+        blocked = false;
+        robotQueue = new ArrayList<>();
     }
 
     StorageNode(int id, int x, int y) {
@@ -20,7 +29,10 @@ class StorageNode extends Node {
         materialType = 0;
         storageSize = 100;
         amount = 0;
+        blocked = false;
+        robotQueue = new ArrayList<>();
     }
+
     int getMaterialType() {
         return materialType;
     }
@@ -31,6 +43,23 @@ class StorageNode extends Node {
 
     int getStorageSize() {
         return storageSize;
+    }
+
+    boolean accessNode(Robot robot) {
+        if (blocked) {
+            robotQueue.add(robot);
+            return false;
+        } else {
+            blocked = true;
+            return true;
+        }
+    }
+
+    void leaveNode() {
+        blocked = false;
+        if (robotQueue.size() != 0) {
+            robotQueue.get(0).notify();
+        }
     }
 
     /**
@@ -82,5 +111,19 @@ class StorageNode extends Node {
         } else {
             throw new RuntimeException("Lager hat nicht genug Material");
         }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        int width = getWidth();
+        int height = getHeight();
+
+        g.setColor(Color.GRAY);
+        g.fillRect(0, 0, width, height);
+
+        g.setColor(Color.BLACK);
+        g.fillRect(0, (int) (0.5 * height), width, (int) (0.5 * height));
+
+        g.fillRect((int) (0.45 * width), (int) (0.15 * height), (int) (0.1 * width), (int) (0.2 * height));
     }
 }
