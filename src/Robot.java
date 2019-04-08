@@ -198,6 +198,7 @@ class Robot implements Runnable {
         while (next == null || !next.isNeighbourNode(destinationWayPointNode)) {
             ArrayList<Node> nextNeighbourNodes = next.getNeighbourNodes();
 
+            //TODO sicherstellen das das ergebnis nicht ist, dass der Roboter auf ewig zwischen zwei Nodes pendelt
             ArrayList<Node> nextNeighbourNodesWay = new ArrayList<>();
             for (Node n : nextNeighbourNodes) {
                 if (n.getClass() == Node.class) {
@@ -207,6 +208,7 @@ class Robot implements Runnable {
         }
 
         if (wayPointStartNeighbours.size() > 1) {
+            //TODO zweit option (in die entgegengesetzte richtung) implementieren
             ArrayList<Node> solutionTwo = new ArrayList<>();
 
             next = wayPointStartNeighbours.get(1);
