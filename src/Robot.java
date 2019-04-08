@@ -130,7 +130,7 @@ class Robot implements Runnable {
          */
         if (graph.size() == 0) {
             if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
-                if (inventoryMaterialType == 0) {
+                if (inventoryMaterialType != 0) {
                     StorageNode destinationNode = Map.getMap().getStorageNode(inventoryMaterialType);
                     calculateAndSetRoute(getCurrentNode(), destinationNode);
                 } else {
