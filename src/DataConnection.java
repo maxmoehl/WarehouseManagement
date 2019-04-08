@@ -5,11 +5,11 @@ import java.util.ArrayList;
  */
 class DataConnection {
 
-    private static ArrayList<String> materialTypes;
+    private ArrayList<String> materialTypes;
 
-    private static ArrayList<Shipment> shipments;
+    private ArrayList<Shipment> shipments;
 
-    static void initData() {
+    public DataConnection() {
         materialTypes = new ArrayList<>();
         materialTypes.add("Leer");
         materialTypes.add("Holz");
@@ -24,18 +24,26 @@ class DataConnection {
         shipments.add(new Shipment(0, 250, 180, 10, 4));
     }
 
-    public static ArrayList<Shipment> getShipments() {
+    static DataConnection getDataConnection() {
+        return DataConnectionHolder.INSTANCE;
+    }
+
+    ArrayList<Shipment> getShipments() {
         return shipments;
     }
 
-    static Shipment getNextShipment() {
+    Shipment getNextShipment() {
         for (Shipment s : shipments) {
             if (s.getEta() >= Controller.getController().getTime() && !s.isArrived()) return s;
         }
         return null;
     }
 
-    static boolean isValidMaterialType(int materialType) {
+    boolean isValidMaterialType(int materialType) {
         return (materialType > 0 && materialType < materialTypes.size());
+    }
+
+    private static class DataConnectionHolder {
+        private static DataConnection INSTANCE = new DataConnection();
     }
 }
