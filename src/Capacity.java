@@ -5,13 +5,11 @@ import java.util.TimerTask;
 
 class Capacity extends JFrame {
 
-    private String[][] data;
-
     private JTable table;
 
     Capacity() {
         super("Gesamtkapazität");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         String[] columnNames = {"Regalnummer", "Materialtyp", "Auslastung",};
 
         ArrayList<StorageNode> storageNodes = Map.getMap().storageNodes;
@@ -45,5 +43,9 @@ class Capacity extends JFrame {
             table.setValueAt(DataConnection.getDataConnection().getMaterialType(storageNodes.get(i).getMaterialType()), i, 1);
             table.setValueAt(storageNodes.get(i).getAmount() + " / " + storageNodes.get(i).getStorageSize(), i, 2);
         }
+    }
+
+    public void open() {
+        setVisible(true);
     }
 }
