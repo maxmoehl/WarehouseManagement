@@ -1,22 +1,30 @@
+package warehousemanagment;
+
+import warehousemanagment.navigation.DeliveryNode;
+import warehousemanagment.navigation.Node;
+import warehousemanagment.navigation.StorageNode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-class Map extends JComponent {
+public class Map extends JComponent {
 
-    ArrayList<StorageNode> storageNodes;
+    public List<StorageNode> storageNodes;
 
-    ArrayList<DeliveryNode> deliveryNodes;
+    public List<DeliveryNode> deliveryNodes;
 
-    ArrayList<Node> wayPointNodes;
+    public List<Node> wayPointNodes;
 
     private Map() {
         super();
         setPreferredSize(new Dimension(1000, 1000));
 
-        storageNodes = new ArrayList<>();
-        deliveryNodes = new ArrayList<>();
-        wayPointNodes = new ArrayList<>();
+        storageNodes = Collections.synchronizedList(new ArrayList<>());
+        deliveryNodes = Collections.synchronizedList(new ArrayList<>());
+        wayPointNodes = Collections.synchronizedList(new ArrayList<>());
 
         storageNodes.add(new StorageNode(0, 80, 120, 320, 160));
         storageNodes.add(new StorageNode(1, 80, 280, 320, 160));
@@ -60,7 +68,7 @@ class Map extends JComponent {
         dN.setLoading(false);
     }
 
-    static Map getMap() {
+    public static Map getMap() {
         return MapHolder.INSTANCE;
     }
 
@@ -69,7 +77,7 @@ class Map extends JComponent {
         n2.addNeighbour(n1);
     }
 
-    StorageNode getStorageNode(int materialType) {
+    public StorageNode getStorageNode(int materialType) {
         for (StorageNode n : storageNodes) {
             if (n.getMaterialType() == materialType) {
                 return n;

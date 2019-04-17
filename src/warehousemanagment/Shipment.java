@@ -1,3 +1,5 @@
+package warehousemanagment;
+
 /**
  * Repräsentiert eine Lieferung die per LKW kommt
  */

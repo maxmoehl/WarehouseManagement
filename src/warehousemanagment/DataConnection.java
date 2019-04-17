@@ -1,9 +1,11 @@
+package warehousemanagment;
+
 import java.util.ArrayList;
 
 /**
  * Diese Klasse simuliert die Verbindung zu einer Datenbank mit einfachen Listen und entsprechenden Gettern und Settern
  */
-class DataConnection {
+public class DataConnection {
 
     private ArrayList<String> materialTypes;
 
@@ -24,26 +26,26 @@ class DataConnection {
         shipments.add(new Shipment(0, 250, 180, 10, 4));
     }
 
-    static DataConnection getDataConnection() {
+    public static DataConnection getDataConnection() {
         return DataConnectionHolder.INSTANCE;
     }
 
-    ArrayList<Shipment> getShipments() {
+    public ArrayList<Shipment> getShipments() {
         return shipments;
     }
 
-    Shipment getNextShipment() {
+    public Shipment getNextShipment() {
         for (Shipment s : shipments) {
             if (s.getEta() >= Controller.getController().getTime() && !s.isArrived()) return s;
         }
         return null;
     }
 
-    boolean isValidMaterialType(int materialType) {
+    public boolean isValidMaterialType(int materialType) {
         return (materialType > 0 && materialType < materialTypes.size());
     }
 
-    String getMaterialType(int materialType) {
+    public String getMaterialType(int materialType) {
         return materialTypes.get(materialType);
     }
 
