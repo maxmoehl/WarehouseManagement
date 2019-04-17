@@ -114,7 +114,7 @@ class StorageNode extends Node {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         int width = getWidth();
         int height = getHeight();
 
