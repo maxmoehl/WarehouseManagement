@@ -11,7 +11,7 @@ public class DataConnection {
 
     private ArrayList<Shipment> shipments;
 
-    public DataConnection() {
+    private DataConnection() {
         materialTypes = new ArrayList<>();
         materialTypes.add("Leer");
         materialTypes.add("Holz");
