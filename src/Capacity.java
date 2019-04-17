@@ -7,9 +7,11 @@ class Capacity extends JFrame {
 
     private JTable table;
 
+    private Timer updater;
+
     Capacity() {
         super("Gesamtkapazität");
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         String[] columnNames = {"Regalnummer", "Materialtyp", "Auslastung",};
 
         ArrayList<StorageNode> storageNodes = Map.getMap().storageNodes;
@@ -27,7 +29,7 @@ class Capacity extends JFrame {
         pack();
         setVisible(true);
 
-        Timer updater = new Timer(true);
+        updater = new Timer(true);
         updater.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -45,7 +47,10 @@ class Capacity extends JFrame {
         }
     }
 
-    public void open() {
-        setVisible(true);
+    @Override
+    public void dispose() {
+        super.dispose();
+        updater.cancel();
+        updater = null;
     }
 }
