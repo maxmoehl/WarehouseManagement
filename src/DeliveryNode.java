@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * Erweitert die {@link StorageNode} um die Moeglichkeit Spezifikationen aus einem {@link Shipment} zu laden
  * und diese an das System aktiv abzugeben/anzufragen.
@@ -13,12 +15,13 @@ class DeliveryNode extends StorageNode {
         loading = true;
     }
 
-    DeliveryNode(int id, int x, int y,int width, int height) {
+    DeliveryNode(int id, int x, int y, int width, int height) {
         super(id, x, y, width, height);
 
         //TODO remove
         loading = true;
     }
+
     boolean isLoading() {
         return loading;
     }
@@ -77,5 +80,10 @@ class DeliveryNode extends StorageNode {
      */
     private void requestItems() {
         //TODO implementieren
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+
     }
 }

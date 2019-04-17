@@ -11,18 +11,18 @@ class Map extends JComponent {
     ArrayList<Node> wayPointNodes;
 
     private Map() {
-   // public Map() {
         super();
-
-        setSize(1000, 1000);
+        setPreferredSize(new Dimension(1000, 1000));
 
         storageNodes = new ArrayList<>();
         deliveryNodes = new ArrayList<>();
         wayPointNodes = new ArrayList<>();
 
-        storageNodes.add(new StorageNode(0, 200, 100, 200, 100));
-        storageNodes.add(new StorageNode(1, 200, 400, 200, 100 ));
-        storageNodes.add(new StorageNode(2, 200, 700, 200, 100));
+        storageNodes.add(new StorageNode(0, 80, 120, 320, 160));
+        storageNodes.add(new StorageNode(1, 80, 280, 320, 160));
+        storageNodes.add(new StorageNode(2, 80, 440, 320, 160));
+        storageNodes.add(new StorageNode(3, 80, 600, 320, 160));
+        storageNodes.add(new StorageNode(4, 80, 760, 320, 160));
 
         deliveryNodes.add(new DeliveryNode(0, 800, 100, 75, 150));
         deliveryNodes.add(new DeliveryNode(1, 800, 400, 75, 150));
@@ -31,14 +31,24 @@ class Map extends JComponent {
         wayPointNodes.add(new Node(0));
         wayPointNodes.add(new Node(1));
         wayPointNodes.add(new Node(2));
+        wayPointNodes.add(new Node(3));
+        wayPointNodes.add(new Node(4));
 
         connectNodes(wayPointNodes.get(0), storageNodes.get(0));
         connectNodes(wayPointNodes.get(0), wayPointNodes.get(1));
+
         connectNodes(wayPointNodes.get(1), storageNodes.get(1));
         connectNodes(wayPointNodes.get(1), wayPointNodes.get(2));
-        connectNodes(wayPointNodes.get(1), deliveryNodes.get(0));
+
         connectNodes(wayPointNodes.get(2), storageNodes.get(2));
-        connectNodes(wayPointNodes.get(2), deliveryNodes.get(1));
+        connectNodes(wayPointNodes.get(2), wayPointNodes.get(3));
+
+        connectNodes(wayPointNodes.get(3), storageNodes.get(3));
+        connectNodes(wayPointNodes.get(3), deliveryNodes.get(0));
+        connectNodes(wayPointNodes.get(3), wayPointNodes.get(4));
+
+        connectNodes(wayPointNodes.get(4), storageNodes.get(4));
+        connectNodes(wayPointNodes.get(4), deliveryNodes.get(1));
 
         StorageNode sN = storageNodes.get(0);
         DeliveryNode dN = deliveryNodes.get(1);
@@ -65,15 +75,28 @@ class Map extends JComponent {
                 return n;
             }
         }
-        throw new RuntimeException("Keine Lagereinheit mit benötitem Material-Typ gefunden");
+        throw new RuntimeException("Keine Lagereinheit mit benötigtem Material-Typ gefunden");
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        g.setColor(Color.BLACK);
-        g.fillRect(50, 950, 1000,1000 );
+    public void paintComponent(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setColor(Color.GRAY);
+        g.fillRect(40, 80, 680, 880);
+
     }
+
+    @Override
+    public void paintChildren(Graphics g) {
+        for (StorageNode n : storageNodes) {
+            g.setClip(n.getX(), n.getY(), n.getWidth(), n.getHeight());
+            n.paint(g);
+        }
+        for (DeliveryNode n : deliveryNodes) {
+            n.paint(g);
+        }
+    }
+
     private static class MapHolder {
         private static Map INSTANCE = new Map();
     }
