@@ -43,6 +43,8 @@ public class Node extends JComponent {
      * @param id eindeutige id
      * @param x  x Position auf der Karte
      * @param y  y Position auf der Karte
+     * @param width grafische Breite auf der Karte
+     * @param height grafische Höhe auf der Karte
      */
     //müssen width und height haben
     public Node(int id, int x, int y, int width, int height) {
@@ -67,11 +69,6 @@ public class Node extends JComponent {
     public ArrayList<Node> getNeighbourNodes() {
         return neighbourNodes;
     }
-
-    /**
-     * Beide Methoden wurden bereits mit der gleichen Funktion in JComponent implementiert
-     */
-
     public int getId() {
         return id;
     }

@@ -7,23 +7,23 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Hauptkontrolleinheit die alle wichtigen Componenten initialisiert und verwaltet, stellt wichtige Grundfunktionalitäten zur Verfügung
+ * Hauptkontrolleinheit die alle wichtigen Componenten initialisiert und verwaltet, stellt wichtige Grundfunktionalitäten zur Verfuegung
  */
 class Controller {
 
-    private int time = 0;
+    /**
+     * Simuliert die Uhrzeit um sicherzustellen, dass bei jedem Programmstart {@link Shipment} ankommen, startet bei jedem Programmstart bei null
+     */
+    private int time;
+
     /**
      * Das Hauptpanel auf dem alles gezeichnet und angezeigt wird
      */
     private Panel panel;
-    /**
-     * Hauptframe mit der JMenuBar
-     */
+
+    /** Hauptframe mit der JMenuBar */
     private Frame frame;
 
-    /**
-     * Initialisiert eine neue Instanz des gesamten Programms
-     */
     private Controller() {
         initClock();
         panel = new Panel();
@@ -35,6 +35,7 @@ class Controller {
     }
 
     private void initClock() {
+        time = 0;
         Timer clock = new Timer(true);
         clock.schedule(new TimerTask() {
             @Override

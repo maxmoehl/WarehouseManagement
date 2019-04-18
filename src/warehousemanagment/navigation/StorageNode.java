@@ -72,7 +72,7 @@ public class StorageNode extends Node {
      *
      * @param materialType der neue {@code materialType}
      * @return ob das aendern des {@code materialType} erfolgreich war
-     * @throws RuntimeException
+     * @throws RuntimeException Wenn ein ungültiger Materialtyp mitgegeben wird
      */
     public boolean setMaterialType(int materialType) {
         if (DataConnection.getDataConnection().isValidMaterialType(materialType)) {
@@ -92,7 +92,7 @@ public class StorageNode extends Node {
      *
      * @param materialType Type der Ware die eingelagert werden soll
      * @param amount       Menge der Ware die eingeladen werden soll
-     * @throws RuntimeException
+     * @throws RuntimeException Wenn die Lagereinheit nicht den richtigen Materialtyp hat
      */
     public void loadItems(int materialType, int amount) {
         if (materialType != getMaterialType()) {
@@ -107,7 +107,7 @@ public class StorageNode extends Node {
      * Kontrolliert ob genug Material im Lager ist um die angefragte Menge auszuladen
      *
      * @param amount Menge die ausgeladen werden soll
-     * @throws RuntimeException
+     * @throws RuntimeException Wenn im Lager weniger Materialien sind als der Roboter benötigt
      */
     public void unloadItems(int amount) {
         if (this.amount >= amount) {
