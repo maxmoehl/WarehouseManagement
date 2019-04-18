@@ -12,24 +12,16 @@ public class Robot implements Runnable {
      */
     private final int id;
 
-    /**
-     * Die Nodes die der Roboter als naechstes abfahren muss (von 0 beginnend)
-     */
+    /** Die Nodes die der Roboter als naechstes abfahren muss (von 0 beginnend) */
     private ArrayList<Node> graph;
 
-    /**
-     * Die warehousemanagment.navigation.DeliveryNode and der der Roboter arbeitet
-     */
+    /** Die {@link DeliveryNode} fuer die der Roboter arbeitet */
     private DeliveryNode home;
 
-    /**
-     * Die aktuelle warehousemanagment.navigation.Node auf der der Roboter sich befindet
-     */
+    /** Die aktuelle {@link Node} auf der der Roboter sich befindet */
     private Node currentNode;
 
-    /**
-     * Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, größer 0 = irgendeine ware
-     */
+    /** Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, groeßer 0 = irgendein Warentyp */
     private int inventoryMaterialType;
     private int inventoryAmount;
 
@@ -48,7 +40,6 @@ public class Robot implements Runnable {
         inventoryMaterialType = 0;
         inventoryAmount = 0;
         Thread thread = new Thread(this);
-        //thread.setDaemon(true);
         thread.start();
     }
 
@@ -74,7 +65,7 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Bewegt den Roboter zur naechste warehousemanagment.navigation.Node die auf dem Graph gegeben ist, der Vorgang sperrt den Roboter für eine Sekunde
+     * Bewegt den Roboter zur naechste {@link Node} die auf dem Graph gegeben ist, der Vorgang sperrt den Roboter für eine Sekunde
      *
      * @see Robot#lock
      */
@@ -85,10 +76,11 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Greift auf die {@link Robot#currentNode} zu und laedt ein oder aus, muss auf einer warehousemanagment.navigation.StorageNode ausgefuehrt werden
+     * Greift auf die {@link Robot#currentNode} zu und laedt ein oder aus beziehungsweise wartet wenn die Node aktuell belegt ist,
+     * muss auf einer {@link StorageNode} ausgefuehrt werden
      * <ul>
-     * <li>Wenn der Roboter Ladung in seinem Inventar hat versucht seine Waren in die warehousemanagment.navigation.Node abzuladen</li>
-     * <li>Wenn der Roboter keine Ladung hat versucht er Waren aus der warehousemanagment.navigation.Node zu laden</li>
+     * <li>Wenn der Roboter Ladung in seinem Inventar hat versucht seine Waren in die {@link StorageNode} abzuladen</li>
+     * <li>Wenn der Roboter keine Ladung hat versucht er Waren aus der {@link StorageNode} zu laden</li>
      * </ul>
      * Der Vorgang dauert eine Sekunde und sperrt die {@link Robot#currentNode}
      *
@@ -149,6 +141,11 @@ public class Robot implements Runnable {
         }
     }
 
+    /**
+     * <i><b>Under Construction</b></i>
+     * @param start Start{@link Node}
+     * @param destination Ziel{@link Node}
+     */
     private void calculateAndSetRoute(Node start, Node destination) {
         List<Node> wayPointNodes = Map.getMap().wayPointNodes;
 
@@ -237,6 +234,8 @@ public class Robot implements Runnable {
      * in einem synchronized Block ausgefuehrt wird
      *
      * @param timeout Zeit in Millisekunden
+     *
+     * @throws RuntimeException wenn der Roboter waehrend er wartet benachrichtigt wird
      */
     private void lock(long timeout) {
         try {
@@ -259,15 +258,15 @@ public class Robot implements Runnable {
      * <ul>
      * <li>Wenn weitere Nodes Nodes vorhanden ist bewegt sich der Roboter eine warehousemanagment.navigation.Node weiter, indem er {@link Robot#move}</li>
      * <li>
-     * Andernfalls wird ueberprueft ob der Roboter an dieser warehousemanagment.navigation.Node umladen kann
+     * Andernfalls wird ueberprueft ob der Roboter an dieser {@link Node} umladen kann
      * <ul>
-     * <li>Ja: Umladen mit {@link Robot#load} und einen den Graphen erneuern {@link Robot#updateGraph}</li>
+     * <li>Ja: Umladen mit {@link Robot#load} und den Graphen erneuern {@link Robot#updateGraph}</li>
      * <li>Nein: RuntimeException werfen</li>
      * </ul>
      * </li>
      * </ul>
      *
-     * @throws RuntimeException
+     * @throws RuntimeException wenn Roboter an einer {@link Node} steht die keine {@link StorageNode} ist und keinen Graphen mehr hat
      */
     private void work() {
         // Is eine weitere warehousemanagment.navigation.Node vorhanden?

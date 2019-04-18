@@ -6,7 +6,7 @@ package warehousemanagment;
 public class Shipment {
 
     /**
-     * Identifier (wird eventuell noch entfernt)
+     * Identifier
      */
     private int id;
 
@@ -30,6 +30,10 @@ public class Shipment {
      */
     private int materialType;
 
+    /**
+     * Wenn dieses Shipment an eine {@link warehousemanagment.navigation.DeliveryNode} gegeben wird, wird dieser Wert auf {@code true}
+     * gesetzt damit erkenntlich ist, dass die Lieferung bereits abgefertigt wird
+     */
     private boolean arrived;
 
     Shipment(int id, int eta, int loadingTime, int amount, int materialType) {

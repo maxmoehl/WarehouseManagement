@@ -4,10 +4,9 @@ import warehousemanagment.DataConnection;
 import warehousemanagment.Shipment;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
-import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class NextDeliveries extends JFrame {
 
@@ -27,12 +26,12 @@ public class NextDeliveries extends JFrame {
 
         for (int i = 0; i < shipments.size(); i++) {
             data[i][0] = DataConnection.getDataConnection().getMaterialType(shipments.get(i).getMaterialType());
-            data[i][1] = shipments.get(i).getAmount() + "Stück" ;
+            data[i][1] = shipments.get(i).getAmount() + "Stück";
             //TODO Speiditionszeile hinzufügen
             data[i][3] = "Um" + shipments.get(i).getEta();
         }
 
-        table = new JTable(data , columnNames);
+        table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
         getContentPane().add(scrollPane);
         pack();
@@ -49,11 +48,11 @@ public class NextDeliveries extends JFrame {
 
     private void refreshData() {
         ArrayList<Shipment> shipments = DataConnection.getDataConnection().getShipments();
-        for (int i = 0; i <shipments.size(); i++) {
-          table.setValueAt( DataConnection.getDataConnection().getMaterialType(shipments.get(i).getMaterialType()), i,0);
-          table.setValueAt(shipments.get(i).getAmount() + "Stück" , i, 0);
-          //TODO Speditionszeile hinzufügen
-          table.setValueAt("Um" + shipments.get(i).getEta(),i, 0 );
+        for (int i = 0; i < shipments.size(); i++) {
+            table.setValueAt(DataConnection.getDataConnection().getMaterialType(shipments.get(i).getMaterialType()), i, 0);
+            table.setValueAt(shipments.get(i).getAmount() + "Stück", i, 0);
+            //TODO Speditionszeile hinzufügen
+            table.setValueAt("Um" + shipments.get(i).getEta(), i, 0);
         }
     }
 

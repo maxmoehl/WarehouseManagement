@@ -7,8 +7,14 @@ import java.util.ArrayList;
  */
 public class DataConnection {
 
+    /**
+     * Speichert alle gueltigen Materialtypen
+     */
     private ArrayList<String> materialTypes;
 
+    /**
+     * Speichert alle {@link Shipment} die im laufe der Zeit anfallen werden
+     */
     private ArrayList<Shipment> shipments;
 
     private DataConnection() {
@@ -34,6 +40,11 @@ public class DataConnection {
         return shipments;
     }
 
+    /**
+     * Gibt das naechste Shipment zurueck, dass nach der akutellen Uhrzeit ankommt
+     *
+     * @return naechstes, faelliges Shipment
+     */
     public Shipment getNextShipment() {
         for (Shipment s : shipments) {
             if (s.getEta() >= Controller.getController().getTime() && !s.isArrived()) return s;
@@ -45,6 +56,9 @@ public class DataConnection {
         return (materialType > 0 && materialType < materialTypes.size());
     }
 
+    /**
+     * Konvertiert einen Integer in einen String, dient zum anzeigen in diversen Frames
+     */
     public String getMaterialType(int materialType) {
         return materialTypes.get(materialType);
     }
