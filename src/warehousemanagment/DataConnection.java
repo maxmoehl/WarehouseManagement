@@ -58,6 +58,9 @@ public class DataConnection {
 
     /**
      * Konvertiert einen Integer in einen String, dient zum anzeigen in diversen Frames
+     *
+     * @param materialType id des Materialtyps
+     * @return String der den Namen des Materialtyps enthaelt
      */
     public String getMaterialType(int materialType) {
         return materialTypes.get(materialType);
