@@ -3,7 +3,8 @@ package warehousemanagment.navigation;
 import warehousemanagment.Map;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Robot implements Runnable {
 
@@ -12,16 +13,24 @@ public class Robot implements Runnable {
      */
     private final int id;
 
-    /** Die Nodes die der Roboter als naechstes abfahren muss (von 0 beginnend) */
+    /**
+     * Die Nodes die der Roboter als naechstes abfahren muss (von 0 beginnend)
+     */
     private ArrayList<Node> graph;
 
-    /** Die {@link DeliveryNode} fuer die der Roboter arbeitet */
+    /**
+     * Die {@link DeliveryNode} fuer die der Roboter arbeitet
+     */
     private DeliveryNode home;
 
-    /** Die aktuelle {@link Node} auf der der Roboter sich befindet */
+    /**
+     * Die aktuelle {@link Node} auf der der Roboter sich befindet
+     */
     private Node currentNode;
 
-    /** Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, groeßer 0 = irgendein Warentyp */
+    /**
+     * Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, groeßer 0 = irgendein Warentyp
+     */
     private int inventoryMaterialType;
     private int inventoryAmount;
 
@@ -31,7 +40,7 @@ public class Robot implements Runnable {
      *
      * @param id    eindeutige id
      * @param start {@link Node} an der der Roboter initalisiert wird
-     * @param home {@link DeliveryNode} an der der Roboter arbeitet
+     * @param home  {@link DeliveryNode} an der der Roboter arbeitet
      */
     public Robot(int id, Node start, DeliveryNode home) {
         this.id = id;
@@ -120,22 +129,25 @@ public class Robot implements Runnable {
      * Ueberprueft ob der Graph erneuert werden soll und erneuert diesen wenn noetig
      */
     private void updateGraph() {
-        /* Ist der Roboter an einer warehousemanagment.navigation.DeliveryNode?
+        /* Ist der Roboter an einer DeliveryNode?
          * Ja  : Hat er Items im Inventar?
-         *       Ja  : Suche eine warehousemanagment.navigation.StorageNode an der abladen kann
-         *       Nein: Suche eine warehousemanagment.navigation.StorageNode an der er die Waren bekommt die die Lieferung braucht
+         *       Ja  : Suche eine StorageNode an der abladen kann
+         *       Nein: Suche eine StorageNode an der er die Waren bekommt die die Lieferung braucht
          * Nein: Fahre zur zugeordneten warehousemanagment.navigation.DeliveryNode
          */
+        System.out.println("updating graph...");
         if (graph.size() == 0) {
+            //TODO ersetzen durch überprüfung was von DeliveryNode benötigt wird
             if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
                 if (inventoryMaterialType != 0) {
                     StorageNode destinationNode = Map.getMap().getStorageNode(inventoryMaterialType);
-                    calculateAndSetRoute(getCurrentNode(), destinationNode);
+                    calculateShortestPath(destinationNode);
                 } else {
-                    //TODO bei warehousemanagment.navigation.DeliveryNode aktuell benötigte Materialen prüfen und zu entsprechender warehousemanagment.navigation.StorageNode fahren
+                    //TODO bei DeliveryNode aktuell benötigte Materialen prüfen und zu entsprechender warehousemanagment.navigation.StorageNode fahren
+                    int desiredMaterialType = ((DeliveryNode) getCurrentNode()).getMaterialType();
                 }
             } else {
-                calculateAndSetRoute(getCurrentNode(), getHomeNode());
+                calculateShortestPath(getHomeNode());
             }
         } else {
             throw new RuntimeException("Graph hat noch Elemente und kann nicht geupdated werden");
@@ -143,91 +155,83 @@ public class Robot implements Runnable {
     }
 
     /**
-     * <i><b>Under Construction</b></i>
-     * @param start Start{@link Node}
-     * @param destination Ziel{@link Node}
+     * Damit der Roboter sich von einer Node zu einer anderen bewegen kann bietet diese Methode
+     * eine Implementierung des Dijkstra-Algorithmuses zur berechnung des kürzesten Weges von
+     * der {@code source Node} zur {@code destination Node}.
+     *
+     * @param destination Die Node zu der der Roboter sich bewegen will
      */
-    private void calculateAndSetRoute(Node start, Node destination) {
-        List<Node> wayPointNodes = Map.getMap().wayPointNodes;
+    private void calculateShortestPath(Node destination) {
+        Node source = getCurrentNode();
 
-        //Wir ermittlen zuerst die WayPointNodes die direkt an der Start und Zielnode liegen
-        Node startWayPointNode = null;
-        Node destinationWayPointNode = null;
-        for (Node n : start.getNeighbourNodes()) {
-            if (n.getClass() == Node.class) {
-                startWayPointNode = n;
-            }
-        }
+        //Zuerst erzeugen wir ein Set mit allen Nodes
+        Set<Node> nodes = new HashSet<>();
+        nodes.addAll(Map.getMap().wayPointNodes);
+        nodes.addAll(Map.getMap().storageNodes);
+        nodes.addAll(Map.getMap().deliveryNodes);
 
-        for (Node n : destination.getNeighbourNodes()) {
-            if (n.getClass() == Node.class) {
-                destinationWayPointNode = n;
-            }
-        }
-        //Wenn eine der Nodes nicht entsprechend angeschlossen ist, wirft er einen Fehler
-        if (destinationWayPointNode == null || startWayPointNode == null)
-            throw new RuntimeException("warehousemanagment.navigation.StorageNode not connected to a waypoint node");
+        //der abstand zum Ziel ist immer null
+        source.distance = 0;
 
+        //jetzt haben wir nodes die fertig sind
+        Set<Node> settledNodes = new HashSet<>();
+        //und nodes die noch gemacht werden müssen
+        Set<Node> unsettledNodes = new HashSet<>();
 
-        ArrayList<Node> result = new ArrayList<>();
-        result.add(startWayPointNode);
-        result.add(destination);
-        //Zuerst prüfen ob die WayPointNodes identisch sind, wenn ja lösung gefunden, return
-        if (destinationWayPointNode.equals(startWayPointNode)) {
-            graph = result;
-            return;
-        }
-        //Oder vielleicht sind die beiden WayPointNodes benachbart, dann fügen wir beide hinzu, return
-        result.add(1, destinationWayPointNode);
-        if (startWayPointNode.isNeighbourNode(destinationWayPointNode)) {
-            graph = result;
-            return;
-        }
-        //andernfalls zurücksetzen
-        result = new ArrayList<>();
+        //als erstes kümmern wir uns um die startnode
+        unsettledNodes.add(source);
 
-        //Jetzt gehen wir von der startWayPointNode aus solange in beide richtungen bis wir auf die startWayPointNode treffen
-        ArrayList<Node> wayPointStartNeighbours = new ArrayList<>();
-        for (Node n : startWayPointNode.getNeighbourNodes()) {
-            if (n.getClass() == Node.class) {
-                wayPointStartNeighbours.add(n);
-            }
-        }
-
-        ArrayList<Node> solutionOne = new ArrayList<>();
-
-        Node next = wayPointStartNeighbours.get(0);
-        solutionOne.add(wayPointStartNeighbours.get(0));
-        while (next == null || !next.isNeighbourNode(destinationWayPointNode)) {
-            ArrayList<Node> nextNeighbourNodes = next.getNeighbourNodes();
-
-            //TODO sicherstellen das das ergebnis nicht ist, dass der Roboter auf ewig zwischen zwei Nodes pendelt
-            ArrayList<Node> nextNeighbourNodesWay = new ArrayList<>();
-            for (int i = 0; i < nextNeighbourNodes.size(); i++) {
-                if (nextNeighbourNodes.get(i).getClass() == Node.class) {
-                    nextNeighbourNodesWay.add(nextNeighbourNodes.get(i));
+        //solange wir Nodes haben die gemacht werden müssen arbeiten wir
+        while (unsettledNodes.size() != 0) {
+            //die aktuelle Node ist die nähste in den unsettled nodes
+            Node currentNode = getLowestDistanceNode(unsettledNodes);
+            //wir bearbeiten sie jetzt also können wir sie entferenen
+            unsettledNodes.remove(currentNode);
+            //jetzt gehen wir alle benachbarten Nodes durch
+            for (Node n : currentNode.getNeighbourNodes()) {
+                //wenn sie nicht schon bearbeitet wurden
+                if (!settledNodes.contains(n)) {
+                    //errechnen wir die minimale distanz
+                    calculateMinimumDistance(n, currentNode);
+                    //und fügen sie den unfertigen hinzu
+                    unsettledNodes.add(n);
                 }
             }
+            //jetzt ist die currentNode abgearbeitet und wir können mit der nächsten fortfahren
+            settledNodes.add(currentNode);
         }
 
-        if (wayPointStartNeighbours.size() > 1) {
-            //TODO zweit option (in die entgegengesetzte richtung) implementieren
-            ArrayList<Node> solutionTwo = new ArrayList<>();
+        this.graph = destination.shortestPath;
+        graph.add(destination);
 
-            next = wayPointStartNeighbours.get(1);
-            solutionTwo.add(wayPointStartNeighbours.get(1));
-            while (next == null || !next.isNeighbourNode(destinationWayPointNode)) {
+        //Alle Werte zurücksetzen
+        for (Node n : nodes) {
+            n.distance = Integer.MAX_VALUE;
+            n.shortestPath = new ArrayList<>();
+        }
+    }
 
+    private Node getLowestDistanceNode(Set<Node> unsettledNodes) {
+        Node lowestDistanceNode = null;
+        int lowestDistance = Integer.MAX_VALUE;
+        for (Node node : unsettledNodes) {
+            int nodeDistance = node.distance;
+            if (nodeDistance < lowestDistance) {
+                lowestDistance = nodeDistance;
+                lowestDistanceNode = node;
             }
         }
+        return lowestDistanceNode;
+    }
 
-
-        result.add(startWayPointNode);
-        result.addAll(solutionOne);
-        result.add(destinationWayPointNode);
-        result.add(destination);
-
-        graph = result;
+    private void calculateMinimumDistance(Node evaluationNode, Node sourceNode) {
+        int sourceDistance = sourceNode.distance;
+        if (sourceDistance + 1 < evaluationNode.distance) {
+            evaluationNode.distance = sourceDistance + 1;
+            ArrayList<Node> shortestPath = new ArrayList<>(sourceNode.shortestPath);
+            shortestPath.add(sourceNode);
+            evaluationNode.shortestPath = shortestPath;
+        }
     }
 
     /**
@@ -235,7 +239,6 @@ public class Robot implements Runnable {
      * in einem synchronized Block ausgefuehrt wird
      *
      * @param timeout Zeit in Millisekunden
-     *
      * @throws RuntimeException wenn der Roboter waehrend er wartet benachrichtigt wird
      */
     private void lock(long timeout) {
@@ -270,21 +273,14 @@ public class Robot implements Runnable {
      * @throws RuntimeException wenn Roboter an einer {@link Node} steht die keine {@link StorageNode} ist und keinen Graphen mehr hat
      */
     private void work() {
-        // Is eine weitere warehousemanagment.navigation.Node vorhanden?
         if (hasNextNode()) {
             move();
-            //TODO remove
-            System.out.println("moved");
         } else {
-            // Prüfen ob es eine warehousemanagment.navigation.StorageNode ist oder ein Objekt das von warehousemanagment.navigation.StorageNode erbt (warehousemanagment.navigation.DeliveryNode)
+            // Prüfen ob es eine StorageNode ist oder ein Objekt das von StorageNode erbt (DeliveryNode)
             if (StorageNode.class.isAssignableFrom(getCurrentNode().getClass())) {
-                // umladen (wie auch immer)
                 load();
-                //TODO remove
-                System.out.println("loaded");
                 updateGraph();
             } else {
-                // Andernfalls gibt es einen Fehler weil eine Endnode eine warehousemanagment.navigation.StorageNode sein muss
                 throw new RuntimeException("Roboter hat keine weiteren Nodes, steht aber an einer warehousemanagment.navigation.Node an der er nicht verladen kann");
             }
         }

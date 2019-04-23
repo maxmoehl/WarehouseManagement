@@ -14,13 +14,14 @@ public class Node extends JComponent {
     private final int id;
 
     /**
-     * x-Koordinate auf der Karte
+     * Speichert während der Pfadberechnung den kürzesten Weg zu dieser Node
      */
-    private int x;
+    ArrayList<Node> shortestPath;
+
     /**
-     * y-Koordinate auf der Karte
+     * Speichert während der Pfadberechnung die Länge des gespeicherten kürzesten Weges
      */
-    private int y;
+    int distance;
 
     /**
      * Enthält alle Nodes mit denen diese warehousemanagment.navigation.Node verbunden ist
@@ -35,26 +36,27 @@ public class Node extends JComponent {
     public Node(int id) {
         this.id = id;
         neighbourNodes = new ArrayList<>();
+        shortestPath = new ArrayList<>();
+        distance = Integer.MAX_VALUE;
     }
 
     /**
      * Erzeugt einen neue warehousemanagment.navigation.Node mit einer Position
      *
-     * @param id eindeutige id
-     * @param x  x Position auf der Karte
-     * @param y  y Position auf der Karte
-     * @param width grafische Breite auf der Karte
+     * @param id     eindeutige id
+     * @param x      x Position auf der Karte
+     * @param y      y Position auf der Karte
+     * @param width  grafische Breite auf der Karte
      * @param height grafische Höhe auf der Karte
      */
-    //müssen width und height haben
-    public Node(int id, int x, int y, int width, int height) {
+    Node(int id, int x, int y, int width, int height) {
         super();
         setSize(width, height);
         setLocation(x, y);
         this.id = id;
-        // this.x = x;
-        //this.y = y;
         neighbourNodes = new ArrayList<>();
+        shortestPath = new ArrayList<>();
+        distance = Integer.MAX_VALUE;
     }
 
     /**
@@ -66,9 +68,10 @@ public class Node extends JComponent {
         neighbourNodes.add(n);
     }
 
-    public ArrayList<Node> getNeighbourNodes() {
+    ArrayList<Node> getNeighbourNodes() {
         return neighbourNodes;
     }
+
     public int getId() {
         return id;
     }
@@ -96,6 +99,6 @@ public class Node extends JComponent {
             neighbours.append(n.getId());
             neighbours.append(", ");
         }
-        return "warehousemanagment.navigation.Node " + getId() + ", connected to: " + neighbours.toString();
+        return this.getClass() + " " + getId() + ", connected to: " + neighbours.toString();
     }
 }
