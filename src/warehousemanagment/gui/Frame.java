@@ -1,18 +1,20 @@
+package warehousemanagment.gui;
+
 import javax.swing.*;
 import java.awt.*;
 
-class Frame extends JFrame {
+public class Frame extends JFrame {
 
     private JMenuBar menuBar;
 
-    Frame(Panel panel) {
+    public Frame(Panel panel) {
         super("Warehouse Management Software");
-        setSize(500, 500);
         setLayout(new BorderLayout());
         add(panel, BorderLayout.CENTER);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         initMenuBar();
         setJMenuBar(menuBar);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
     }
 
