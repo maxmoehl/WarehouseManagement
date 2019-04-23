@@ -26,10 +26,10 @@ public class DataConnection {
         materialTypes.add("Gold");
 
         shipments = new ArrayList<>();
-        shipments.add(new Shipment(0, 100, 180, 10, 1));
-        shipments.add(new Shipment(0, 150, 180, 10, 3));
-        shipments.add(new Shipment(0, 210, 180, 10, 2));
-        shipments.add(new Shipment(0, 250, 180, 10, 4));
+        shipments.add(new Shipment(0, 100, 180, 10, 1, "International Deliveries"));
+        shipments.add(new Shipment(0, 150, 180, 10, 3, "We make you move"));
+        shipments.add(new Shipment(0, 210, 180, 10, 2, "International Deliveries"));
+        shipments.add(new Shipment(0, 250, 180, 10, 4, "We move everything"));
     }
 
     public static DataConnection getDataConnection() {
