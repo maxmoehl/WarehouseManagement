@@ -24,7 +24,7 @@ public class Panel extends JPanel {
 
         JPanel buttonContainer = new JPanel(new GridLayout(3, 1));
         ((GridLayout) buttonContainer.getLayout()).setVgap(10);
-        buttonContainer.add(new MenuButton("warehousemanagment.gui.Capacity"));
+        buttonContainer.add(new MenuButton("Capacity"));
         buttonContainer.add(new MenuButton("Shipments"));
         buttonContainer.add(new MenuButton("Low Space"));
         add(buttonContainer);
