@@ -1,6 +1,7 @@
 package warehousemanagment.navigation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -24,24 +25,16 @@ public class Node extends JComponent {
     int distance;
 
     /**
-     * Enthält alle Nodes mit denen diese warehousemanagment.navigation.Node verbunden ist
+     * Interner Wert der kontrolliert ob Roboter an der Node sind um die Node entsprechend zu zeichnen
+     */
+    protected int robots;
+    /**
+     * Enthält alle Nodes mit denen diese Node verbunden ist
      */
     private ArrayList<Node> neighbourNodes;
 
     /**
-     * erzeugt eine neue Alleinstehende warehousemanagment.navigation.Node
-     *
-     * @param id eindeutige ID
-     */
-    public Node(int id) {
-        this.id = id;
-        neighbourNodes = new ArrayList<>();
-        shortestPath = new ArrayList<>();
-        distance = Integer.MAX_VALUE;
-    }
-
-    /**
-     * Erzeugt einen neue warehousemanagment.navigation.Node mit einer Position
+     * Erzeugt einen neue Node mit einer Position
      *
      * @param id     eindeutige id
      * @param x      x Position auf der Karte
@@ -49,7 +42,7 @@ public class Node extends JComponent {
      * @param width  grafische Breite auf der Karte
      * @param height grafische Höhe auf der Karte
      */
-    Node(int id, int x, int y, int width, int height) {
+    public Node(int id, int x, int y, int width, int height) {
         super();
         setSize(width, height);
         setLocation(x, y);
@@ -57,12 +50,13 @@ public class Node extends JComponent {
         neighbourNodes = new ArrayList<>();
         shortestPath = new ArrayList<>();
         distance = Integer.MAX_VALUE;
+        robots = 0;
     }
 
     /**
-     * Fügt eine warehousemanagment.navigation.Node zu den Nachbarnodes dieser warehousemanagment.navigation.Node hinzu
+     * Fügt eine Node zu den Nachbarnodes dieser Node hinzu
      *
-     * @param n die warehousemanagment.navigation.Node die als Nachbar hinzugefügt werden soll
+     * @param n die Node die als Nachbar hinzugefügt werden soll
      */
     public void addNeighbour(Node n) {
         neighbourNodes.add(n);
@@ -76,13 +70,20 @@ public class Node extends JComponent {
         return id;
     }
 
-    public boolean isNeighbourNode(Node n) {
-        for (Node neighbour : neighbourNodes) {
-            if (neighbour.equals(n)) {
-                return true;
-            }
+    public void register() {
+        robots++;
+    }
+
+    public void unregister() {
+        robots = robots > 0 ? robots - 1 : 0;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        if (robots > 0) {
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
         }
-        return false;
     }
 
     @Override

@@ -81,7 +81,9 @@ public class Robot implements Runnable {
      */
     private void move() {
         lock(1000);
+        currentNode.unregister();
         currentNode = getNextNode();
+        currentNode.register();
         graph.remove(0);
     }
 
@@ -101,8 +103,6 @@ public class Robot implements Runnable {
     private void load() {
         //Lock access to this node and lock it for one second then unload/load items
         StorageNode current = (StorageNode) getCurrentNode();
-
-
         while (!current.accessNode(this)) {
             try {
                 wait();

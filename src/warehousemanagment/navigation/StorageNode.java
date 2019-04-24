@@ -22,15 +22,6 @@ public class StorageNode extends Node implements MouseListener {
 
     private boolean blocked;
 
-    public StorageNode(int id) {
-        super(id);
-        materialType = 0;
-        storageSize = 100;
-        amount = 0;
-        blocked = false;
-        robotQueue = new ArrayList<>();
-    }
-
     public StorageNode(int id, int x, int y, int width, int height) {
         super(id, x, y, width, height);
         materialType = 0;
@@ -57,6 +48,8 @@ public class StorageNode extends Node implements MouseListener {
         if (DataConnection.getDataConnection().isValidMaterialType(materialType)) {
             if (amount == 0) {
                 this.materialType = materialType;
+            } else {
+                throw new RuntimeException("Kann materialType nicht ändern wenn noch Waren im Lager sind");
             }
         } else {
             throw new RuntimeException("Kann Storage Einheit nicht auf ungültigen materialType setzen");
@@ -129,7 +122,7 @@ public class StorageNode extends Node implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getY() > getHeight() / 2) {
-            new StorageNodeConfiguration(this);
+            new StorageNodeConfiguration(this, e.getXOnScreen(), e.getYOnScreen());
         }
     }
 
@@ -165,9 +158,9 @@ public class StorageNode extends Node implements MouseListener {
         g.setFont(new Font("Arial", Font.PLAIN, (int) (0.3 * height)));
         g.drawString(DataConnection.getDataConnection().getMaterialType(getMaterialType()), 2 * gap, height - (int) (2.5 * gap));
 
-        if (blocked) {
+        if (robots > 0) {
             g.setColor(Color.BLACK);
-            g.fillRect((int) (0.45 * width), (int) (0.15 * height), (int) (0.1 * width), (int) (0.2 * height));
+            g.fillRect((int) (0.5 * width) - 10, (int) (0.15 * height), 20, 20);
         }
     }
 }
