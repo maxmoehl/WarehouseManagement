@@ -66,6 +66,10 @@ public class Map extends JComponent {
         dN.setLoading(true);
         dN.loadItems(1, 100);
         dN.setLoading(false);
+
+        for (StorageNode n : storageNodes) {
+            add(n);
+        }
     }
 
     public static Map getMap() {
@@ -92,17 +96,6 @@ public class Map extends JComponent {
         g.setColor(Color.GRAY);
         g.fillRect(40, 80, 680, 880);
 
-    }
-
-    @Override
-    public void paintChildren(Graphics g) {
-        for (StorageNode n : storageNodes) {
-            g.setClip(n.getX(), n.getY(), n.getWidth(), n.getHeight());
-            n.paint(g);
-        }
-        for (DeliveryNode n : deliveryNodes) {
-            n.paint(g);
-        }
     }
 
     private static class MapHolder {

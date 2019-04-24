@@ -119,16 +119,14 @@ public class StorageNode extends Node {
 
     @Override
     public void paintComponent(Graphics g) {
-        int x = (int) g.getClipBounds().getX();
-        int y = (int) g.getClipBounds().getY();
-        int width = (int) g.getClipBounds().getWidth();
-        int height = (int) g.getClipBounds().getHeight();
+        int width = getWidth();
+        int height = getHeight();
 
         g.setColor(Color.BLACK);
-        g.fillRect(x, (int) (y + 0.5 * height), width, (int) (0.5 * height));
+        g.fillRect(0, (int) (0.5 * height), width, (int) (0.5 * height));
 
         if (blocked) {
-            g.fillRect((int) (x + 0.45 * width), (int) (y + 0.15 * height), (int) (0.1 * width), (int) (0.2 * height));
+            g.fillRect((int) (0.45 * width), (int) (0.15 * height), (int) (0.1 * width), (int) (0.2 * height));
         }
     }
 }
