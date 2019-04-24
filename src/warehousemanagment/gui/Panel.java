@@ -1,10 +1,14 @@
 package warehousemanagment.gui;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import warehousemanagment.Map;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,9 +28,29 @@ public class Panel extends JPanel {
 
         JPanel buttonContainer = new JPanel(new GridLayout(3, 1));
         ((GridLayout) buttonContainer.getLayout()).setVgap(10);
-        buttonContainer.add(new MenuButton("Capacity"));
-        buttonContainer.add(new MenuButton("Shipments"));
-        buttonContainer.add(new MenuButton("Low Space"));
+        MenuButton capacity = new MenuButton("Gesamtkapazität");
+        MenuButton nextDeliveries = new MenuButton("Anstehende Lieferungen");
+        MenuButton lowCapacity = new MenuButton("Niedrige Lagerbestände");
+
+        ActionListener bL = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == capacity) {
+                    Capacity frame = new Capacity();
+                    frame.setVisible(true);
+                }
+                else if(e.getSource() == nextDeliveries) {
+                    NextDeliveries frame = new NextDeliveries();
+                    frame.setVisible(true);
+                }
+            }
+        };
+        //TODO Für lowCapacity anpassen
+        capacity.addActionListener(bL);
+        nextDeliveries.addActionListener(bL);
+        buttonContainer.add(capacity);
+        buttonContainer.add(nextDeliveries);
+        buttonContainer.add(lowCapacity);
         add(buttonContainer);
 
         Timer painter = new Timer("Panel repainter", true);
