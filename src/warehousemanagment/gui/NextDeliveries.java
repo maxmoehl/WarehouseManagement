@@ -54,9 +54,9 @@ public class NextDeliveries extends JFrame {
         ArrayList<Shipment> shipments = DataConnection.getDataConnection().getShipments();
         for (int i = 0; i < shipments.size(); i++) {
             table.setValueAt(DataConnection.getDataConnection().getMaterialType(shipments.get(i).getMaterialType()), i, 0);
-            table.setValueAt(shipments.get(i).getAmount() + "Stück", i, 1);
+            table.setValueAt(shipments.get(i).getAmount() + " Stück", i, 1);
             table.setValueAt(shipments.get(i).getSupplier(), i, 2);
-            table.setValueAt("Um" + shipments.get(i).getEta(), i, 3);
+            table.setValueAt("Um " + shipments.get(i).getEta(), i, 3);
         }
     }
 
