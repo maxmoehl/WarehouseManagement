@@ -46,6 +46,23 @@ public class StorageNode extends Node implements MouseListener {
         return materialType;
     }
 
+    /**
+     * Ueberschreibt den {@link StorageNode#materialType}, dieser kann aber nur erfolgreich ueberschrieben
+     * werden wenn das Lager leer ist
+     *
+     * @param materialType der neue {@code materialType}
+     * @throws RuntimeException Wenn ein ungültiger Materialtyp mitgegeben wird
+     */
+    public void setMaterialType(int materialType) {
+        if (DataConnection.getDataConnection().isValidMaterialType(materialType)) {
+            if (amount == 0) {
+                this.materialType = materialType;
+            }
+        } else {
+            throw new RuntimeException("Kann Storage Einheit nicht auf ungültigen materialType setzen");
+        }
+    }
+
     public int getAmount() {
         return amount;
     }
@@ -54,7 +71,7 @@ public class StorageNode extends Node implements MouseListener {
         return storageSize;
     }
 
-    public boolean accessNode(Robot robot) {
+    boolean accessNode(Robot robot) {
         if (blocked) {
             robotQueue.add(robot);
             return false;
@@ -64,31 +81,10 @@ public class StorageNode extends Node implements MouseListener {
         }
     }
 
-    public void leaveNode() {
+    void leaveNode() {
         blocked = false;
         if (robotQueue.size() != 0) {
             robotQueue.get(0).notify();
-        }
-    }
-
-    /**
-     * Ueberschreibt den {@link StorageNode#materialType}, dieser kann aber nur erfolgreich ueberschrieben
-     * werden wenn das Lager leer ist
-     *
-     * @param materialType der neue {@code materialType}
-     * @return ob das aendern des {@code materialType} erfolgreich war
-     * @throws RuntimeException Wenn ein ungültiger Materialtyp mitgegeben wird
-     */
-    public boolean setMaterialType(int materialType) {
-        if (DataConnection.getDataConnection().isValidMaterialType(materialType)) {
-            if (amount == 0) {
-                this.materialType = materialType;
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            throw new RuntimeException("Kann Storage Einheit nicht auf ungültigen materialType setzen");
         }
     }
 
