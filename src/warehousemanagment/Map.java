@@ -36,11 +36,11 @@ public class Map extends JComponent {
         deliveryNodes.add(new DeliveryNode(1, 650, 605, 150, 150));
         deliveryNodes.add(new DeliveryNode(2, 650, 765, 150, 150));
 
-        wayPointNodes.add(new Node(0));
-        wayPointNodes.add(new Node(1));
-        wayPointNodes.add(new Node(2));
-        wayPointNodes.add(new Node(3));
-        wayPointNodes.add(new Node(4));
+        wayPointNodes.add(new Node(0, 450, 140, 20, 20));
+        wayPointNodes.add(new Node(1, 450, 300, 20, 20));
+        wayPointNodes.add(new Node(2, 450, 460, 20, 20));
+        wayPointNodes.add(new Node(3, 450, 620, 20, 20));
+        wayPointNodes.add(new Node(4, 450, 780, 20, 20));
 
         connectNodes(wayPointNodes.get(0), storageNodes.get(0));
         connectNodes(wayPointNodes.get(0), wayPointNodes.get(1));
@@ -72,6 +72,10 @@ public class Map extends JComponent {
         }
 
         for (DeliveryNode n : deliveryNodes) {
+            add(n);
+        }
+
+        for (Node n : wayPointNodes) {
             add(n);
         }
     }

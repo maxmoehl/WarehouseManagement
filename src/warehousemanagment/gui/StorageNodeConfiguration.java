@@ -4,11 +4,14 @@ import warehousemanagment.DataConnection;
 import warehousemanagment.navigation.StorageNode;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class StorageNodeConfiguration extends JPanel implements ActionListener {
+public class StorageNodeConfiguration extends JPanel implements ActionListener, WindowListener {
 
     private StorageNode storageNode;
 
@@ -16,8 +19,13 @@ public class StorageNodeConfiguration extends JPanel implements ActionListener {
 
     private JFrame frame;
 
-    public StorageNodeConfiguration(StorageNode storageNode) {
+    public StorageNodeConfiguration(StorageNode storageNode, int x, int y) {
         super(new GridLayout(5, 2));
+
+        ((GridLayout) getLayout()).setVgap(10);
+        ((GridLayout) getLayout()).setHgap(10);
+
+        setBorder(new EmptyBorder(5, 5, 5, 5));
 
         this.storageNode = storageNode;
 
@@ -52,16 +60,24 @@ public class StorageNodeConfiguration extends JPanel implements ActionListener {
         submit.addActionListener(this);
         add(submit);
 
-        frame = new JFrame("Konfiguration für StorageNode " + storageNode.getId());
+        frame = new JFrame("Konfiguration");
         frame.add(this);
-        frame.setSize(new Dimension(200, 150));
+        frame.setResizable(false);
+        frame.setLocation(x, y);
+        frame.setSize(new Dimension(250, 200));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.addWindowListener(this);
         frame.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (storageNode.getMaterialType() == jCBMaterial.getSelectedIndex()) {
+            frame.dispose();
+            return;
+        }
+
+        if (storageNode.getAmount() != 0) {
             JOptionPane.showMessageDialog(this, "Kann Materialtyp nur ändern wenn keine Materialien im Lager sind");
         } else {
             if (jCBMaterial.getSelectedIndex() == 0) {
@@ -71,5 +87,40 @@ public class StorageNodeConfiguration extends JPanel implements ActionListener {
             }
             frame.dispose();
         }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        frame.dispose();
     }
 }
