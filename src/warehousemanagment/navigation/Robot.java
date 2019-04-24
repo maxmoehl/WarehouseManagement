@@ -135,7 +135,6 @@ public class Robot implements Runnable {
          *       Nein: Suche eine StorageNode an der er die Waren bekommt die die Lieferung braucht
          * Nein: Fahre zur zugeordneten warehousemanagment.navigation.DeliveryNode
          */
-        System.out.println("updating graph...");
         if (graph.size() == 0) {
             //TODO ersetzen durch überprüfung was von DeliveryNode benötigt wird
             if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
