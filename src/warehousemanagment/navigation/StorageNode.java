@@ -1,15 +1,18 @@
 package warehousemanagment.navigation;
 
 import warehousemanagment.DataConnection;
+import warehousemanagment.gui.StorageNodeConfiguration;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 /**
  * Erweitert die {@link Node} um die Moeglichkeit Waren zu lagern. Roboter können an diesen Nodes Waren
  * abholen oder abgeben
  */
-public class StorageNode extends Node {
+public class StorageNode extends Node implements MouseListener {
 
     private int materialType;
     private int amount;
@@ -35,6 +38,8 @@ public class StorageNode extends Node {
         amount = 0;
         blocked = false;
         robotQueue = new ArrayList<>();
+
+        addMouseListener(this);
     }
 
     public int getMaterialType() {
@@ -87,6 +92,14 @@ public class StorageNode extends Node {
         }
     }
 
+    public void resetMaterialType() {
+        if (getAmount() == 0) {
+            this.materialType = 0;
+        } else {
+            throw new RuntimeException("Kann Materialtype von StorageNode nicht zurücksetzen wenn Waren im Lager sind");
+        }
+    }
+
     /**
      * Kontrolliert ob die Lagereinheit den richtigen Materialtyp hat, und lädt dann die angegebene Menge ein
      *
@@ -115,6 +128,29 @@ public class StorageNode extends Node {
         } else {
             throw new RuntimeException("Lager hat nicht genug Material");
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getY() > getHeight() / 2) {
+            new StorageNodeConfiguration(this);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
     @Override

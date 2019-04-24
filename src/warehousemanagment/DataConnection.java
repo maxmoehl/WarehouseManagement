@@ -66,6 +66,14 @@ public class DataConnection {
         return materialTypes.get(materialType);
     }
 
+    public String[] getMaterialTypes() {
+        String[] arr = new String[materialTypes.size()];
+        for (int i = 0; i < materialTypes.size(); i++) {
+            arr[i] = materialTypes.get(i);
+        }
+        return arr;
+    }
+
     private static class DataConnectionHolder {
         private static DataConnection INSTANCE = new DataConnection();
     }
