@@ -10,8 +10,6 @@ import java.util.TimerTask;
 
 public class Panel extends JPanel {
 
-    private Timer painter;
-
     public Panel() {
         super(new GridLayout(1, 2));
 
@@ -31,7 +29,7 @@ public class Panel extends JPanel {
         buttonContainer.add(new MenuButton("Low Space"));
         add(buttonContainer);
 
-        painter = new Timer("Panel repainter", true);
+        Timer painter = new Timer("Panel repainter", true);
         painter.schedule(new TimerTask() {
             @Override
             public void run() {
