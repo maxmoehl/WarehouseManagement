@@ -41,7 +41,7 @@ public class NextDeliveries extends JFrame {
         pack();
         setVisible(true);
 
-        update = new Timer(true);
+        update = new Timer("NextDeliveries Updater", true);
         update.schedule(new TimerTask() {
             @Override
             public void run() {

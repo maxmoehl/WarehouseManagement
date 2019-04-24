@@ -31,7 +31,7 @@ public class Panel extends JPanel {
         buttonContainer.add(new MenuButton("Low Space"));
         add(buttonContainer);
 
-        painter = new Timer(true);
+        painter = new Timer("Panel repainter", true);
         painter.schedule(new TimerTask() {
             @Override
             public void run() {

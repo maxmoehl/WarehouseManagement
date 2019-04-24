@@ -49,7 +49,7 @@ public class Robot implements Runnable {
         currentNode = start;
         inventoryMaterialType = 0;
         inventoryAmount = 0;
-        Thread thread = new Thread(this);
+        Thread thread = new Thread(this, "Roboter" + id);
         thread.start();
     }
 

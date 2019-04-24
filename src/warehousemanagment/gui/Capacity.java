@@ -38,7 +38,7 @@ public class Capacity extends JFrame {
         pack();
         setVisible(true);
 
-        updater = new Timer(true);
+        updater = new Timer("Capacity Updater", true);
         updater.schedule(new TimerTask() {
             @Override
             public void run() {

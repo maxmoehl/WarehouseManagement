@@ -36,7 +36,7 @@ class Controller {
 
     private void initClock() {
         time = 0;
-        Timer clock = new Timer(true);
+        Timer clock = new Timer("Clock", true);
         clock.schedule(new TimerTask() {
             @Override
             public void run() {
