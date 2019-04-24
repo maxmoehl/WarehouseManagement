@@ -1,6 +1,7 @@
 package warehousemanagment.navigation;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Erweitert die {@link StorageNode} um die Moeglichkeit Spezifikationen aus einem {@link warehousemanagment.Shipment} zu laden
@@ -13,8 +14,12 @@ public class DeliveryNode extends StorageNode {
      */
     private boolean loading;
 
+    private ArrayList<Robot> robots;
+
     public DeliveryNode(int id, int x, int y, int width, int height) {
         super(id, x, y, width, height);
+
+        robots = new ArrayList<>();
 
         //TODO remove
         loading = true;
@@ -24,12 +29,12 @@ public class DeliveryNode extends StorageNode {
         return loading;
     }
 
-    public boolean isUnloading() {
-        return !loading;
-    }
-
     public void setLoading(boolean loading) {
         this.loading = loading;
+    }
+
+    public boolean isUnloading() {
+        return !loading;
     }
 
     /**
@@ -40,7 +45,6 @@ public class DeliveryNode extends StorageNode {
      *
      * @param materialType {@inheritDoc}
      * @param amount       {@inheritDoc}
-     *
      * @throws RuntimeException wenn {@link DeliveryNode#isLoading()} }{@code == false}
      */
     @Override
@@ -62,7 +66,6 @@ public class DeliveryNode extends StorageNode {
      * {@inheritDoc}
      *
      * @param amount {@inheritDoc}
-     *
      * @throws RuntimeException wenn {@link DeliveryNode#isUnloading()} {@code == false}
      */
     @Override
@@ -91,6 +94,32 @@ public class DeliveryNode extends StorageNode {
 
     @Override
     public void paintComponent(Graphics g) {
-        //TODO implementieren
+        int width = getWidth();
+        int height = getHeight();
+
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, (int) (0.2 * height));
+        g.fillRect(0, (int) (0.8 * height), width, (int) (0.2 * height));
+
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect((int) (0.1 * width), (int) (0.2 * height) - 1, (int) (0.8 * width), (int) (0.6 * height) + 1);
+
+        g.setColor(Color.BLACK);
+        g.drawRect((int) (0.1 * width), (int) (0.2 * height) - 1, (int) (0.8 * width), (int) (0.6 * height) + 1);
+
+        g.setColor(Color.WHITE);
+        g.fillRect((int) (0.2 * width), (int) (0.4 * height), (int) (0.2 * width), (int) (0.2 * height));
+        g.fillRect((int) (0.6 * width), (int) (0.4 * height), (int) (0.2 * width), (int) (0.2 * height));
+
+        g.setColor(Color.BLACK);
+        g.drawRect((int) (0.2 * width), (int) (0.4 * height), (int) (0.2 * width), (int) (0.2 * height));
+        g.drawRect((int) (0.6 * width), (int) (0.4 * height), (int) (0.2 * width), (int) (0.2 * height));
+
+        g.setFont(new Font("Arial", Font.PLAIN, (int) (0.15 * Math.min(width, height))));
+
+        g.drawString("-", (int) (0.29 * width), (int) (0.55 * height));
+        g.drawString("+", (int) (0.66 * width), (int) (0.56 * height));
+
+        g.drawString(Integer.toString(robots.size()), (int) (0.46 * width), (int) (0.56 * height));
     }
 }

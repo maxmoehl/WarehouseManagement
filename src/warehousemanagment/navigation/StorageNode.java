@@ -122,10 +122,19 @@ public class StorageNode extends Node {
         int width = getWidth();
         int height = getHeight();
 
+        int gap = (int) (0.05 * height);
+
         g.setColor(Color.BLACK);
         g.fillRect(0, (int) (0.5 * height), width, (int) (0.5 * height));
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(gap, (int) (0.5 * height) + gap, width - 2 * gap, (int) (0.5 * height) - 2 * gap);
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.PLAIN, (int) (0.3 * height)));
+        g.drawString(DataConnection.getDataConnection().getMaterialType(getMaterialType()), 2 * gap, height - (int) (2.5 * gap));
 
         if (blocked) {
+            g.setColor(Color.BLACK);
             g.fillRect((int) (0.45 * width), (int) (0.15 * height), (int) (0.1 * width), (int) (0.2 * height));
         }
     }

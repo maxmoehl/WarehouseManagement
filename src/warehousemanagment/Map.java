@@ -32,9 +32,9 @@ public class Map extends JComponent {
         storageNodes.add(new StorageNode(3, 80, 600, 320, 160));
         storageNodes.add(new StorageNode(4, 80, 760, 320, 160));
 
-        deliveryNodes.add(new DeliveryNode(0, 800, 100, 75, 150));
-        deliveryNodes.add(new DeliveryNode(1, 800, 400, 75, 150));
-        deliveryNodes.add(new DeliveryNode(2, 800, 700, 75, 150));
+        deliveryNodes.add(new DeliveryNode(0, 650, 445, 150, 150));
+        deliveryNodes.add(new DeliveryNode(1, 650, 605, 150, 150));
+        deliveryNodes.add(new DeliveryNode(2, 650, 765, 150, 150));
 
         wayPointNodes.add(new Node(0));
         wayPointNodes.add(new Node(1));
@@ -70,6 +70,10 @@ public class Map extends JComponent {
         for (StorageNode n : storageNodes) {
             add(n);
         }
+
+        for (DeliveryNode n : deliveryNodes) {
+            add(n);
+        }
     }
 
     public static Map getMap() {
@@ -92,7 +96,8 @@ public class Map extends JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
+        g.fillRect(35, 75, 690, 890);
         g.setColor(Color.GRAY);
         g.fillRect(40, 80, 680, 880);
 
