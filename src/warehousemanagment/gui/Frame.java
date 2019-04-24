@@ -9,6 +9,7 @@ public class Frame extends JFrame {
 
     public Frame(Panel panel) {
         super("Warehouse Management Software");
+        setSize(500,300);
         setLayout(new BorderLayout());
         add(panel, BorderLayout.CENTER);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
