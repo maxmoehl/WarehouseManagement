@@ -1,39 +1,52 @@
 package warehousemanagment.navigation;
 
+import warehousemanagment.DataConnection;
 import warehousemanagment.Map;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Ein Roboter ist eine eigenständige Einheit, die Waren zwischen den {@link Node}s transportiert.
+ */
 public class Robot implements Runnable {
 
     /**
-     * Die Nodes die der Roboter als naechstes abfahren muss (von 0 beginnend)
+     * Die {@link Node}s die der Roboter als nächstes abfahren muss (von 0 beginnend)
      */
     private ArrayList<Node> graph;
 
     /**
-     * Die {@link DeliveryNode} fuer die der Roboter arbeitet
+     * Die {@link DeliveryNode} für die der Roboter arbeitet
      */
     private DeliveryNode home;
 
     /**
-     * Die aktuelle {@link Node} auf der der Roboter sich befindet
+     * Die {@link Node} auf der der Roboter sich aktuell befindet
      */
     private Node currentNode;
 
     /**
-     * Speichert was der Roboter aktuell in seinem Inventar hat, 0 = nichts, groeßer 0 = irgendein Warentyp
+     * Speichert was der Roboter aktuell in seinem Inventar hat: 0 = nichts, größer 0 = irgendein Warentyp
+     *
+     * @see DataConnection#getMaterialTypes
      */
     private int inventoryMaterialType;
+
+    /**
+     * Speichert die Menge an Materialien die der Roboter im Inventar hat
+     */
     private int inventoryAmount;
 
+    /**
+     * Kontroll-Flag um den Roboter als abzuschalten zu markieren
+     */
     private boolean terminated;
 
     /**
-     * Initialisiert einen neuen Roboter an der gegebenen warehousemanagment.navigation.Node. Jeder Roboter hat einen eigenen Thread und arbeitet deswegen voellig
-     * unabhaegig. Die Threads sind {@code isDaemmon() = true} und werden terminiert wenn der main-Thread terminiert wird.
+     * Initialisiert einen neuen Roboter an der gegebenen {@link DeliveryNode}. Jeder Roboter hat einen eigenen Thread und arbeitet deswegen völlig
+     * unabhängig. Die Threads sind {@code isDaemon() = true} und werden terminiert wenn der main-Thread terminiert wird.
      *
      * @param start {@link Node} an der der Roboter initalisiert wird
      * @param home  {@link DeliveryNode} an der der Roboter arbeitet
@@ -50,14 +63,19 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Zum ueberpruefen ob der Roboter noch Nodes hat die er abarbeiten muss
+     * Zum überpruefen ob der Roboter noch {@link Node}s hat die er abarbeiten muss
      *
-     * @return sind im graph mehr als 0 Nodes?
+     * @return ob der Roboter noch {@link Node}s hat die er abarbeiten muss
      */
     private boolean hasNextNode() {
         return graph.size() != 0;
     }
 
+    /**
+     * Gibt die {@link DeliveryNode} zurück für die der Roboter arbeitet
+     *
+     * @return die {@link DeliveryNode} für die der Roboter arbeitet
+     */
     private DeliveryNode getHomeNode() {
         return home;
     }
@@ -71,7 +89,7 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Bewegt den Roboter zur naechste {@link Node} die auf dem Graph gegeben ist, der Vorgang sperrt den Roboter für eine Sekunde
+     * Bewegt den Roboter zur nächsten {@link Node} die auf dem Graph gegeben ist, der Vorgang sperrt den Roboter für eine Sekunde.
      *
      * @see Robot#lock
      */
@@ -84,10 +102,10 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Greift auf die {@link Robot#currentNode} zu und laedt ein oder aus beziehungsweise wartet wenn die Node aktuell belegt ist,
-     * muss auf einer {@link StorageNode} ausgefuehrt werden
+     * Greift auf die {@link Robot#currentNode} zu und lädt ein oder aus beziehungsweise wartet wenn die Node aktuell belegt ist.<br>
+     * Muss auf einer {@link StorageNode} ausgefuehrt werden
      * <ul>
-     * <li>Wenn der Roboter Ladung in seinem Inventar hat versucht seine Waren in die {@link StorageNode} abzuladen</li>
+     * <li>Wenn der Roboter Ladung in seinem Inventar hat, versucht er seine Waren in die {@link StorageNode} abzuladen</li>
      * <li>Wenn der Roboter keine Ladung hat versucht er Waren aus der {@link StorageNode} zu laden</li>
      * </ul>
      * Der Vorgang dauert eine Sekunde und sperrt die {@link Robot#currentNode}
@@ -97,7 +115,7 @@ public class Robot implements Runnable {
      * @see StorageNode#unloadItems
      */
     private void load() {
-        //Lock access to this node and lock it for one second then unload/load items
+        //Versuchen auf die Node zuzugreifen und wenn sie belegt ist, warten bis man benachrichtigt wird
         StorageNode current = (StorageNode) getCurrentNode();
         while (!current.accessNode(this)) {
             try {
@@ -108,7 +126,7 @@ public class Robot implements Runnable {
         }
 
         lock(1000);
-        // wenn die node delivery oder storage ist muss geprüft werden ob im inventar waren sind
+
         if (inventoryMaterialType == 0) {
             inventoryMaterialType = current.getMaterialType();
             current.unloadItems(1);
@@ -122,7 +140,7 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Ueberprueft ob der Graph erneuert werden soll und erneuert diesen wenn noetig.
+     * Überprueft ob der Graph erneuert werden soll und erneuert diesen wenn nötig.
      */
     private void updateGraph() {
         if (graph.size() == 0) {
@@ -139,18 +157,18 @@ public class Robot implements Runnable {
                 calculateShortestPath(getHomeNode());
             }
         } else {
-            throw new RuntimeException("Graph hat noch Elemente und kann nicht geupdated werden");
+            throw new RuntimeException("Graph hat noch Elemente und kann nicht aktualisiert werden");
         }
     }
 
     /**
      * Damit der Roboter sich von einer Node zu einer anderen bewegen kann bietet diese Methode
-     * eine Implementierung des Dijkstra-Algorithmuses zur berechnung des kürzesten Weges von
-     * der {@code source Node} zur {@code destination Node}.
+     * eine Implementierung des Dijkstra-Algorithmuses zur Berechnung des kürzesten Weges von
+     * der {@link Robot#currentNode} zur {@code destination} Node.
      *
      * @param destination Die Node zu der der Roboter sich bewegen will
-     * @see Robot#getLowestDistanceNode(Set)
-     * @see Robot#calculateMinimumDistance(Node, Node)
+     * @see Robot#getLowestDistanceNode
+     * @see Robot#calculateMinimumDistance
      */
     private void calculateShortestPath(Node destination) {
         Node source = getCurrentNode();
@@ -227,7 +245,7 @@ public class Robot implements Runnable {
 
     /**
      * Pausiert den Thread für eine gewisse Zeit, definiert in {@code timeout} und sperrt Ressourcen falls die Methode
-     * in einem synchronized Block ausgefuehrt wird
+     * in einem synchronized Block ausgeführt wird
      *
      * @param timeout Zeit in Millisekunden
      * @throws RuntimeException wenn der Roboter waehrend er wartet benachrichtigt wird
@@ -250,19 +268,21 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Fuehrt einen kompletten Arbeitsdurchlauf aus
+     * Führt einen kompletten Arbeitsdurchlauf aus
      * <ul>
-     * <li>Wenn weitere Nodes Nodes vorhanden ist bewegt sich der Roboter eine warehousemanagment.navigation.Node weiter, indem er {@link Robot#move}</li>
-     * <li>
-     * Andernfalls wird ueberprueft ob der Roboter an dieser {@link Node} umladen kann
+     * <li>Wenn mindestens eine weitere {@link Node} vorhanden ist bewegt sich der Roboter eine {@link Node} weiter</li>
+     * <li>Andernfalls wird überprüft ob der Roboter an dieser {@link Node} umladen kann
      * <ul>
-     * <li>Ja: Umladen mit {@link Robot#load} und den Graphen erneuern {@link Robot#updateGraph}</li>
+     * <li>Ja: Umladen und den Graphen erneuern</li>
      * <li>Nein: RuntimeException werfen</li>
      * </ul>
      * </li>
      * </ul>
      *
-     * @throws RuntimeException wenn Roboter an einer {@link Node} steht die keine {@link StorageNode} ist und keinen Graphen mehr hat
+     * @throws RuntimeException wenn der Roboter an einer {@link Node} steht die keine {@link StorageNode} ist und keinen Graphen mehr hat
+     * @see Robot#move
+     * @see Robot#load
+     * @see Robot#updateGraph
      */
     private void work() {
         if (hasNextNode()) {
@@ -281,13 +301,13 @@ public class Robot implements Runnable {
                 load();
                 updateGraph();
             } else {
-                throw new RuntimeException("Roboter hat keine weiteren Nodes, steht aber an einer warehousemanagment.navigation.Node an der er nicht verladen kann");
+                throw new RuntimeException("Roboter hat keine weiteren Nodes, steht aber an einer Node an der er nicht verladen kann");
             }
         }
     }
 
     /**
-     * Wenn ein Roboter aus dem System entfernt wird, muss diese Methode aufgerufen werden. Sie setzt ein Flag und das naechste mal wenn der Roboter
+     * Wenn ein Roboter aus dem System entfernt wird, muss diese Methode aufgerufen werden. Sie setzt ein Flag und das nächste mal wenn der Roboter
      * ein leeres Inventar hat, entfernt er sich selbst aus dem Programm.
      */
     void shutdown() {

@@ -22,11 +22,15 @@ public class DeliveryNode extends StorageNode {
 
         robots = new ArrayList<>();
 
-        //TODO remove
-        loading = true;
+        requestNextShipment();
     }
 
-    public boolean isLoading() {
+    /**
+     * Gibt zurück ob diese DeliveryNode gerade Waren einlaedt.
+     *
+     * @return ein booleanscher wert der angibt ob die DeliveryNode Waren einlaedt
+     */
+    boolean isLoading() {
         return loading;
     }
 
@@ -34,7 +38,12 @@ public class DeliveryNode extends StorageNode {
         this.loading = loading;
     }
 
-    public boolean isUnloading() {
+    /**
+     * Gibt zurück ob diese DeliveryNode gerade Waren auslaedt.
+     *
+     * @return ein booleanscher wert der angibt ob die DeliveryNode Waren auslaedt
+     */
+    boolean isUnloading() {
         return !loading;
     }
 
@@ -79,7 +88,7 @@ public class DeliveryNode extends StorageNode {
     }
 
     /**
-     * Wenn ein {@link warehousemanagment.Shipment} abgefertigt wurde laedt diese Methode das naechste beziehungsweise
+     * Wenn ein {@link warehousemanagment.Shipment} abgefertigt wurde laedt diese Methode das naechste {@link warehousemanagment.Shipment} beziehungsweise
      * reiht sich in eine Warteschlange ein
      */
     private void requestNextShipment() {
@@ -87,7 +96,7 @@ public class DeliveryNode extends StorageNode {
     }
 
     /**
-     * Aendert den Modus von abladen in einladen damit zugeordnete Roboter wissen, dass sie zukuenftig Items anliefern muessen
+     * Aendert den Modus von abladen in einladen, damit zugeordnete {@link Robot}er wissen, dass sie zukuenftig Waren anliefern muessen
      */
     private void requestItems() {
         //TODO implementieren

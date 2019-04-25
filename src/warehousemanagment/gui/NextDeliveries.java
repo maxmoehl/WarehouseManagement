@@ -9,16 +9,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Dieses Frame zeigt alle anstehende Lieferungen {@link warehousemanagment.Shipment} an und wird, solange es offen ist, sekuendlich aktualisiert
+ * Dieses Frame zeigt alle anstehende {@link warehousemanagment.Shipment}s an und wird, solange es offen ist, sekuendlich aktualisiert
  */
-
 public class NextDeliveries extends JFrame {
 
     private JTable table;
 
     private Timer update;
 
-    public NextDeliveries() {
+    NextDeliveries() {
         super("Anstehende Lieferungen");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         String[] columnNames = {"Lieferungstyp", "Anzahl Artikel", "Spedition", "Uhrzeit"};

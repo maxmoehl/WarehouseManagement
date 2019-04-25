@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Dieses Frame zeigt den aktuellen Lagerstand aller {@link warehousemanagment.navigation.StorageNode} an und wird, solange es offen ist, sekuendlich aktualisiert
+ * Dieses Frame zeigt den aktuellen Lagerstand aller {@link warehousemanagment.navigation.StorageNode}s an und wird, solange es offen ist, sekündlich aktualisiert.
  */
 public class Capacity extends JFrame {
 
@@ -18,7 +18,7 @@ public class Capacity extends JFrame {
 
     private Timer updater;
 
-    public Capacity() {
+    Capacity() {
         super("Gesamtkapazität");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         String[] columnNames = {"Regalnummer", "Materialtyp", "Auslastung",};
