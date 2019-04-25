@@ -106,7 +106,7 @@ public class DeliveryNode extends StorageNode {
                 robots.get(robots.size() - 1).shutdown();
                 robots.remove(robots.size() - 1);
             } else if (0.6 * width < x && x < 0.8 * width) {
-                robots.add(new Robot(robots.size(), this, this));
+                robots.add(new Robot(this, this));
             }
         }
     }

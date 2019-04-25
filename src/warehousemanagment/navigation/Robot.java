@@ -9,11 +9,6 @@ import java.util.Set;
 public class Robot implements Runnable {
 
     /**
-     * Eindeutige id zum vergleichen mit anderen Robotern
-     */
-    private final int id;
-
-    /**
      * Die Nodes die der Roboter als naechstes abfahren muss (von 0 beginnend)
      */
     private ArrayList<Node> graph;
@@ -40,19 +35,17 @@ public class Robot implements Runnable {
      * Initialisiert einen neuen Roboter an der gegebenen warehousemanagment.navigation.Node. Jeder Roboter hat einen eigenen Thread und arbeitet deswegen voellig
      * unabhaegig. Die Threads sind {@code isDaemmon() = true} und werden terminiert wenn der main-Thread terminiert wird.
      *
-     * @param id    eindeutige id
      * @param start {@link Node} an der der Roboter initalisiert wird
      * @param home  {@link DeliveryNode} an der der Roboter arbeitet
      */
-    public Robot(int id, Node start, DeliveryNode home) {
-        this.id = id;
+    Robot(Node start, DeliveryNode home) {
         graph = new ArrayList<>();
         this.home = home;
         currentNode = start;
         inventoryMaterialType = 0;
         inventoryAmount = 0;
         terminated = false;
-        Thread thread = new Thread(this, "Roboter" + id);
+        Thread thread = new Thread(this, "Roboter");
         thread.start();
     }
 
@@ -129,15 +122,9 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Ueberprueft ob der Graph erneuert werden soll und erneuert diesen wenn noetig
+     * Ueberprueft ob der Graph erneuert werden soll und erneuert diesen wenn noetig.
      */
     private void updateGraph() {
-        /* Ist der Roboter an einer DeliveryNode?
-         * Ja  : Hat er Items im Inventar?
-         *       Ja  : Suche eine StorageNode an der abladen kann
-         *       Nein: Suche eine StorageNode an der er die Waren bekommt die die Lieferung braucht
-         * Nein: Fahre zur zugeordneten warehousemanagment.navigation.DeliveryNode
-         */
         if (graph.size() == 0) {
             //TODO ersetzen durch überprüfung was von DeliveryNode benötigt wird
             if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
@@ -162,6 +149,8 @@ public class Robot implements Runnable {
      * der {@code source Node} zur {@code destination Node}.
      *
      * @param destination Die Node zu der der Roboter sich bewegen will
+     * @see Robot#getLowestDistanceNode(Set)
+     * @see Robot#calculateMinimumDistance(Node, Node)
      */
     private void calculateShortestPath(Node destination) {
         Node source = getCurrentNode();
@@ -297,6 +286,10 @@ public class Robot implements Runnable {
         }
     }
 
+    /**
+     * Wenn ein Roboter aus dem System entfernt wird, muss diese Methode aufgerufen werden. Sie setzt ein Flag und das naechste mal wenn der Roboter
+     * ein leeres Inventar hat, entfernt er sich selbst aus dem Programm.
+     */
     void shutdown() {
         terminated = true;
     }

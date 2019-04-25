@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Dieses Frame zeigt alle anstehende Lieferungen {@Link warehousemanagment.Shipment} an und wird, solange es offen ist, sekuendlich aktualisiert
+ * Dieses Frame zeigt alle anstehende Lieferungen {@link warehousemanagment.Shipment} an und wird, solange es offen ist, sekuendlich aktualisiert
  */
 
 public class NextDeliveries extends JFrame {
