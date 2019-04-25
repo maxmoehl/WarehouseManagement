@@ -41,11 +41,16 @@ public class Panel extends JPanel {
                     NextDeliveries frame = new NextDeliveries();
                     frame.setVisible(true);
                 }
+                else if(e.getSource() == lowCapacity) {
+                    LowCapacity frame = new LowCapacity();
+                    frame.setVisible(true);
+                }
             }
         };
-        //TODO Für lowCapacity anpassen
+
         capacity.addActionListener(bL);
         nextDeliveries.addActionListener(bL);
+        lowCapacity.addActionListener(bL);
         buttonContainer.add(capacity);
         buttonContainer.add(nextDeliveries);
         buttonContainer.add(lowCapacity);
