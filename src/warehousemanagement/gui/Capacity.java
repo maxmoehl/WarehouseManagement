@@ -1,8 +1,8 @@
-package warehousemanagment.gui;
+package warehousemanagement.gui;
 
-import warehousemanagment.DataConnection;
-import warehousemanagment.Map;
-import warehousemanagment.navigation.StorageNode;
+import warehousemanagement.DataConnection;
+import warehousemanagement.Map;
+import warehousemanagement.navigation.StorageNode;
 
 import javax.swing.*;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Dieses Frame zeigt den aktuellen Lagerstand aller {@link warehousemanagment.navigation.StorageNode}s an und wird, solange es offen ist, sekündlich aktualisiert.
+ * Dieses Frame zeigt den aktuellen Lagerstand aller {@link warehousemanagement.navigation.StorageNode}s an und wird, solange es offen ist, sekündlich aktualisiert.
  */
 public class Capacity extends JFrame {
 

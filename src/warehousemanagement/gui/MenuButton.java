@@ -1,4 +1,4 @@
-package warehousemanagment.gui;
+package warehousemanagement.gui;
 
 import javax.swing.*;
 import java.awt.*;

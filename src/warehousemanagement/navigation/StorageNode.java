@@ -1,7 +1,7 @@
-package warehousemanagment.navigation;
+package warehousemanagement.navigation;
 
-import warehousemanagment.DataConnection;
-import warehousemanagment.gui.StorageNodeConfiguration;
+import warehousemanagement.DataConnection;
+import warehousemanagement.gui.StorageNodeConfiguration;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -18,7 +18,7 @@ public class StorageNode extends Node implements MouseListener {
     private int amount;
     private int storageSize;
 
-    private ArrayList<warehousemanagment.navigation.Robot> robotQueue;
+    private ArrayList<warehousemanagement.navigation.Robot> robotQueue;
 
     private boolean blocked;
 

@@ -1,11 +1,11 @@
-package warehousemanagment.navigation;
+package warehousemanagement.navigation;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * Erweitert die {@link StorageNode} um die Moeglichkeit Spezifikationen aus einem {@link warehousemanagment.Shipment} zu laden
+ * Erweitert die {@link StorageNode} um die Moeglichkeit Spezifikationen aus einem {@link warehousemanagement.Shipment} zu laden
  * und diese an das System aktiv abzugeben/anzufragen.
  */
 public class DeliveryNode extends StorageNode {
@@ -88,7 +88,7 @@ public class DeliveryNode extends StorageNode {
     }
 
     /**
-     * Wenn ein {@link warehousemanagment.Shipment} abgefertigt wurde laedt diese Methode das naechste {@link warehousemanagment.Shipment} beziehungsweise
+     * Wenn ein {@link warehousemanagement.Shipment} abgefertigt wurde laedt diese Methode das naechste {@link warehousemanagement.Shipment} beziehungsweise
      * reiht sich in eine Warteschlange ein
      */
     private void requestNextShipment() {

@@ -1,8 +1,8 @@
-package warehousemanagment;
+package warehousemanagement;
 
-import warehousemanagment.navigation.DeliveryNode;
-import warehousemanagment.navigation.Node;
-import warehousemanagment.navigation.StorageNode;
+import warehousemanagement.navigation.DeliveryNode;
+import warehousemanagement.navigation.Node;
+import warehousemanagement.navigation.StorageNode;
 
 import javax.swing.*;
 import java.awt.*;

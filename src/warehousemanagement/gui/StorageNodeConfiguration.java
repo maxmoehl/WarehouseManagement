@@ -1,7 +1,7 @@
-package warehousemanagment.gui;
+package warehousemanagement.gui;
 
-import warehousemanagment.DataConnection;
-import warehousemanagment.navigation.StorageNode;
+import warehousemanagement.DataConnection;
+import warehousemanagement.navigation.StorageNode;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

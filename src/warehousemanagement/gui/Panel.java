@@ -1,11 +1,9 @@
-package warehousemanagment.gui;
+package warehousemanagement.gui;
 
-import com.sun.xml.internal.bind.v2.TODO;
-import warehousemanagment.Map;
+import warehousemanagement.Map;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

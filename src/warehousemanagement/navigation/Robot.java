@@ -1,7 +1,7 @@
-package warehousemanagment.navigation;
+package warehousemanagement.navigation;
 
-import warehousemanagment.DataConnection;
-import warehousemanagment.Map;
+import warehousemanagement.DataConnection;
+import warehousemanagement.Map;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -150,7 +150,7 @@ public class Robot implements Runnable {
                     StorageNode destinationNode = Map.getMap().getStorageNode(inventoryMaterialType);
                     calculateShortestPath(destinationNode);
                 } else {
-                    //TODO bei DeliveryNode aktuell benötigte Materialen prüfen und zu entsprechender warehousemanagment.navigation.StorageNode fahren
+                    //TODO bei DeliveryNode aktuell benötigte Materialen prüfen und zu entsprechender warehousemanagement.navigation.StorageNode fahren
                     int desiredMaterialType = ((DeliveryNode) getCurrentNode()).getMaterialType();
                 }
             } else {

@@ -1,7 +1,7 @@
-package warehousemanagment.gui;
+package warehousemanagement.gui;
 
-import warehousemanagment.DataConnection;
-import warehousemanagment.Shipment;
+import warehousemanagement.DataConnection;
+import warehousemanagement.Shipment;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Dieses Frame zeigt alle anstehende {@link warehousemanagment.Shipment}s an und wird, solange es offen ist, sekuendlich aktualisiert
+ * Dieses Frame zeigt alle anstehende {@link warehousemanagement.Shipment}s an und wird, solange es offen ist, sekuendlich aktualisiert
  */
 public class NextDeliveries extends JFrame {
 

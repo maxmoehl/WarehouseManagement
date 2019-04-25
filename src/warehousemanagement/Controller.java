@@ -1,7 +1,7 @@
-package warehousemanagment;
+package warehousemanagement;
 
-import warehousemanagment.gui.Frame;
-import warehousemanagment.gui.Panel;
+import warehousemanagement.gui.Frame;
+import warehousemanagement.gui.Panel;
 
 import java.util.Timer;
 import java.util.TimerTask;

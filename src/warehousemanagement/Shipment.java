@@ -1,4 +1,4 @@
-package warehousemanagment;
+package warehousemanagement;
 
 /**
  * Repräsentiert eine Lieferung die per LKW kommt
@@ -31,13 +31,13 @@ public class Shipment {
     private int materialType;
 
     /**
-     * Wenn dieses Shipment an eine {@link warehousemanagment.navigation.DeliveryNode} gegeben wird, wird dieser Wert auf {@code true}
+     * Wenn dieses Shipment an eine {@link warehousemanagement.navigation.DeliveryNode} gegeben wird, wird dieser Wert auf {@code true}
      * gesetzt damit erkenntlich ist, dass die Lieferung bereits abgefertigt wird
      */
     private boolean arrived;
 
     /**
-     * Gibt an, von welchem Lieferant die Lieferung stammt, der in {@link warehousemanagment.gui.NextDeliveries} angezeigt wird
+     * Gibt an, von welchem Lieferant die Lieferung stammt, der in {@link warehousemanagement.gui.NextDeliveries} angezeigt wird
      */
     private String supplier;
 

@@ -1,4 +1,4 @@
-package warehousemanagment.navigation;
+package warehousemanagement.navigation;
 
 import javax.swing.*;
 import java.awt.*;
