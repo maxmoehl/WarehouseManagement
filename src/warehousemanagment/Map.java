@@ -49,14 +49,15 @@ public class Map extends JComponent {
         connectNodes(wayPointNodes.get(1), wayPointNodes.get(2));
 
         connectNodes(wayPointNodes.get(2), storageNodes.get(2));
+        connectNodes(wayPointNodes.get(2), deliveryNodes.get(0));
         connectNodes(wayPointNodes.get(2), wayPointNodes.get(3));
 
         connectNodes(wayPointNodes.get(3), storageNodes.get(3));
-        connectNodes(wayPointNodes.get(3), deliveryNodes.get(0));
+        connectNodes(wayPointNodes.get(3), deliveryNodes.get(1));
         connectNodes(wayPointNodes.get(3), wayPointNodes.get(4));
 
         connectNodes(wayPointNodes.get(4), storageNodes.get(4));
-        connectNodes(wayPointNodes.get(4), deliveryNodes.get(1));
+        connectNodes(wayPointNodes.get(4), deliveryNodes.get(2));
 
         StorageNode sN = storageNodes.get(0);
         DeliveryNode dN = deliveryNodes.get(1);
