@@ -27,7 +27,7 @@ public class Capacity extends JFrame {
 
         String[][] data = new String[storageNodes.size()][3];
         for (int i = 0; i < storageNodes.size(); i++) {
-            data[i][0] = "Storage " + storageNodes.get(i).getId();
+            data[i][0] = "" + storageNodes.get(i).getId();
             data[i][1] = DataConnection.getDataConnection().getMaterialType(storageNodes.get(i).getMaterialType());
             data[i][2] = storageNodes.get(i).getAmount() + " / " + storageNodes.get(i).getStorageSize();
         }
@@ -50,7 +50,7 @@ public class Capacity extends JFrame {
     private void refreshData() {
         List<StorageNode> storageNodes = Map.getMap().storageNodes;
         for (int i = 0; i < storageNodes.size(); i++) {
-            table.setValueAt("Storage " + storageNodes.get(i).getId(), i, 0);
+            table.setValueAt("" + storageNodes.get(i).getId(), i, 0);
             table.setValueAt(DataConnection.getDataConnection().getMaterialType(storageNodes.get(i).getMaterialType()), i, 1);
             table.setValueAt(storageNodes.get(i).getAmount() + " / " + storageNodes.get(i).getStorageSize(), i, 2);
         }
