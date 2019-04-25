@@ -34,6 +34,8 @@ public class Robot implements Runnable {
     private int inventoryMaterialType;
     private int inventoryAmount;
 
+    private boolean terminated;
+
     /**
      * Initialisiert einen neuen Roboter an der gegebenen warehousemanagment.navigation.Node. Jeder Roboter hat einen eigenen Thread und arbeitet deswegen voellig
      * unabhaegig. Die Threads sind {@code isDaemmon() = true} und werden terminiert wenn der main-Thread terminiert wird.
@@ -49,6 +51,7 @@ public class Robot implements Runnable {
         currentNode = start;
         inventoryMaterialType = 0;
         inventoryAmount = 0;
+        terminated = false;
         Thread thread = new Thread(this, "Roboter" + id);
         thread.start();
     }
@@ -251,9 +254,10 @@ public class Robot implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!(terminated && inventoryMaterialType == 0)) {
             work();
         }
+        currentNode.unregister();
     }
 
     /**
@@ -276,12 +280,24 @@ public class Robot implements Runnable {
             move();
         } else {
             // Prüfen ob es eine StorageNode ist oder ein Objekt das von StorageNode erbt (DeliveryNode)
-            if (StorageNode.class.isAssignableFrom(getCurrentNode().getClass())) {
+            if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
+                DeliveryNode curr = (DeliveryNode) getCurrentNode();
+                if (curr.isLoading() && inventoryMaterialType != 0) {
+                    load();
+                } else if (curr.isUnloading() && inventoryMaterialType == 0) {
+                    load();
+                }
+                updateGraph();
+            } else if (StorageNode.class.isAssignableFrom(getCurrentNode().getClass())) {
                 load();
                 updateGraph();
             } else {
                 throw new RuntimeException("Roboter hat keine weiteren Nodes, steht aber an einer warehousemanagment.navigation.Node an der er nicht verladen kann");
             }
         }
+    }
+
+    void shutdown() {
+        terminated = true;
     }
 }

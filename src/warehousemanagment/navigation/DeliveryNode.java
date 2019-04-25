@@ -1,6 +1,7 @@
 package warehousemanagment.navigation;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -90,6 +91,24 @@ public class DeliveryNode extends StorageNode {
      */
     private void requestItems() {
         //TODO implementieren
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+
+        int width = getWidth();
+        int height = getHeight();
+
+        if (0.4 * height < y && y < 0.6 * width) {
+            if (0.2 * width < x && x < 0.4 * width) {
+                robots.get(robots.size() - 1).shutdown();
+                robots.remove(robots.size() - 1);
+            } else if (0.6 * width < x && x < 0.8 * width) {
+                robots.add(new Robot(robots.size(), this, this));
+            }
+        }
     }
 
     @Override
