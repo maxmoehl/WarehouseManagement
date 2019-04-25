@@ -21,13 +21,15 @@ class Controller {
      */
     private Panel panel;
 
-    /** Hauptframe mit der JMenuBar */
+    /**
+     * Hauptframe mit der JMenuBar
+     */
     private Frame frame;
 
     private Controller() {
-        initClock();
         panel = new Panel();
         frame = new Frame(panel);
+        initClock();
     }
 
     static Controller getController() {
@@ -41,6 +43,7 @@ class Controller {
             @Override
             public void run() {
                 time++;
+                frame.setTitle("Warehouse Management Software (" + time + ")");
             }
         }, 0, 1000);
     }
