@@ -2,14 +2,16 @@ package warehousemanagement;
 
 import warehousemanagement.gui.Frame;
 import warehousemanagement.gui.Panel;
+import warehousemanagement.navigation.DeliveryNode;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
  * Hauptkontrolleinheit die alle wichtigen Componenten initialisiert und verwaltet, stellt wichtige Grundfunktionalitäten zur Verfuegung
  */
-class Controller {
+public class Controller {
 
     /**
      * Simuliert die Uhrzeit um sicherzustellen, dass bei jedem Programmstart {@link Shipment} ankommen, startet bei jedem Programmstart bei null
@@ -26,13 +28,19 @@ class Controller {
      */
     private Frame frame;
 
+    private ArrayList<DeliveryNode> deliveryNodesQueue;
+
+    private ArrayList<Shipment> shipmentsQueue;
+
     private Controller() {
         panel = new Panel();
         frame = new Frame(panel);
+        deliveryNodesQueue = new ArrayList<>(Map.getMap().deliveryNodes);
+        shipmentsQueue = new ArrayList<>();
         initClock();
     }
 
-    static Controller getController() {
+    public static Controller getController() {
         return ControllerHolder.INSTANCE;
     }
 
@@ -44,12 +52,43 @@ class Controller {
             public void run() {
                 time++;
                 frame.setTitle("Warehouse Management Software (" + time + ")");
+                handleShipments();
             }
         }, 0, 1000);
     }
 
     int getTime() {
         return time;
+    }
+
+    private void handleShipments() {
+        int t = getTime();
+        DataConnection d = DataConnection.getDataConnection();
+        Shipment s;
+        if ((s = d.getShipment(t)) != null) {
+            if (deliveryNodesQueue.size() > 0) {
+                deliveryNodesQueue.get(0).loadShipment(s);
+            }
+        }
+    }
+
+    public Shipment requestNextShipment(DeliveryNode n) {
+        if (shipmentsQueue.size() == 0) {
+            deliveryNodesQueue.add(n);
+            return null;
+        }
+        Shipment r = shipmentsQueue.get(0);
+        shipmentsQueue.remove(0);
+        return r;
+    }
+
+    public boolean isQueued(DeliveryNode n) {
+        for (int i = 0; i < deliveryNodesQueue.size(); i++) {
+            if (deliveryNodesQueue.get(i).equals(n)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static class ControllerHolder {

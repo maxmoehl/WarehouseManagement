@@ -27,7 +27,7 @@ public class Node extends JComponent {
     /**
      * Interner Wert der kontrolliert ob Roboter an der Node sind um die Node entsprechend zu zeichnen
      */
-    protected int robots;
+    int robots;
     /**
      * Enthält alle Nodes mit denen diese Node verbunden ist
      */

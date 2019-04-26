@@ -1,5 +1,8 @@
 package warehousemanagement.navigation;
 
+import warehousemanagement.Controller;
+import warehousemanagement.Shipment;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -21,8 +24,6 @@ public class DeliveryNode extends StorageNode {
         super(id, x, y, width, height);
 
         robots = new ArrayList<>();
-
-        requestNextShipment();
     }
 
     /**
@@ -45,6 +46,15 @@ public class DeliveryNode extends StorageNode {
      */
     boolean isUnloading() {
         return !loading;
+    }
+
+    @Override
+    boolean accessNode(Robot robot) {
+        if (getMaterialType() == 0) {
+            robotQueue.add(robot);
+            return false;
+        }
+        return super.accessNode(robot);
     }
 
     /**
@@ -80,10 +90,17 @@ public class DeliveryNode extends StorageNode {
      */
     @Override
     public void unloadItems(int amount) {
+        if (getMaterialType() == 0) {
+            throw new RuntimeException("Keine Waren an dieser DeliveryNode");
+        }
         if (isUnloading()) {
             super.unloadItems(amount);
         } else {
             throw new RuntimeException("Kann keine Items ausladen wenn eingeladen werden soll");
+        }
+        if (getAmount() == 0) {
+            //TODO auf die Waren setzen die danach angefragt werden müssen
+            setMaterialType(0);
         }
     }
 
@@ -92,7 +109,24 @@ public class DeliveryNode extends StorageNode {
      * reiht sich in eine Warteschlange ein
      */
     private void requestNextShipment() {
-        //TODO implementieren
+        Shipment next = Controller.getController().requestNextShipment(this);
+        if (next != null) {
+            setMaterialType(next.getMaterialType());
+            loading = true;
+            loadItems(next.getMaterialType(), next.getAmount());
+            loading = false;
+        }
+    }
+
+    public void loadShipment(Shipment s) {
+        setMaterialType(s.getMaterialType());
+        loading = true;
+        loadItems(s.getMaterialType(), s.getAmount());
+        loading = false;
+
+        for (int i = 0; i < robotQueue.size(); i++) {
+            robotQueue.get(i).notify();
+        }
     }
 
     /**
@@ -149,5 +183,10 @@ public class DeliveryNode extends StorageNode {
         g.drawString("+", (int) (0.66 * width), (int) (0.56 * height));
 
         g.drawString(Integer.toString(robots.size()), (int) (0.46 * width), (int) (0.56 * height));
+
+        if (getMaterialType() != 0) {
+            g.setColor(Color.GREEN);
+            g.fillRect(0, 0, 10, 10);
+        }
     }
 }

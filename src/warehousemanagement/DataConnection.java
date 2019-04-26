@@ -26,7 +26,7 @@ public class DataConnection {
         materialTypes.add("Gold");
 
         shipments = new ArrayList<>();
-        shipments.add(new Shipment(0, 100, 180, 10, 1, "International Deliveries"));
+        shipments.add(new Shipment(0, 10, 180, 10, 1, "International Deliveries"));
         shipments.add(new Shipment(0, 150, 180, 10, 3, "We make you move"));
         shipments.add(new Shipment(0, 210, 180, 10, 2, "International Deliveries"));
         shipments.add(new Shipment(0, 250, 180, 10, 4, "We move everything"));
@@ -48,6 +48,15 @@ public class DataConnection {
     public Shipment getNextShipment() {
         for (Shipment s : shipments) {
             if (s.getEta() >= Controller.getController().getTime() && !s.isArrived()) return s;
+        }
+        return null;
+    }
+
+    Shipment getShipment(int time) {
+        for (int i = 0; i < shipments.size(); i++) {
+            if (shipments.get(i).getEta() == time) {
+                return shipments.get(i);
+            }
         }
         return null;
     }

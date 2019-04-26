@@ -18,7 +18,7 @@ public class StorageNode extends Node implements MouseListener {
     private int amount;
     private int storageSize;
 
-    private ArrayList<warehousemanagement.navigation.Robot> robotQueue;
+    ArrayList<warehousemanagement.navigation.Robot> robotQueue;
 
     private boolean blocked;
 

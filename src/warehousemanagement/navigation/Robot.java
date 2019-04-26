@@ -119,7 +119,9 @@ public class Robot implements Runnable {
         StorageNode current = (StorageNode) getCurrentNode();
         while (!current.accessNode(this)) {
             try {
-                wait();
+                synchronized (this) {
+                    wait();
+                }
             } catch (InterruptedException e) {
                 assert true;
             }
