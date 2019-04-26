@@ -68,6 +68,7 @@ public class Controller {
         if ((s = d.getShipment(t)) != null) {
             if (deliveryNodesQueue.size() > 0) {
                 deliveryNodesQueue.get(0).loadShipment(s);
+                deliveryNodesQueue.remove(0);
             }
         }
     }

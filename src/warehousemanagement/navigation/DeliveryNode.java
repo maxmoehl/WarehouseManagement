@@ -100,7 +100,7 @@ public class DeliveryNode extends StorageNode {
         }
         if (getAmount() == 0) {
             //TODO auf die Waren setzen die danach angefragt werden müssen
-            setMaterialType(0);
+            resetMaterialType();
         }
     }
 
