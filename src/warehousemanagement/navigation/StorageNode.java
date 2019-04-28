@@ -77,7 +77,9 @@ public class StorageNode extends Node implements MouseListener {
     void leaveNode() {
         blocked = false;
         if (robotQueue.size() != 0) {
-            robotQueue.get(0).notify();
+            synchronized (robotQueue.get(0)) {
+                robotQueue.get(0).notify();
+            }
         }
     }
 

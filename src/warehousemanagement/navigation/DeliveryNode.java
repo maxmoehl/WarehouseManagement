@@ -125,7 +125,10 @@ public class DeliveryNode extends StorageNode {
         loading = false;
 
         for (int i = 0; i < robotQueue.size(); i++) {
-            robotQueue.get(i).notify();
+            synchronized (robotQueue.get(i)) {
+                robotQueue.get(i).notify();
+                robotQueue.remove(i);
+            }
         }
     }
 
