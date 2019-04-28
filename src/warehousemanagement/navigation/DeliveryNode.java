@@ -35,10 +35,6 @@ public class DeliveryNode extends StorageNode {
         return loading;
     }
 
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-    }
-
     /**
      * Gibt zurück ob diese DeliveryNode gerade Waren auslaedt.
      *
