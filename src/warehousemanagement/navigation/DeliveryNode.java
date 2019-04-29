@@ -13,6 +13,8 @@ import java.util.ArrayList;
  */
 public class DeliveryNode extends StorageNode {
 
+    private Shipment currentShipment;
+
     /**
      * Gibt an ob die Node gerade be- oder entladen wird um es Robotern zu ermoeglichen die richtige Entscheidung zu treffen
      */
@@ -67,7 +69,7 @@ public class DeliveryNode extends StorageNode {
     public void loadItems(int materialType, int amount) {
         if (isLoading()) {
             super.loadItems(materialType, amount);
-            if (getAmount() == getStorageSize()) {
+            if (getAmount() == currentShipment.getSize()) {
                 requestNextShipment();
             }
         } else {
@@ -95,8 +97,8 @@ public class DeliveryNode extends StorageNode {
             throw new RuntimeException("Kann keine Items ausladen wenn eingeladen werden soll");
         }
         if (getAmount() == 0) {
-            //TODO auf die Waren setzen die danach angefragt werden müssen
-            resetMaterialType();
+            loading = true;
+            setMaterialType(currentShipment.getMaterialTypeOutbound());
         }
     }
 
@@ -105,19 +107,20 @@ public class DeliveryNode extends StorageNode {
      * reiht sich in eine Warteschlange ein
      */
     private void requestNextShipment() {
-        Shipment next = Controller.getController().requestNextShipment(this);
-        if (next != null) {
-            setMaterialType(next.getMaterialType());
+        currentShipment = Controller.getController().requestNextShipment(this);
+        if (currentShipment != null) {
+            setMaterialType(currentShipment.getMaterialTypeInbound());
             loading = true;
-            loadItems(next.getMaterialType(), next.getAmount());
+            loadItems(currentShipment.getMaterialTypeInbound(), currentShipment.getSize());
             loading = false;
         }
     }
 
     public void loadShipment(Shipment s) {
-        setMaterialType(s.getMaterialType());
+        currentShipment = s;
+        setMaterialType(s.getMaterialTypeInbound());
         loading = true;
-        loadItems(s.getMaterialType(), s.getAmount());
+        loadItems(s.getMaterialTypeInbound(), s.getSize());
         loading = false;
 
         for (int i = 0; i < robotQueue.size(); i++) {
@@ -132,7 +135,8 @@ public class DeliveryNode extends StorageNode {
      * Aendert den Modus von abladen in einladen, damit zugeordnete {@link Robot}er wissen, dass sie zukuenftig Waren anliefern muessen
      */
     private void requestItems() {
-        //TODO implementieren
+        loading = true;
+        setMaterialType(currentShipment.getMaterialTypeOutbound());
     }
 
     @Override
@@ -183,8 +187,11 @@ public class DeliveryNode extends StorageNode {
 
         g.drawString(Integer.toString(robots.size()), (int) (0.46 * width), (int) (0.56 * height));
 
-        if (getMaterialType() != 0) {
+        if (isLoading()) {
             g.setColor(Color.GREEN);
+            g.fillRect(0, 0, 10, 10);
+        } else if (isUnloading()) {
+            g.setColor(Color.RED);
             g.fillRect(0, 0, 10, 10);
         }
     }

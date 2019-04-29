@@ -9,17 +9,32 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 /**
- * Erweitert die {@link Node} um die Moeglichkeit Waren zu lagern. Roboter können an diesen Nodes Waren
+ * Erweitert die {@link Node} um die Möglichkeit Waren zu lagern. Roboter können an diesen Nodes Waren
  * abholen oder abgeben
  */
 public class StorageNode extends Node implements MouseListener {
 
+    /**
+     * Hier werden Roboter gespeichert wenn sie warten müssen bis die Node freigegeben wird.
+     */
+    ArrayList<Robot> robotQueue;
+    /**
+     * Repräsentiert den Materialtyp der in dieser StorageNode gelagert wird.
+     *
+     * @see DataConnection#getMaterialType
+     */
     private int materialType;
+    /**
+     * Gibt an wieviel Waren aktuell im Lager sind.
+     */
     private int amount;
+    /**
+     * Gibt an wieviele Einheiten in das Lager reinpassen.
+     */
     private int storageSize;
-
-    ArrayList<warehousemanagement.navigation.Robot> robotQueue;
-
+    /**
+     * Gibt an ob die StorageNode gerade von einem Roboter blockiert wird.
+     */
     private boolean blocked;
 
     public StorageNode(int id, int x, int y, int width, int height) {
@@ -33,16 +48,22 @@ public class StorageNode extends Node implements MouseListener {
         addMouseListener(this);
     }
 
+    /**
+     * Gibt einen Integer Wert zurück der die Materialart dieser Node repräsentiert
+     *
+     * @return int der die Materialart repräsentiert
+     * @see DataConnection#getMaterialType
+     */
     public int getMaterialType() {
         return materialType;
     }
 
     /**
-     * Ueberschreibt den {@link StorageNode#materialType}, dieser kann aber nur erfolgreich ueberschrieben
-     * werden wenn das Lager leer ist
+     * Überschreibt den {@link StorageNode#materialType}, dieser kann aber nur erfolgreich überschrieben
+     * werden wenn das Lager leer ist.
      *
      * @param materialType der neue {@code materialType}
-     * @throws RuntimeException Wenn ein ungültiger Materialtyp mitgegeben wird
+     * @throws RuntimeException wenn ein ungültiger Materialtyp mitgegeben wird
      */
     public void setMaterialType(int materialType) {
         if (DataConnection.getDataConnection().isValidMaterialType(materialType)) {
@@ -56,12 +77,33 @@ public class StorageNode extends Node implements MouseListener {
         }
     }
 
+    /**
+     * Gibt zurück wie viel Waren aktuell im Lager sind
+     *
+     * @return Menge der Waren im Lager
+     */
     public int getAmount() {
         return amount;
     }
 
+    /**
+     * Gibt zurück wie groß das Warenlager ist
+     *
+     * @return Größe des Lagers
+     */
     public int getStorageSize() {
         return storageSize;
+    }
+
+    /**
+     * Setzt den Materialtyp zurück auf null, nur möglich wenn das Warenlager leer ist
+     */
+    public void resetMaterialType() {
+        if (getAmount() == 0) {
+            this.materialType = 0;
+        } else {
+            throw new RuntimeException("Kann Materialtype von StorageNode nicht zurücksetzen wenn Waren im Lager sind");
+        }
     }
 
     boolean accessNode(Robot robot) {
@@ -78,16 +120,9 @@ public class StorageNode extends Node implements MouseListener {
         blocked = false;
         if (robotQueue.size() != 0) {
             synchronized (robotQueue.get(0)) {
+                //TODO Debuggen, Roboter bleibt hängen
                 robotQueue.get(0).notify();
             }
-        }
-    }
-
-    public void resetMaterialType() {
-        if (getAmount() == 0) {
-            this.materialType = 0;
-        } else {
-            throw new RuntimeException("Kann Materialtype von StorageNode nicht zurücksetzen wenn Waren im Lager sind");
         }
     }
 

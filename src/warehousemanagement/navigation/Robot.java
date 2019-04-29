@@ -94,7 +94,7 @@ public class Robot implements Runnable {
      * @see Robot#lock
      */
     private void move() {
-        lock(1000);
+        lock(500);
         currentNode.unregister();
         currentNode = getNextNode();
         currentNode.register();
@@ -115,7 +115,10 @@ public class Robot implements Runnable {
      * @see StorageNode#unloadItems
      */
     private void load() {
-        //Versuchen auf die Node zuzugreifen und wenn sie belegt ist, warten bis man benachrichtigt wird
+        /*
+         * Versuchen auf die Node zuzugreifen und wenn sie belegt ist, warten bis man benachrichtigt wird und wieder
+         * versuchen darauf zuzugreifen
+         */
         StorageNode current = (StorageNode) getCurrentNode();
         while (!current.accessNode(this)) {
             try {
@@ -123,7 +126,8 @@ public class Robot implements Runnable {
                     wait();
                 }
             } catch (InterruptedException e) {
-                assert true;
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -142,83 +146,66 @@ public class Robot implements Runnable {
     }
 
     /**
-     * Überprueft ob der Graph erneuert werden soll und erneuert diesen wenn nötig.
-     */
-    private void updateGraph() {
-        if (graph.size() == 0) {
-            //TODO ersetzen durch überprüfung was von DeliveryNode benötigt wird
-            if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
-                if (inventoryMaterialType != 0) {
-                    StorageNode destinationNode = Map.getMap().getStorageNode(inventoryMaterialType);
-                    calculateShortestPath(destinationNode);
-                } else {
-                    //TODO bei DeliveryNode aktuell benötigte Materialen prüfen und zu entsprechender warehousemanagement.navigation.StorageNode fahren
-                    int desiredMaterialType = ((DeliveryNode) getCurrentNode()).getMaterialType();
-                }
-            } else {
-                calculateShortestPath(getHomeNode());
-            }
-        } else {
-            throw new RuntimeException("Graph hat noch Elemente und kann nicht aktualisiert werden");
-        }
-    }
-
-    /**
      * Damit der Roboter sich von einer Node zu einer anderen bewegen kann bietet diese Methode
      * eine Implementierung des Dijkstra-Algorithmuses zur Berechnung des kürzesten Weges von
-     * der {@link Robot#currentNode} zur {@code destination} Node.
+     * der {@link Robot#currentNode} zur {@code destination} Node.<br>
+     * Nach Berechnung wird das Ergebnis in {@link Robot#graph} gespeichert.
      *
      * @param destination Die Node zu der der Roboter sich bewegen will
      * @see Robot#getLowestDistanceNode
      * @see Robot#calculateMinimumDistance
      */
-    private void calculateShortestPath(Node destination) {
-        Node source = getCurrentNode();
+    private void navigateTo(Node destination) {
+        Map m = Map.getMap();
+        synchronized (m.nodeLock) {
+            Node source = getCurrentNode();
 
-        //Zuerst erzeugen wir ein Set mit allen Nodes
-        Set<Node> nodes = new HashSet<>();
-        nodes.addAll(Map.getMap().wayPointNodes);
-        nodes.addAll(Map.getMap().storageNodes);
-        nodes.addAll(Map.getMap().deliveryNodes);
+            //Zuerst erzeugen wir ein Set mit allen Nodes
+            Set<Node> nodes = new HashSet<>();
+            nodes.addAll(m.wayPointNodes);
+            nodes.addAll(m.storageNodes);
+            nodes.addAll(m.deliveryNodes);
 
-        //der abstand zum Ziel ist immer null
-        source.distance = 0;
+            //der abstand zum Ziel ist immer null
+            source.distance = 0;
 
-        //jetzt haben wir nodes die fertig sind
-        Set<Node> settledNodes = new HashSet<>();
-        //und nodes die noch gemacht werden müssen
-        Set<Node> unsettledNodes = new HashSet<>();
+            //jetzt haben wir nodes die fertig sind
+            Set<Node> settledNodes = new HashSet<>();
+            //und nodes die noch gemacht werden müssen
+            Set<Node> unsettledNodes = new HashSet<>();
 
-        //als erstes kümmern wir uns um die startnode
-        unsettledNodes.add(source);
+            //als erstes kümmern wir uns um die startnode
+            unsettledNodes.add(source);
 
-        //solange wir Nodes haben die gemacht werden müssen arbeiten wir
-        while (unsettledNodes.size() != 0) {
-            //die aktuelle Node ist die nähste in den unsettled nodes
-            Node currentNode = getLowestDistanceNode(unsettledNodes);
-            //wir bearbeiten sie jetzt also können wir sie entferenen
-            unsettledNodes.remove(currentNode);
-            //jetzt gehen wir alle benachbarten Nodes durch
-            for (Node n : currentNode.getNeighbourNodes()) {
-                //wenn sie nicht schon bearbeitet wurden
-                if (!settledNodes.contains(n)) {
-                    //errechnen wir die minimale distanz
-                    calculateMinimumDistance(n, currentNode);
-                    //und fügen sie den unfertigen hinzu
-                    unsettledNodes.add(n);
+            //solange wir Nodes haben die gemacht werden müssen arbeiten wir
+            while (unsettledNodes.size() != 0) {
+                //die aktuelle Node ist die nähste in den unsettled nodes
+                Node currentNode = getLowestDistanceNode(unsettledNodes);
+                //wir bearbeiten sie jetzt also können wir sie entferenen
+                unsettledNodes.remove(currentNode);
+                //jetzt gehen wir alle benachbarten Nodes durch
+                for (int i = 0; i < currentNode.getNeighbourNodes().size(); i++) {
+                    Node n = currentNode.getNeighbourNodes().get(i);
+                    //wenn sie nicht schon bearbeitet wurden
+                    if (!settledNodes.contains(n)) {
+                        //errechnen wir die minimale distanz
+                        calculateMinimumDistance(n, currentNode);
+                        //und fügen sie den unfertigen hinzu
+                        unsettledNodes.add(n);
+                    }
                 }
+                //jetzt ist die currentNode abgearbeitet und wir können mit der nächsten fortfahren
+                settledNodes.add(currentNode);
             }
-            //jetzt ist die currentNode abgearbeitet und wir können mit der nächsten fortfahren
-            settledNodes.add(currentNode);
-        }
 
-        this.graph = destination.shortestPath;
-        graph.add(destination);
+            this.graph = destination.shortestPath;
+            graph.add(destination);
 
-        //Alle Werte zurücksetzen
-        for (Node n : nodes) {
-            n.distance = Integer.MAX_VALUE;
-            n.shortestPath = new ArrayList<>();
+            //Alle Werte zurücksetzen
+            for (Node n : nodes) {
+                n.distance = Integer.MAX_VALUE;
+                n.shortestPath = new ArrayList<>();
+            }
         }
     }
 
@@ -284,26 +271,59 @@ public class Robot implements Runnable {
      * @throws RuntimeException wenn der Roboter an einer {@link Node} steht die keine {@link StorageNode} ist und keinen Graphen mehr hat
      * @see Robot#move
      * @see Robot#load
-     * @see Robot#updateGraph
+     * @see Robot#navigateTo
      */
     private void work() {
         if (hasNextNode()) {
             move();
         } else {
-            // Prüfen ob es eine StorageNode ist oder ein Objekt das von StorageNode erbt (DeliveryNode)
-            if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
-                DeliveryNode curr = (DeliveryNode) getCurrentNode();
-                if (curr.isLoading() && inventoryMaterialType != 0) {
-                    load();
-                } else if (curr.isUnloading() && inventoryMaterialType == 0) {
-                    load();
+            Map m = Map.getMap();
+            if (inventoryMaterialType == 0) {
+                if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
+                    if (getHomeNode().isUnloading()) {
+                        //Waren ins Inventar laden
+                        load();
+                    } else {
+                        //Zu Lager mit richtigen Waren für Home navigieren
+                        navigateTo(m.getStorageNode(getHomeNode().getMaterialType()));
+                    }
+                } else {
+                    if (((StorageNode) getCurrentNode()).getMaterialType() == inventoryMaterialType && getHomeNode().isLoading()) {
+                        //Waren aus Lager in Inventar laden
+                        load();
+                    } else {
+                        if (getHomeNode().isLoading()) {
+                            //Zu Lager mit richtigem Materialtyp für Home navigieren
+                            navigateTo(m.getStorageNode(getHomeNode().getMaterialType()));
+                        } else {
+                            //Zur HomeNode navigieren
+                            navigateTo(getHomeNode());
+                        }
+                    }
                 }
-                updateGraph();
-            } else if (StorageNode.class.isAssignableFrom(getCurrentNode().getClass())) {
-                load();
-                updateGraph();
             } else {
-                throw new RuntimeException("Roboter hat keine weiteren Nodes, steht aber an einer Node an der er nicht verladen kann");
+                if (DeliveryNode.class.isAssignableFrom(getCurrentNode().getClass())) {
+                    if (getHomeNode().isLoading() && getHomeNode().getMaterialType() == inventoryMaterialType) {
+                        //Waren aus Inventar in homeNode laden
+                        load();
+                    } else {
+                        //Zu Lager mit Materialtyp aus Inventar navigieren
+                        navigateTo(m.getStorageNode(inventoryMaterialType));
+                    }
+                } else {
+                    if (((StorageNode) getCurrentNode()).getMaterialType() == inventoryMaterialType) {
+                        //Waren aus Inventar ins Lager laden
+                        load();
+                    } else {
+                        if (getHomeNode().getMaterialType() == inventoryMaterialType && getHomeNode().isLoading()) {
+                            //Zur HomeNode navigieren
+                            navigateTo(getHomeNode());
+                        } else {
+                            //Zu passendem Lager für inventarMaterial navigieren
+                            navigateTo(m.getStorageNode(inventoryMaterialType));
+                        }
+                    }
+                }
             }
         }
     }

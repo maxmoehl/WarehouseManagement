@@ -21,14 +21,24 @@ public class Shipment {
     private int loadingTime;
 
     /**
-     * Die Anzahl der Einheiten die der LKW geladen hat
+     * Größe des Laderaums
      */
-    private int amount;
+    private int size;
 
     /**
-     * Die Art des Materials, dass im LKW transportiert wird, eine Liste die den Integern einen Warentyp zuordnet
+     * Die Art des Materials, dass im LKW transportiert wird
      */
-    private int materialType;
+    private int materialTypeInbound;
+
+    /**
+     * Gibt an ob die Lieferung auch wieder Waren aus dem Lager mitnimmt
+     */
+    private boolean outbound;
+
+    /**
+     * Falls die Lieferung auch Waren aus dem Lager mitnimmt wird hier der Warentyp definiert
+     */
+    private int materialTypeOutbound;
 
     /**
      * Wenn dieses Shipment an eine {@link warehousemanagement.navigation.DeliveryNode} gegeben wird, wird dieser Wert auf {@code true}
@@ -41,14 +51,15 @@ public class Shipment {
      */
     private String supplier;
 
-    Shipment(int id, int eta, int loadingTime, int amount, int materialType, String supplier) {
+    Shipment(int id, int eta, int loadingTime, int size, int materialTypeInbound, boolean outbound, int materialTypeOutbound, String supplier) {
         this.id = id;
         this.eta = eta;
         this.loadingTime = loadingTime;
-        this.amount = amount;
-        this.materialType = materialType;
+        this.size = size;
+        this.materialTypeInbound = materialTypeInbound;
+        this.outbound = outbound;
+        this.materialTypeOutbound = materialTypeOutbound;
         this.supplier = supplier;
-        arrived = false;
     }
 
     public int getId() {
@@ -63,20 +74,24 @@ public class Shipment {
         return loadingTime;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getSize() {
+        return size;
     }
 
-    public int getMaterialType() {
-        return materialType;
+    public int getMaterialTypeInbound() {
+        return materialTypeInbound;
+    }
+
+    public boolean isOutbound() {
+        return outbound;
+    }
+
+    public int getMaterialTypeOutbound() {
+        return materialTypeOutbound;
     }
 
     public boolean isArrived() {
         return arrived;
-    }
-
-    public void arrive() {
-        arrived = true;
     }
 
     public String getSupplier() {

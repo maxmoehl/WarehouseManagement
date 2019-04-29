@@ -12,6 +12,13 @@ import java.util.List;
 
 public class Map extends JComponent {
 
+    /**
+     * Dieser Lock wird gesperrt bevor komplexe Aufgaeben an den Nodes ausgeführt werden.<br>
+     * Beispielsweise wenn eine neue Route berechnet wird, dabei werden einzelne Werte der Nodes
+     * zur berechnung verwendet und um Fehler durch doppelten Zugriff zu verhindern.
+     */
+    public final Object nodeLock = new Object();
+
     public List<StorageNode> storageNodes;
 
     public List<DeliveryNode> deliveryNodes;
