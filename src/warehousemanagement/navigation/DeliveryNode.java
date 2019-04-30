@@ -97,8 +97,12 @@ public class DeliveryNode extends StorageNode {
             throw new RuntimeException("Kann keine Items ausladen wenn eingeladen werden soll");
         }
         if (getAmount() == 0) {
-            loading = true;
-            setMaterialType(currentShipment.getMaterialTypeOutbound());
+            if (currentShipment.isOutbound()) {
+                loading = true;
+                setMaterialType(currentShipment.getMaterialTypeOutbound());
+            } else {
+                resetMaterialType();
+            }
         }
     }
 
@@ -131,14 +135,6 @@ public class DeliveryNode extends StorageNode {
         }
     }
 
-    /**
-     * Aendert den Modus von abladen in einladen, damit zugeordnete {@link Robot}er wissen, dass sie zukuenftig Waren anliefern muessen
-     */
-    private void requestItems() {
-        loading = true;
-        setMaterialType(currentShipment.getMaterialTypeOutbound());
-    }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
@@ -152,7 +148,7 @@ public class DeliveryNode extends StorageNode {
                 robots.get(robots.size() - 1).shutdown();
                 robots.remove(robots.size() - 1);
             } else if (0.6 * width < x && x < 0.8 * width) {
-                robots.add(new Robot(this, this));
+                robots.add(new Robot(this));
             }
         }
     }
