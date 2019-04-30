@@ -48,13 +48,12 @@ public class Robot implements Runnable {
      * Initialisiert einen neuen Roboter an der gegebenen {@link DeliveryNode}. Jeder Roboter hat einen eigenen Thread und arbeitet deswegen völlig
      * unabhängig. Die Threads sind {@code isDaemon() = true} und werden terminiert wenn der main-Thread terminiert wird.
      *
-     * @param start {@link Node} an der der Roboter initalisiert wird
      * @param home  {@link DeliveryNode} an der der Roboter arbeitet
      */
-    Robot(Node start, DeliveryNode home) {
+    Robot(DeliveryNode home) {
         graph = new ArrayList<>();
         this.home = home;
-        currentNode = start;
+        currentNode = home;
         inventoryMaterialType = 0;
         inventoryAmount = 0;
         terminated = false;
@@ -334,5 +333,10 @@ public class Robot implements Runnable {
      */
     void shutdown() {
         terminated = true;
+    }
+
+    @Override
+    public String toString() {
+        return "Robot at Node: " + getCurrentNode().toString() + " with homeNode: " + getHomeNode().toString();
     }
 }
