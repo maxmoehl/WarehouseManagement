@@ -51,8 +51,7 @@ public class LowCapacity extends JFrame {
             table.setValueAt(DataConnection.getDataConnection().getMaterialType(storageNodes.get(i).getMaterialType()), i, 1);
             if (storageNodes.get(i).getAmount() < 0.05 * storageNodes.get(i).getStorageSize()) {
                 table.setValueAt(storageNodes.get(i).getAmount() + " / " + storageNodes.get(i).getStorageSize(), i, 2);
-            }
-            else {
+            } else {
                 table.setValueAt(null, i, 0);
                 table.setValueAt(null, i, 1);
                 table.setValueAt(null, i, 2);
@@ -65,6 +64,9 @@ public class LowCapacity extends JFrame {
 
         }
     }
+        public JTable getTable () {
+            return table;
+        }
 
     @Override
     public void dispose() {

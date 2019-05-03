@@ -55,6 +55,9 @@ public class Capacity extends JFrame {
             table.setValueAt(storageNodes.get(i).getAmount() + " / " + storageNodes.get(i).getStorageSize(), i, 2);
         }
     }
+    public JTable getTable () {
+        return table;
+    }
 
     @Override
     public void dispose() {

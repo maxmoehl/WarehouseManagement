@@ -58,6 +58,9 @@ public class NextDeliveries extends JFrame {
             table.setValueAt("Um " + shipments.get(i).getEta(), i, 3);
         }
     }
+    public JTable getTable() {
+        return table;
+    }
 
     @Override
     public void dispose() {
