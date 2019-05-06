@@ -66,6 +66,9 @@ public class Map extends JComponent {
         connectNodes(wayPointNodes.get(4), storageNodes.get(4));
         connectNodes(wayPointNodes.get(4), deliveryNodes.get(2));
 
+        storageNodes.get(0).setMaterialType(1);
+        storageNodes.get(2).setMaterialType(3);
+
         for (StorageNode n : storageNodes) {
             add(n);
         }

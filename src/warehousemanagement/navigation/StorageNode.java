@@ -120,7 +120,7 @@ public class StorageNode extends Node implements MouseListener {
         blocked = false;
         if (robotQueue.size() != 0) {
             synchronized (robotQueue.get(0)) {
-                //TODO Debuggen, Roboter bleibt hängen
+                //TODO Debuggen, Roboter bleibt hängen wenn zwei Roboter daran arbeiten
                 robotQueue.get(0).notify();
             }
         }

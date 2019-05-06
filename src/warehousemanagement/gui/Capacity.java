@@ -21,7 +21,7 @@ public class Capacity extends JFrame {
     Capacity() {
         super("Gesamtkapazität");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        String[] columnNames = {"Regalnummer", "Materialtyp", "Auslastung",};
+        String[] columnNames = {"Regalnummer", "Materialtyp", "Auslastung"};
 
         List<StorageNode> storageNodes = Map.getMap().storageNodes;
 

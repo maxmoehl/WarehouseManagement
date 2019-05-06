@@ -27,7 +27,8 @@ public class Node extends JComponent {
     /**
      * Interner Wert der kontrolliert ob Roboter an der Node sind um die Node entsprechend zu zeichnen
      */
-    int robots;
+    public int robots;
+
     /**
      * Enthält alle Nodes mit denen diese Node verbunden ist
      */
@@ -70,11 +71,12 @@ public class Node extends JComponent {
         return id;
     }
 
-    public void register() {
+    synchronized void register() {
         robots++;
     }
 
-    public void unregister() {
+    synchronized void unregister() {
+        //TODO Buggt manchmal und es werden Ghost Roboter angezeigt
         robots = robots > 0 ? robots - 1 : 0;
     }
 
@@ -100,6 +102,7 @@ public class Node extends JComponent {
             neighbours.append(n.getId());
             neighbours.append(", ");
         }
-        return this.getClass() + " " + getId() + ", connected to: " + neighbours.toString();
+        String className = this.getClass().toString().substring(37);
+        return className + " " + getId() + ", connected to: " + neighbours.toString();
     }
 }
