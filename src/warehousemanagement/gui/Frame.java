@@ -44,16 +44,16 @@ public class Frame extends JFrame {
                     String path = fc.getSelectedFile().getParentFile().getPath();
                     int len = filename.length();
                     String ext = "";
-                    String file = "";
+                    String file;
 
                     if (len > 4) {
                         ext = filename.substring(len - 4, len);
                     }
 
-                    if (ext.equals(".xls")) {
+                    if (ext.equals(".csv")) {
                         file = path + "\\" + filename;
                     } else {
-                        file = path + "\\" + filename + ".xls";
+                        file = path + "\\" + filename + ".csv";
                     }
 
                     if (e.getSource() == exportCapacity) {
@@ -73,25 +73,25 @@ public class Frame extends JFrame {
         exportMenu.add(exportNextDeliveries);
     }
 
-    public void toCSV(JTable table, File file) {
+    private void toCSV(JTable table, File file) {
         try {
             TableModel model = table.getModel();
             FileWriter excel = new FileWriter(file);
 
             for (int i = 0; i < model.getColumnCount(); i++) {
-                excel.write(model.getColumnName(i) + "\t");
+                excel.write(model.getColumnName(i) + ",");
             }
             excel.write("\n");
 
             for (int i = 0; i < model.getRowCount(); i++) {
                 for (int j = 0; j < model.getColumnCount(); j++) {
-                    excel.write(model.getValueAt(i, j).toString() + "\t");
+                    excel.write(model.getValueAt(i, j).toString() + ",");
                 }
                 excel.write("\n");
             }
             excel.close();
         } catch (IOException e) {
-            System.out.println("Fehler bei Exportierung");
+            e.printStackTrace();
         }
     }
 }

@@ -18,7 +18,7 @@ public class Panel extends JPanel {
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JScrollPane mapContainer = new JScrollPane(Map.getMap());
-        mapContainer.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        mapContainer.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         mapContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         add(mapContainer);
 
