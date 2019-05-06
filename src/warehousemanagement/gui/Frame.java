@@ -1,13 +1,16 @@
 package warehousemanagement.gui;
 
+import warehousemanagement.DataConnection;
+import warehousemanagement.Map;
+import warehousemanagement.Shipment;
+import warehousemanagement.navigation.StorageNode;
+
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class Frame extends JFrame {
 
@@ -34,64 +37,65 @@ public class Frame extends JFrame {
         JMenuItem exportCapacity = new JMenuItem("Lagerbestände");
         JMenuItem exportNextDeliveries = new JMenuItem("Anstehende Lieferungen");
 
-        ActionListener mL = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser();
-                int option = fc.showSaveDialog(Frame.this);
-                if(option == JFileChooser.APPROVE_OPTION) {
-                    String filename = fc.getSelectedFile().getName();
-                    String path = fc.getSelectedFile().getParentFile().getPath();
-                    int len = filename.length();
-                    String ext = "";
-                    String file;
-
-                    if (len > 4) {
-                        ext = filename.substring(len - 4, len);
-                    }
-
-                    if (ext.equals(".csv")) {
-                        file = path + "\\" + filename;
-                    } else {
-                        file = path + "\\" + filename + ".csv";
-                    }
-
-                    if (e.getSource() == exportCapacity) {
-                        Capacity c = new Capacity();
-                        toCSV(c.getTable(), new File(file));
-                    } else if (e.getSource() == exportNextDeliveries) {
-                        NextDeliveries n = new NextDeliveries();
-                        toCSV(n.getTable(), new File(file));
-                    }
-                }
+        exportCapacity.addActionListener(e -> {
+            List<StorageNode> storageNodes = Map.getMap().storageNodes;
+            String[][] data = new String[storageNodes.size() + 1][3];
+            data[0] = new String[]{"Regalnummer", "Materialtyp", "Auslastung"};
+            for (int i = 1; i <= storageNodes.size(); i++) {
+                data[i][0] = "" + storageNodes.get(i - 1).getId();
+                data[i][1] = DataConnection.getDataConnection().getMaterialType(storageNodes.get(i - 1).getMaterialType());
+                data[i][2] = storageNodes.get(i - 1).getAmount() + " / " + storageNodes.get(i - 1).getStorageSize();
             }
-        };
 
-        exportCapacity.addActionListener(mL);
-        exportNextDeliveries.addActionListener(mL);
+            writeDataToCSV(data);
+        });
+
+        exportNextDeliveries.addActionListener(e -> {
+            List<Shipment> shipments = DataConnection.getDataConnection().getShipments();
+            String[][] data = new String[shipments.size() + 1][4];
+            data[0] = new String[]{"Lieferungstyp", "Anzahl Artikel", "Spedition", "Uhrzeit"};
+            for (int i = 1; i <= shipments.size(); i++) {
+                data[i][0] = DataConnection.getDataConnection().getMaterialType(shipments.get(i - 1).getMaterialTypeInbound());
+                data[i][1] = shipments.get(i - 1).getSize() + "Stück";
+                data[i][2] = shipments.get(i - 1).getSupplier();
+                data[i][3] = "Um" + shipments.get(i - 1).getEta();
+            }
+
+            writeDataToCSV(data);
+        });
         exportMenu.add(exportCapacity);
         exportMenu.add(exportNextDeliveries);
     }
 
-    private void toCSV(JTable table, File file) {
+    private void writeDataToCSV(String[][] data) {
+
+        JFileChooser fileChooser = new JFileChooser();
+
+        if (fileChooser.showSaveDialog(Frame.this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        String path = fileChooser.getSelectedFile().getPath();
+        String extension = path.substring(path.lastIndexOf('.'));
+        if (!extension.equals(".csv")) {
+            path += ".csv";
+        }
+
+        StringBuilder output = new StringBuilder();
+        for (String[] line : data) {
+            for (String s : line) {
+                output.append(s);
+                output.append(",");
+            }
+            output.append("\n");
+        }
+
         try {
-            TableModel model = table.getModel();
-            FileWriter excel = new FileWriter(file);
-
-            for (int i = 0; i < model.getColumnCount(); i++) {
-                excel.write(model.getColumnName(i) + ",");
-            }
-            excel.write("\n");
-
-            for (int i = 0; i < model.getRowCount(); i++) {
-                for (int j = 0; j < model.getColumnCount(); j++) {
-                    excel.write(model.getValueAt(i, j).toString() + ",");
-                }
-                excel.write("\n");
-            }
-            excel.close();
+            FileWriter fileWriter = new FileWriter(new File(path));
+            fileWriter.write(output.toString());
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Fehler: Konnte Daten nicht in Datei schreiben");
         }
     }
 }
