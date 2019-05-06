@@ -5,8 +5,6 @@ import warehousemanagement.Map;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,27 +28,9 @@ public class Panel extends JPanel {
         MenuButton nextDeliveries = new MenuButton("Anstehende Lieferungen");
         MenuButton lowCapacity = new MenuButton("Niedrige Lagerbestände");
 
-        ActionListener bL = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == capacity) {
-                    Capacity frame = new Capacity();
-                    frame.setVisible(true);
-                }
-                else if(e.getSource() == nextDeliveries) {
-                    NextDeliveries frame = new NextDeliveries();
-                    frame.setVisible(true);
-                }
-                else if(e.getSource() == lowCapacity) {
-                    LowCapacity frame = new LowCapacity();
-                    frame.setVisible(true);
-                }
-            }
-        };
-
-        capacity.addActionListener(bL);
-        nextDeliveries.addActionListener(bL);
-        lowCapacity.addActionListener(bL);
+        capacity.addActionListener(e -> new Capacity());
+        nextDeliveries.addActionListener(e -> new NextDeliveries());
+        lowCapacity.addActionListener(e -> new LowCapacity());
         buttonContainer.add(capacity);
         buttonContainer.add(nextDeliveries);
         buttonContainer.add(lowCapacity);
