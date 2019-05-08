@@ -75,8 +75,12 @@ public class Frame extends JFrame {
             return;
         }
         String path = fileChooser.getSelectedFile().getPath();
-        String extension = path.substring(path.lastIndexOf('.'));
-        if (!extension.equals(".csv")) {
+        if (path.contains(".")) {
+            String extension = path.substring(path.lastIndexOf('.'));
+            if (!extension.equals(".csv")) {
+                path += ".csv";
+            }
+        } else {
             path += ".csv";
         }
 
