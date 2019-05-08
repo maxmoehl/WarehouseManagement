@@ -8,10 +8,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
-public class StorageNodeConfiguration extends JPanel implements ActionListener, WindowListener {
+public class StorageNodeConfiguration extends JPanel implements ActionListener {
 
     private StorageNode storageNode;
 
@@ -66,7 +64,6 @@ public class StorageNodeConfiguration extends JPanel implements ActionListener, 
         frame.setLocation(x, y);
         frame.setSize(new Dimension(250, 200));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.addWindowListener(this);
         frame.setVisible(true);
     }
 
@@ -87,40 +84,5 @@ public class StorageNodeConfiguration extends JPanel implements ActionListener, 
             }
             frame.dispose();
         }
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-        frame.dispose();
     }
 }
