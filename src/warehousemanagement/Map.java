@@ -15,7 +15,7 @@ public class Map extends JComponent {
     /**
      * Dieser Lock wird gesperrt bevor komplexe Aufgaeben an den Nodes ausgeführt werden.<br>
      * Beispielsweise wenn eine neue Route berechnet wird, dabei werden einzelne Werte der Nodes
-     * zur berechnung verwendet und um Fehler durch doppelten Zugriff zu verhindern.
+     * zur berechnung verwendet und dieser Lock hilft Fehler durch doppelte Zugriffe zu verhindern.
      */
     public final Object nodeLock = new Object();
 
