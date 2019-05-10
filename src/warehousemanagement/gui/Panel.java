@@ -22,11 +22,10 @@ public class Panel extends JPanel {
         mapContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         add(mapContainer);
 
-        JPanel buttonContainer = new JPanel(new GridLayout(3, 1));
-        ((GridLayout) buttonContainer.getLayout()).setVgap(10);
-        MenuButton capacity = new MenuButton("Gesamtkapazität");
-        MenuButton nextDeliveries = new MenuButton("Anstehende Lieferungen");
-        MenuButton lowCapacity = new MenuButton("Niedrige Lagerbestände");
+        JPanel buttonContainer = new JPanel(new GridLayout(3, 1,0, 10));
+        MenuButton capacity = new MenuButton("Gesamtkapazität", 25,100);
+        MenuButton nextDeliveries = new MenuButton("Anstehende Lieferungen", "Test");
+        MenuButton lowCapacity = new MenuButton("Niedrige Lagerbestände", 25, 100);
 
         capacity.addActionListener(e -> new Capacity());
         nextDeliveries.addActionListener(e -> new NextDeliveries());
