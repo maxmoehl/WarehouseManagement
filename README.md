@@ -34,4 +34,4 @@ Zeigt in tabellarischer Form die aktuellen Lagerbestände und die Konfiguration 
 Zeigt in tabellarischer Form alle Lieferungen mit ihren Informationen an.
 
 ### 6. Lagerbestandswarnung
-?
+Ein Lagerbestand wird als Niegrid bezeichnet, sollte er unter 5% liegen (Aktueller Bestand/Gesamtkapazität der Lagereinheit). Jede Niedrige Lagereinheit wird in der Tabelle nach drücken auf den Knopf "Niedrige Lagerbestände" angezeigt. Des weiteren wird eine Kurzansicht anhand der Progressbar (die auf dem Knopf zu finden ist) die niedrigste Lagereinheit anzeigen. 
