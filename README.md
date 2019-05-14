@@ -7,7 +7,9 @@ Warehousemanagment Software für Günther Steiner
 * [Dokumentation des Java-Codes als JavaDoc](https://maxmoehl.github.io/)
 
 ## Setup-Guide:
-To be done.
+Falls nicht vorhanden: aktuelle Java-Version installieren.
+
+[Aktuelle Release](https://github.com/maxmoehl/WarehouseManagment/releases) herunterladen und ausführen.
 
 ## Userdoku
 Komponenten:
