@@ -27,7 +27,7 @@ public class StorageNode extends Node implements MouseListener {
     /**
      * Gibt an wieviel Waren aktuell im Lager sind.
      */
-    private int amount;
+    protected int amount;
     /**
      * Gibt an wieviele Einheiten in das Lager reinpassen.
      */

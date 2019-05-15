@@ -69,6 +69,8 @@ public class Controller {
             if (deliveryNodesQueue.size() > 0) {
                 deliveryNodesQueue.get(0).loadShipment(s);
                 deliveryNodesQueue.remove(0);
+            } else {
+                shipmentsQueue.add(s);
             }
         }
     }

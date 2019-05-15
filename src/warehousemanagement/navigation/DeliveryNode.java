@@ -101,6 +101,7 @@ public class DeliveryNode extends StorageNode {
                 loading = true;
                 setMaterialType(currentShipment.getMaterialTypeOutbound());
             } else {
+                requestNextShipment();
                 resetMaterialType();
             }
         }
@@ -111,20 +112,27 @@ public class DeliveryNode extends StorageNode {
      * reiht sich in eine Warteschlange ein
      */
     private void requestNextShipment() {
+        resetStorage();
         currentShipment = Controller.getController().requestNextShipment(this);
         if (currentShipment != null) {
             setMaterialType(currentShipment.getMaterialTypeInbound());
-            loading = true;
-            loadItems(currentShipment.getMaterialTypeInbound(), currentShipment.getSize());
-            loading = false;
+            amount = currentShipment.getSize();
         }
+    }
+
+    /**
+     * Wenn eine Lieferung abgefertigt wurde setzt diese Methode den Lagerbestand auf null und den materialType auf 0
+     */
+    private void resetStorage() {
+        amount = 0;
+        resetMaterialType();
+        loading = false;
     }
 
     public void loadShipment(Shipment s) {
         currentShipment = s;
         setMaterialType(s.getMaterialTypeInbound());
-        loading = true;
-        loadItems(s.getMaterialTypeInbound(), s.getSize());
+        amount = s.getSize();
         loading = false;
 
         for (int i = 0; i < robotQueue.size(); i++) {
