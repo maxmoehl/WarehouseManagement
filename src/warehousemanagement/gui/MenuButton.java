@@ -3,7 +3,7 @@ package warehousemanagement.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuButton extends JButton {
+class MenuButton extends JButton {
 
     private String text;
 

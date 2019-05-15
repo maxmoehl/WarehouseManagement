@@ -12,7 +12,7 @@ import java.util.TimerTask;
 /**
  * Dieses Frame zeigt den aktuellen Lagerstand aller {@link warehousemanagement.navigation.StorageNode}s an und wird, solange es offen ist, sekündlich aktualisiert.
  */
-public class Capacity extends JFrame {
+class Capacity extends JFrame {
 
     private JTable table;
 
@@ -54,9 +54,6 @@ public class Capacity extends JFrame {
             table.setValueAt(DataConnection.getDataConnection().getMaterialType(storageNodes.get(i).getMaterialType()), i, 1);
             table.setValueAt(storageNodes.get(i).getAmount() + " / " + storageNodes.get(i).getStorageSize(), i, 2);
         }
-    }
-    public JTable getTable () {
-        return table;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Ein Roboter ist eine eigenständige Einheit, die Waren zwischen den {@link Node}s transportiert.
  */
-public class Robot implements Runnable {
+class Robot implements Runnable {
 
     /**
      * Die {@link Node}s die der Roboter als nächstes abfahren muss (von 0 beginnend)
