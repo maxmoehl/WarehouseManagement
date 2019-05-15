@@ -7,16 +7,18 @@ Warehousemanagment Software für Günther Steiner
 * [Dokumentation des Java-Codes als JavaDoc](https://maxmoehl.github.io/)
 
 ## Setup-Guide:
-To be done.
+Falls nicht vorhanden: aktuelle Java-Version installieren.
+
+[Aktuelle Release](https://github.com/maxmoehl/WarehouseManagment/releases) herunterladen und ausführen.
 
 ## Userdoku
 Komponenten:
-1. Menüleiste
-2. Startseite
-3. Karte des Warenlagers
-4. Lagerübersicht
-5. Lieferungsübersicht
-6. Lagerbestandswarnungen
+1. [Menüleiste](https://github.com/maxmoehl/WarehouseManagment/blob/master/README.md#1-men%C3%BCleiste)
+2. [Startseite](https://github.com/maxmoehl/WarehouseManagment/blob/master/README.md#2-startseite)
+3. [Karte des Warenlagers](https://github.com/maxmoehl/WarehouseManagment/blob/master/README.md#3-karte-des-warenlagers)
+4. [Lagerübersicht](https://github.com/maxmoehl/WarehouseManagment/blob/master/README.md#4-lager%C3%BCbersicht)
+5. [Lieferungsübersicht](https://github.com/maxmoehl/WarehouseManagment/blob/master/README.md#5-lieferungs%C3%BCbersicht)
+6. [Lagerbestandswarnungen](https://github.com/maxmoehl/WarehouseManagment/blob/master/README.md#6-lagerbestandswarnungen)
 
 ### 1. Menüleiste
 Unter dem Punkt exportieren können die aktuellen Lagerbestände und die Lieferungsliste als CSV-Datei exportiert werden. Dazu einfach das Menü öffnen, Option wählen und einen Speicherort angeben.
@@ -34,4 +36,4 @@ Zeigt in tabellarischer Form die aktuellen Lagerbestände und die Konfiguration 
 Zeigt in tabellarischer Form alle Lieferungen mit ihren Informationen an.
 
 ### 6. Lagerbestandswarnung
-?
+Ein Lagerbestand wird als Niegrid bezeichnet, sollte er unter 5% liegen (Aktueller Bestand/Gesamtkapazität der Lagereinheit). Jede Niedrige Lagereinheit wird in der Tabelle nach drücken auf den Knopf "Niedrige Lagerbestände" angezeigt. Des weiteren wird eine Kurzansicht anhand der Progressbar (die auf dem Knopf zu finden ist) die niedrigste Lagereinheit anzeigen. 
