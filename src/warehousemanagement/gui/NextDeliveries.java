@@ -11,7 +11,7 @@ import java.util.TimerTask;
 /**
  * Dieses Frame zeigt alle anstehende {@link warehousemanagement.Shipment}s an und wird, solange es offen ist, sekuendlich aktualisiert
  */
-public class NextDeliveries extends JFrame {
+class NextDeliveries extends JFrame {
 
     private JTable table;
 
@@ -57,9 +57,6 @@ public class NextDeliveries extends JFrame {
             table.setValueAt(shipments.get(i).getSupplier(), i, 2);
             table.setValueAt("Um " + shipments.get(i).getEta(), i, 3);
         }
-    }
-    public JTable getTable() {
-        return table;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Ein Roboter ist eine eigenständige Einheit, die Waren zwischen den {@link Node}s transportiert.
  */
-public class Robot implements Runnable {
+class Robot implements Runnable {
 
     /**
      * Die {@link Node}s die der Roboter als nächstes abfahren muss (von 0 beginnend)
@@ -287,7 +287,7 @@ public class Robot implements Runnable {
                         navigateTo(m.getStorageNode(getHomeNode().getMaterialType()));
                     }
                 } else {
-                    if (((StorageNode) getCurrentNode()).getMaterialType() == inventoryMaterialType && getHomeNode().isLoading()) {
+                    if (((StorageNode) getCurrentNode()).getMaterialType() == getHomeNode().getMaterialType() && getHomeNode().isLoading()) {
                         //Waren aus Lager in Inventar laden
                         load();
                     } else {
@@ -310,13 +310,13 @@ public class Robot implements Runnable {
                         navigateTo(m.getStorageNode(inventoryMaterialType));
                     }
                 } else {
-                    if (((StorageNode) getCurrentNode()).getMaterialType() == inventoryMaterialType) {
-                        //Waren aus Inventar ins Lager laden
-                        load();
+                    if (((StorageNode) getCurrentNode()).getMaterialType() == getHomeNode().getMaterialType() && getHomeNode().isLoading()) {
+                        //Zur HomeNode navigieren
+                        navigateTo(getHomeNode());
                     } else {
-                        if (getHomeNode().getMaterialType() == inventoryMaterialType && getHomeNode().isLoading()) {
-                            //Zur HomeNode navigieren
-                            navigateTo(getHomeNode());
+                        if (((StorageNode) getCurrentNode()).getMaterialType() == inventoryMaterialType) {
+                            //Waren ins Lager laden
+                            load();
                         } else {
                             //Zu passendem Lager für inventarMaterial navigieren
                             navigateTo(m.getStorageNode(inventoryMaterialType));

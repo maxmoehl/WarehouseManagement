@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LowCapacity extends JFrame {
+class LowCapacity extends JFrame {
 
     private JTable table;
 
@@ -64,15 +64,11 @@ public class LowCapacity extends JFrame {
 
         }
     }
-        public JTable getTable () {
-            return table;
-        }
 
     @Override
     public void dispose() {
         super.dispose();
         updater.cancel();
-        ;
         updater = null;
     }
 }
