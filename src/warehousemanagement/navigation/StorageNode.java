@@ -17,7 +17,7 @@ public class StorageNode extends Node implements MouseListener {
     /**
      * Hier werden Roboter gespeichert wenn sie warten müssen bis die Node freigegeben wird.
      */
-    ArrayList<Robot> robotQueue;
+    final ArrayList<Robot> robotQueue;
     /**
      * Repräsentiert den Materialtyp der in dieser StorageNode gelagert wird.
      *
@@ -31,7 +31,7 @@ public class StorageNode extends Node implements MouseListener {
     /**
      * Gibt an wieviele Einheiten in das Lager reinpassen.
      */
-    private int storageSize;
+    private final int storageSize;
     /**
      * Gibt an ob die StorageNode gerade von einem Roboter blockiert wird.
      */

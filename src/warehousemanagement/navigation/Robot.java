@@ -20,7 +20,7 @@ class Robot implements Runnable {
     /**
      * Die {@link DeliveryNode} für die der Roboter arbeitet
      */
-    private DeliveryNode home;
+    private final DeliveryNode home;
 
     /**
      * Die {@link Node} auf der der Roboter sich aktuell befindet

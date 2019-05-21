@@ -60,12 +60,6 @@ class ShipmentTest {
     }
 
     @Test
-    void isArrived() {
-        assertFalse(shipmentOne.isArrived());
-        assertFalse(shipmentTwo.isArrived());
-    }
-
-    @Test
     void getSupplier() {
         assertEquals("SupplierOne", shipmentOne.getSupplier());
         assertEquals("SupplierTwo", shipmentTwo.getSupplier());

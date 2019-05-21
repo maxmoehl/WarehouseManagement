@@ -19,22 +19,16 @@ public class Controller {
     private int time;
 
     /**
-     * Das Hauptpanel auf dem alles gezeichnet und angezeigt wird
-     */
-    private Panel panel;
-
-    /**
      * Hauptframe mit der JMenuBar
      */
-    private Frame frame;
+    private final Frame frame;
 
-    private ArrayList<DeliveryNode> deliveryNodesQueue;
+    private final ArrayList<DeliveryNode> deliveryNodesQueue;
 
-    private ArrayList<Shipment> shipmentsQueue;
+    private final ArrayList<Shipment> shipmentsQueue;
 
     private Controller() {
-        panel = new Panel();
-        frame = new Frame(panel);
+        frame = new Frame(new Panel());
         deliveryNodesQueue = new ArrayList<>(Map.getMap().deliveryNodes);
         shipmentsQueue = new ArrayList<>();
         initClock();
@@ -83,15 +77,6 @@ public class Controller {
         Shipment r = shipmentsQueue.get(0);
         shipmentsQueue.remove(0);
         return r;
-    }
-
-    public boolean isQueued(DeliveryNode n) {
-        for (int i = 0; i < deliveryNodesQueue.size(); i++) {
-            if (deliveryNodesQueue.get(i).equals(n)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private static class ControllerHolder {

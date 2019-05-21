@@ -20,7 +20,7 @@ public class DeliveryNode extends StorageNode {
      */
     private boolean loading;
 
-    private ArrayList<Robot> robots;
+    private final ArrayList<Robot> robots;
 
     public DeliveryNode(int id, int x, int y, int width, int height) {
         super(id, x, y, width, height);

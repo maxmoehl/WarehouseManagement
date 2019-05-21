@@ -10,12 +10,12 @@ public class DataConnection {
     /**
      * Speichert alle gueltigen Materialtypen
      */
-    private ArrayList<String> materialTypes;
+    private final ArrayList<String> materialTypes;
 
     /**
      * Speichert alle {@link Shipment} die im laufe der Zeit anfallen werden
      */
-    private ArrayList<Shipment> shipments;
+    private final ArrayList<Shipment> shipments;
 
     private DataConnection() {
         materialTypes = new ArrayList<>();
@@ -84,6 +84,6 @@ public class DataConnection {
     }
 
     private static class DataConnectionHolder {
-        private static DataConnection INSTANCE = new DataConnection();
+        private static final DataConnection INSTANCE = new DataConnection();
     }
 }

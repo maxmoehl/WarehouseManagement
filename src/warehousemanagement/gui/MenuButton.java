@@ -5,7 +5,7 @@ import java.awt.*;
 
 class MenuButton extends JButton {
 
-    private String text;
+    private final String text;
 
     public MenuButton(String text) {
         super();

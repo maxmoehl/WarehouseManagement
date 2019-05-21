@@ -11,11 +11,11 @@ import java.awt.event.ActionListener;
 
 public class StorageNodeConfiguration extends JPanel implements ActionListener {
 
-    private StorageNode storageNode;
+    private final StorageNode storageNode;
 
-    private JComboBox<String> jCBMaterial;
+    private final JComboBox<String> jCBMaterial;
 
-    private JFrame frame;
+    private final JFrame frame;
 
     public StorageNodeConfiguration(StorageNode storageNode, int x, int y) {
         super(new GridLayout(5, 2));

@@ -32,7 +32,7 @@ public class Node extends JComponent {
     /**
      * Enthält alle Nodes mit denen diese Node verbunden ist
      */
-    private ArrayList<Node> neighbourNodes;
+    private final ArrayList<Node> neighbourNodes;
 
     /**
      * Erzeugt einen neue Node mit einer Position
