@@ -190,13 +190,5 @@ public class DeliveryNode extends StorageNode {
         g.drawString("+", (int) (0.66 * width), (int) (0.56 * height));
 
         g.drawString(Integer.toString(robots.size()), (int) (0.46 * width), (int) (0.56 * height));
-
-        if (isLoading()) {
-            g.setColor(Color.GREEN);
-            g.fillRect(0, 0, 10, 10);
-        } else if (isUnloading()) {
-            g.setColor(Color.RED);
-            g.fillRect(0, 0, 10, 10);
-        }
     }
 }
