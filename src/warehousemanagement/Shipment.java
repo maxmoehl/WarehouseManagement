@@ -47,11 +47,11 @@ public class Shipment {
     private boolean arrived;
 
     /**
-     * Gibt an, von welchem Lieferant die Lieferung stammt, der in {@link warehousemanagement.gui.NextDeliveries} angezeigt wird
+     * Gibt an, von welchem Lieferant die Lieferung stammt
      */
     private String supplier;
 
-    Shipment(int id, int eta, int loadingTime, int size, int materialTypeInbound, boolean outbound, int materialTypeOutbound, String supplier) {
+    public Shipment(int id, int eta, int loadingTime, int size, int materialTypeInbound, boolean outbound, int materialTypeOutbound, String supplier) {
         this.id = id;
         this.eta = eta;
         this.loadingTime = loadingTime;

@@ -63,7 +63,7 @@ public class Node extends JComponent {
         neighbourNodes.add(n);
     }
 
-    ArrayList<Node> getNeighbourNodes() {
+    public ArrayList<Node> getNeighbourNodes() {
         return neighbourNodes;
     }
 

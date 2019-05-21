@@ -33,7 +33,7 @@ public class DeliveryNode extends StorageNode {
      *
      * @return ein booleanscher wert der angibt ob die DeliveryNode Waren einlaedt
      */
-    boolean isLoading() {
+    public boolean isLoading() {
         return loading;
     }
 
@@ -42,7 +42,7 @@ public class DeliveryNode extends StorageNode {
      *
      * @return ein booleanscher wert der angibt ob die DeliveryNode Waren auslaedt
      */
-    boolean isUnloading() {
+    public boolean isUnloading() {
         return !loading;
     }
 
