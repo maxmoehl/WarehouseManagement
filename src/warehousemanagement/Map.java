@@ -19,11 +19,11 @@ public class Map extends JComponent {
      */
     public final Object nodeLock = new Object();
 
-    public List<StorageNode> storageNodes;
+    public final List<StorageNode> storageNodes;
 
-    public List<DeliveryNode> deliveryNodes;
+    public final List<DeliveryNode> deliveryNodes;
 
-    public List<Node> wayPointNodes;
+    public final List<Node> wayPointNodes;
 
     private Map() {
         super();
@@ -110,6 +110,6 @@ public class Map extends JComponent {
     }
 
     private static class MapHolder {
-        private static Map INSTANCE = new Map();
+        private static final Map INSTANCE = new Map();
     }
 }

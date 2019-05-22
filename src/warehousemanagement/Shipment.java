@@ -8,37 +8,37 @@ public class Shipment {
     /**
      * Identifier
      */
-    private int id;
+    private final int id;
 
     /**
      * Der Zeitpunkt zu dem die Lieferung am lager ankommt, die Zeit startet beim Start des Programmes bei null und wird in Sekuden gemessen
      */
-    private int eta;
+    private final int eta;
 
     /**
      * Die Zeit in Sekunden die zur Verfügung stehen um den LKW zu entladen
      */
-    private int loadingTime;
+    private final int loadingTime;
 
     /**
      * Größe des Laderaums
      */
-    private int size;
+    private final int size;
 
     /**
      * Die Art des Materials, dass im LKW transportiert wird
      */
-    private int materialTypeInbound;
+    private final int materialTypeInbound;
 
     /**
      * Gibt an ob die Lieferung auch wieder Waren aus dem Lager mitnimmt
      */
-    private boolean outbound;
+    private final boolean outbound;
 
     /**
      * Falls die Lieferung auch Waren aus dem Lager mitnimmt wird hier der Warentyp definiert
      */
-    private int materialTypeOutbound;
+    private final int materialTypeOutbound;
 
     /**
      * Wenn dieses Shipment an eine {@link warehousemanagement.navigation.DeliveryNode} gegeben wird, wird dieser Wert auf {@code true}
@@ -47,11 +47,11 @@ public class Shipment {
     private boolean arrived;
 
     /**
-     * Gibt an, von welchem Lieferant die Lieferung stammt, der in {@link warehousemanagement.gui.NextDeliveries} angezeigt wird
+     * Gibt an, von welchem Lieferant die Lieferung stammt
      */
-    private String supplier;
+    private final String supplier;
 
-    Shipment(int id, int eta, int loadingTime, int size, int materialTypeInbound, boolean outbound, int materialTypeOutbound, String supplier) {
+    public Shipment(int id, int eta, int loadingTime, int size, int materialTypeInbound, boolean outbound, int materialTypeOutbound, String supplier) {
         this.id = id;
         this.eta = eta;
         this.loadingTime = loadingTime;

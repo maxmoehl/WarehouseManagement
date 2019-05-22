@@ -14,7 +14,7 @@ import java.util.TimerTask;
  */
 class Capacity extends JFrame {
 
-    private JTable table;
+    private final JTable table;
 
     private Timer updater;
 

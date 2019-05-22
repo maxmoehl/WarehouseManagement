@@ -11,7 +11,7 @@ import java.util.TimerTask;
 
 class LowCapacity extends JFrame {
 
-    private JTable table;
+    private final JTable table;
 
     private Timer updater;
 

@@ -32,7 +32,7 @@ public class Node extends JComponent {
     /**
      * Enthält alle Nodes mit denen diese Node verbunden ist
      */
-    private ArrayList<Node> neighbourNodes;
+    private final ArrayList<Node> neighbourNodes;
 
     /**
      * Erzeugt einen neue Node mit einer Position
@@ -63,7 +63,7 @@ public class Node extends JComponent {
         neighbourNodes.add(n);
     }
 
-    ArrayList<Node> getNeighbourNodes() {
+    public ArrayList<Node> getNeighbourNodes() {
         return neighbourNodes;
     }
 
@@ -76,7 +76,6 @@ public class Node extends JComponent {
     }
 
     synchronized void unregister() {
-        //TODO Buggt manchmal und es werden Ghost Roboter angezeigt
         robots = robots > 0 ? robots - 1 : 0;
     }
 

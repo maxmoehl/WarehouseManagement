@@ -10,12 +10,12 @@ public class DataConnection {
     /**
      * Speichert alle gueltigen Materialtypen
      */
-    private ArrayList<String> materialTypes;
+    private final ArrayList<String> materialTypes;
 
     /**
      * Speichert alle {@link Shipment} die im laufe der Zeit anfallen werden
      */
-    private ArrayList<Shipment> shipments;
+    private final ArrayList<Shipment> shipments;
 
     private DataConnection() {
         materialTypes = new ArrayList<>();
@@ -27,9 +27,9 @@ public class DataConnection {
 
         shipments = new ArrayList<>();
         shipments.add(new Shipment(0, 10, 180, 10, 1, false, 0, "International Deliveries"));
-        shipments.add(new Shipment(0, 20, 180, 10, 3, false, 0, "We make you move"));
-        shipments.add(new Shipment(0, 25, 180, 10, 1, false, 0, "International Deliveries"));
-        shipments.add(new Shipment(0, 100, 180, 10, 4, true, 1, "We move everything"));
+        shipments.add(new Shipment(1, 20, 180, 10, 3, false, 0, "We make you move"));
+        shipments.add(new Shipment(2, 25, 180, 10, 1, false, 0, "International Deliveries"));
+        shipments.add(new Shipment(3, 100, 180, 10, 4, true, 1, "We move everything"));
     }
 
     public static DataConnection getDataConnection() {
@@ -52,7 +52,7 @@ public class DataConnection {
         return null;
     }
 
-    Shipment getShipment(int time) {
+    public Shipment getShipment(int time) {
         for (int i = 0; i < shipments.size(); i++) {
             if (shipments.get(i).getEta() == time) {
                 return shipments.get(i);
@@ -84,6 +84,6 @@ public class DataConnection {
     }
 
     private static class DataConnectionHolder {
-        private static DataConnection INSTANCE = new DataConnection();
+        private static final DataConnection INSTANCE = new DataConnection();
     }
 }

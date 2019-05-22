@@ -20,7 +20,7 @@ public class DeliveryNode extends StorageNode {
      */
     private boolean loading;
 
-    private ArrayList<Robot> robots;
+    private final ArrayList<Robot> robots;
 
     public DeliveryNode(int id, int x, int y, int width, int height) {
         super(id, x, y, width, height);
@@ -33,7 +33,7 @@ public class DeliveryNode extends StorageNode {
      *
      * @return ein booleanscher wert der angibt ob die DeliveryNode Waren einlaedt
      */
-    boolean isLoading() {
+    public boolean isLoading() {
         return loading;
     }
 
@@ -42,7 +42,7 @@ public class DeliveryNode extends StorageNode {
      *
      * @return ein booleanscher wert der angibt ob die DeliveryNode Waren auslaedt
      */
-    boolean isUnloading() {
+    public boolean isUnloading() {
         return !loading;
     }
 
@@ -190,13 +190,5 @@ public class DeliveryNode extends StorageNode {
         g.drawString("+", (int) (0.66 * width), (int) (0.56 * height));
 
         g.drawString(Integer.toString(robots.size()), (int) (0.46 * width), (int) (0.56 * height));
-
-        if (isLoading()) {
-            g.setColor(Color.GREEN);
-            g.fillRect(0, 0, 10, 10);
-        } else if (isUnloading()) {
-            g.setColor(Color.RED);
-            g.fillRect(0, 0, 10, 10);
-        }
     }
 }

@@ -13,7 +13,7 @@ import java.util.TimerTask;
  */
 class NextDeliveries extends JFrame {
 
-    private JTable table;
+    private final JTable table;
 
     private Timer update;
 
