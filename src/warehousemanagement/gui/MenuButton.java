@@ -22,22 +22,15 @@ class MenuButton extends JComponent implements MouseListener {
     private String subText;
     private boolean hasSubText;
 
-    private MenuButton(String text) {
+    MenuButton(String text) {
         super();
         this.text = text;
-        hasSubText = false;
-        hasProgressBar = false;
+        hasProgressBar = true;
         eventListeners = new ArrayList<>();
         addMouseListener(this);
     }
 
-    MenuButton(String text, int min, int max) {
-        this(text);
-        setLayout(null);
-        hasProgressBar = true;
-    }
-
-    MenuButton(String text, int min, int max, boolean b) {
+    MenuButton(String text, boolean b) {
         this(text);
         setLayout(null);
         hasCapacityBar = true;
@@ -48,6 +41,7 @@ class MenuButton extends JComponent implements MouseListener {
         this.subText = subText;
         setLayout(null);
         hasSubText = true;
+        hasProgressBar = false;
     }
 
     void addActionListener(ActionListener a) {
@@ -63,12 +57,20 @@ class MenuButton extends JComponent implements MouseListener {
         g.drawString(text, (int) (getWidth() * 0.3), (int) (getHeight() * 0.15));
 
         if (hasSubText) {
-            ArrayList<Shipment> shipments = DataConnection.getDataConnection().getShipments();
+            //   ArrayList<Shipment> shipments = DataConnection.getDataConnection().getShipments();
             Shipment nextShipment = DataConnection.getDataConnection().getNextShipment();
+            String subText2;
+            String subText3;
 
-            subText = nextShipment.getSize() + " Stück " + DataConnection.getDataConnection().getMaterialType(nextShipment.getMaterialTypeInbound());
-            String subText2 = "Spedition: " + nextShipment.getSupplier();
-            String subText3 = "Um: " + nextShipment.getEta() + "s";
+            if (nextShipment == null) {
+                subText = "- Stück";
+                subText2 = "Spedition: -";
+                subText3 = "Um -s";
+            } else {
+                subText = nextShipment.getSize() + " Stück " + DataConnection.getDataConnection().getMaterialType(nextShipment.getMaterialTypeInbound());
+                subText2 = "Spedition: " + nextShipment.getSupplier();
+                subText3 = "Um: " + nextShipment.getEta() + "s";
+            }
 
             g.setFont(new Font("Arial", Font.PLAIN, 20));
             g.drawString(subText, (int) (getWidth() * 0.3), (int) (getHeight() * 0.4));
@@ -127,7 +129,6 @@ class MenuButton extends JComponent implements MouseListener {
         g.setFont(new Font("Arial", Font.PLAIN, 14));
         g.setColor(Color.BLACK);
         g.drawString((int) (percentage * 100) + "%", (int) (getWidth() * 0.4), (int) (getHeight() * 0.3));
-
     }
 
     @Override
