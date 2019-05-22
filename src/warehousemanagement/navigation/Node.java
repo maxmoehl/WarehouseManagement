@@ -76,7 +76,6 @@ public class Node extends JComponent {
     }
 
     synchronized void unregister() {
-        //TODO Buggt manchmal und es werden Ghost Roboter angezeigt
         robots = robots > 0 ? robots - 1 : 0;
     }
 

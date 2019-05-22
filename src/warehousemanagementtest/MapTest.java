@@ -15,6 +15,7 @@ class MapTest {
     @Test
     void getStorageNode() {
         assertNotNull(Map.getMap().getStorageNode(1));
+        assertThrows(RuntimeException.class, () -> Map.getMap().getStorageNode(2));
     }
 
     @Test
