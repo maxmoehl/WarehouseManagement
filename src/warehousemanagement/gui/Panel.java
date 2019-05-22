@@ -23,13 +23,12 @@ public class Panel extends JPanel {
         add(mapContainer);
 
         JPanel buttonContainer = new JPanel(new GridLayout(3, 1,0, 10));
-        MenuButton capacity = new MenuButton("Gesamtkapazität", 25,100);
+        MenuButton capacity = new MenuButton("Gesamtkapazität", 25,100, true);
         MenuButton nextDeliveries = new MenuButton("Anstehende Lieferungen", "Test");
         MenuButton lowCapacity = new MenuButton("Niedrige Lagerbestände", 25, 100);
 
         capacity.addActionListener(e -> new Capacity());
         nextDeliveries.addActionListener(e -> new NextDeliveries());
-        lowCapacity.addActionListener(e -> new LowCapacity());
         buttonContainer.add(capacity);
         buttonContainer.add(nextDeliveries);
         buttonContainer.add(lowCapacity);
