@@ -11,8 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 class MenuButton extends JComponent implements MouseListener {
     private final ArrayList<ActionListener> eventListeners;
@@ -50,7 +50,7 @@ class MenuButton extends JComponent implements MouseListener {
         hasSubText = true;
     }
 
-    public void addActionListener(ActionListener a) {
+    void addActionListener(ActionListener a) {
         eventListeners.add(a);
     }
 

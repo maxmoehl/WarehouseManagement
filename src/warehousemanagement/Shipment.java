@@ -60,6 +60,7 @@ public class Shipment {
         this.outbound = outbound;
         this.materialTypeOutbound = materialTypeOutbound;
         this.supplier = supplier;
+        this.arrived = false;
     }
 
     public int getId() {
