@@ -26,6 +26,7 @@ class MenuButton extends JComponent implements MouseListener {
         super();
         this.text = text;
         hasProgressBar = true;
+        hasCapacityBar = false;
         eventListeners = new ArrayList<>();
         addMouseListener(this);
     }
@@ -34,6 +35,8 @@ class MenuButton extends JComponent implements MouseListener {
         this(text);
         setLayout(null);
         hasCapacityBar = true;
+        hasSubText = false;
+        hasProgressBar = false;
     }
 
     MenuButton(String text, String subText) {
@@ -57,7 +60,6 @@ class MenuButton extends JComponent implements MouseListener {
         g.drawString(text, (int) (getWidth() * 0.3), (int) (getHeight() * 0.15));
 
         if (hasSubText) {
-            //   ArrayList<Shipment> shipments = DataConnection.getDataConnection().getShipments();
             Shipment nextShipment = DataConnection.getDataConnection().getNextShipment();
             String subText2;
             String subText3;
@@ -107,6 +109,7 @@ class MenuButton extends JComponent implements MouseListener {
             }
             drawPercentage(g, percent);
         }
+
         if (hasCapacityBar) {
             double totalDenominator = 0;
             double totalNumerator = 0;
