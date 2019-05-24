@@ -36,4 +36,4 @@ Dieser Knopf zeigt auf seiner Fläche zusätzlich zum Namen auch eine grafische 
 Dieser Knopf zeigt auf dem ersten Blick einen Subtext an, der eine vereinfachte Übersicht zur nächsten Lieferung enthält. Nach Knopfdruck wird eine ausführlichere Tabelle sichtbar, die jegliche Information zu allen Lieferungen anzeigt. 
 
 ### 6. Lagerbestandswarnung
-Ein Lagerbestand wird als Niegrid bezeichnet, sollte er unter 5% liegen (Aktueller Bestand/Gesamtkapazität der Lagereinheit). Jede Niedrige Lagereinheit wird in der Tabelle nach drücken auf den Knopf "Niedrige Lagerbestände" angezeigt. Des weiteren wird eine Kurzansicht anhand der Progressbar (die auf dem Knopf zu finden ist) die niedrigste Lagereinheit anzeigen. 
+Auf dieser Fläche wird der niedrigste Bestand eines Materialtyps angezeigt (Aktueller Bestand/Gesamtkapazität der Lagereinheit). Des weiteren wird eine Kurzansicht anhand der Progressbar (die auf dem Knopf zu finden ist) die niedrigste Lagereinheit anzeigen. 
